@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { IdeasService } from './ideas.service';
 import { Idea, Ideas } from '@moderate/api-interfaces';
+import { FindOneParams } from '../shared/models';
 
 @Controller('ideas')
 export class IdeasController {
@@ -20,8 +21,8 @@ export class IdeasController {
   }
 
   @Get('id')
-  async find(@Param('id') id: number): Promise<Idea> {
-    return this.ideasService.find(id);
+  async find(@Param() params: FindOneParams): Promise<Idea> {
+    return this.ideasService.find(params.id);
   }
 
   @Post()
@@ -35,7 +36,7 @@ export class IdeasController {
   }
 
   @Delete('id')
-  delete(@Param('id') id: number): void {
-    this.ideasService.delete(id);
+  delete(@Param() params: FindOneParams): void {
+    this.ideasService.delete(params.id);
   }
 }

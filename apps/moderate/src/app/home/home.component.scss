@@ -1,0 +1,15 @@
+.intro-wrapper {
+  display: flex;
+  height: 100%;
+}
+
+.intro-container {
+  margin: auto;
+  text-align: center;
+}
+
+.link {
+  &:first-child {
+    margin-right: 10px;
+  }
+}

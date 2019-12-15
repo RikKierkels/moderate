@@ -17,7 +17,7 @@ import { Environment } from '../shared/environment';
   providedIn: 'root'
 })
 export class AuthService {
-  auth0Client$: Observable<Auth0Client> = from(
+  auth0Client$ = from(
     createAuth0Client({
       domain: this.environment.auth0Domain,
       client_id: this.environment.auth0ClientId,

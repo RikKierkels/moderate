@@ -1,11 +1,8 @@
 import { Module } from '@nestjs/common';
-
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { IdeasModule } from './ideas/ideas.module';
+import { SharedModule } from './shared/shared.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService]
+  imports: [IdeasModule, SharedModule]
 })
 export class AppModule {}

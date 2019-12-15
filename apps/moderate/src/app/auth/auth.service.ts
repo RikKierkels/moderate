@@ -21,7 +21,8 @@ export class AuthService {
     createAuth0Client({
       domain: this.environment.auth0Domain,
       client_id: this.environment.auth0ClientId,
-      redirect_uri: `${window.location.origin}`
+      redirect_uri: `${window.location.origin}`,
+      audience: this.environment.auth0Audience
     })
   ).pipe(
     shareReplay(1),
@@ -50,6 +51,12 @@ export class AuthService {
     return this.auth0Client$.pipe(
       concatMap((client: Auth0Client) => from(client.getUser(options))),
       tap(user => this.userProfileSubject$.next(user))
+    );
+  }
+
+  getTokenSilently$(options?): Observable<string> {
+    return this.auth0Client$.pipe(
+      concatMap((client: Auth0Client) => from(client.getTokenSilently(options)))
     );
   }
 

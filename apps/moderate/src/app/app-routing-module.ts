@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptorService } from './auth/token-interceptor.service';
 
 const routes: Routes = [
   {
@@ -12,6 +14,13 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    }
+  ]
 })
 export class AppRoutingModule {}

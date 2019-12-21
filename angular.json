@@ -10,7 +10,7 @@
       },
       "root": "apps/moderate",
       "sourceRoot": "apps/moderate/src",
-      "prefix": "moderate",
+      "prefix": "mod",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",

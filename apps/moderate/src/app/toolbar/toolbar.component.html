@@ -1,0 +1,5 @@
+<header class="header-container">
+  <button *ngIf="!isAuthenticated$ | async" (click)="logout()">
+    Logout
+  </button>
+</header>

@@ -9,9 +9,10 @@ import {
   combineLatest,
   throwError
 } from 'rxjs';
-import { tap, catchError, concatMap, shareReplay } from 'rxjs/operators';
+import { tap, catchError, concatMap, shareReplay, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Environment } from '../shared/environment';
+import { UserProfile } from './user-profile';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +38,7 @@ export class AuthService {
     concatMap((client: Auth0Client) => from(client.handleRedirectCallback()))
   );
 
-  private userProfileSubject$ = new BehaviorSubject<any>(null);
+  private userProfileSubject$ = new BehaviorSubject<UserProfile>(null);
   userProfile$ = this.userProfileSubject$.asObservable();
 
   loggedIn: boolean = null;

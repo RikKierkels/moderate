@@ -9,6 +9,10 @@ const routes: Routes = [
     path: '',
     component: HomeComponent
   },
+  {
+    path: 'idea',
+    loadChildren: () => import('./idea/idea.module').then(m => m.IdeaModule)
+  },
   { path: '**', redirectTo: '' }
 ];
 

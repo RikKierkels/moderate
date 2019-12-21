@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 
 @Component({
@@ -8,7 +8,7 @@ import { AuthService } from '../auth/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ToolbarComponent {
-  public isAuthenticated$ = this.authService.isAuthenticated$;
+  public userProfile$ = this.authService.userProfile$;
 
   constructor(private authService: AuthService) {}
 

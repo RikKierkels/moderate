@@ -8,7 +8,7 @@ import { AuthService } from '../auth/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ToolbarComponent {
-  public userProfile$ = this.authService.userProfile$;
+  userProfile$ = this.authService.userProfile$;
 
   constructor(private authService: AuthService) {}
 

@@ -20,10 +20,10 @@ import { UserProfile } from './user-profile';
 export class AuthService {
   auth0Client$ = from(
     createAuth0Client({
-      domain: this.environment.auth0Domain,
-      client_id: this.environment.auth0ClientId,
+      domain: this.environment.AUTH0_DOMAIN,
+      client_id: this.environment.AUTH0_CLIENT_ID,
       redirect_uri: `${window.location.origin}`,
-      audience: this.environment.auth0Audience
+      audience: this.environment.AUTH0_AUDIENCE
     })
   ).pipe(
     shareReplay(1),
@@ -103,7 +103,7 @@ export class AuthService {
   logout() {
     this.auth0Client$.subscribe((client: Auth0Client) => {
       client.logout({
-        client_id: this.environment.auth0ClientId,
+        client_id: this.environment.AUTH0_CLIENT_ID,
         returnTo: `${window.location.origin}`
       });
     });

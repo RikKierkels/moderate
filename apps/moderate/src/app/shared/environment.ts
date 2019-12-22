@@ -1,6 +1,7 @@
 export class Environment {
-  readonly production: boolean;
-  readonly auth0Domain: string;
-  readonly auth0ClientId: string;
-  readonly auth0Audience: string;
+  readonly PRODUCTION: boolean;
+  readonly API_BASE_URL: string;
+  readonly AUTH0_DOMAIN: string;
+  readonly AUTH0_CLIENT_ID: string;
+  readonly AUTH0_AUDIENCE: string;
 }

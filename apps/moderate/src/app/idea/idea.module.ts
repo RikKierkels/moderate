@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { IdeaRoutingModule } from './idea-routing.module';
 import { IdeaListComponent } from './idea-list/idea-list.component';
 import { IdeaCreateComponent } from './idea-create/idea-create.component';

@@ -24,8 +24,9 @@ export class TokenInterceptorService implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const isEndpointUnauthorized = this.unauthorizedEndpoints[req.method].some(
-      endpoint => req.url.endsWith(endpoint)
+    const endpointsForMethod = this.unauthorizedEndpoints[req.method] || [];
+    const isEndpointUnauthorized = endpointsForMethod.some(endpoint =>
+      req.url.endsWith(endpoint)
     );
 
     if (isEndpointUnauthorized) return next.handle(req);

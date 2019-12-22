@@ -1,4 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { IdeasService } from '../ideas.service';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Idea } from '@moderate/api-interfaces';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'mod-idea-create',
@@ -6,8 +10,23 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./idea-create.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IdeaCreateComponent implements OnInit {
-  constructor() {}
+export class IdeaCreateComponent {
+  ideaForm = this.formBuilder.group({
+    title: ['', Validators.required],
+    description: ['', Validators.required],
+    difficulty: [null]
+  });
 
-  ngOnInit() {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private ideasService: IdeasService,
+    private router: Router
+  ) {}
+
+  createIdea(): void {
+    const idea = this.ideaForm.value as Idea;
+    this.ideasService
+      .create(idea)
+      .subscribe(() => this.router.navigate(['/ideas/list']));
+  }
 }

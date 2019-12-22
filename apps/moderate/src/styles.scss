@@ -8,3 +8,7 @@ body {
   @include typography($font-size-medium);
   margin: 0;
 }
+
+textarea {
+  resize: none;
+}

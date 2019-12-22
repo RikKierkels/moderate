@@ -1,19 +1,28 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Ideas } from '@moderate/api-interfaces';
+import { Observable, of } from 'rxjs';
+import { Idea, Ideas } from '@moderate/api-interfaces';
 import { Environment } from '../shared/environment';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IdeasService {
+  baseUrl = `${this.environment.API_BASE_URL}/ideas`;
+
   constructor(
     private httpClient: HttpClient,
     private environment: Environment
   ) {}
 
-  getALl(): Observable<Ideas> {
-    return this.httpClient.get<Ideas>(`${this.environment.API_BASE_URL}/ideas`);
+  getAll(): Observable<Ideas> {
+    return this.httpClient
+      .get<Ideas>(this.baseUrl)
+      .pipe(catchError(() => of([])));
+  }
+
+  create(idea: Idea): Observable<void> {
+    return this.httpClient.post<void>(this.baseUrl, idea);
   }
 }

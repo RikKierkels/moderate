@@ -1,10 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Idea, IdeaCreateDto, IdeaUpdateDto } from '@moderate/api-interfaces';
-import { IdeaNotFoundException } from '../shared/exceptions';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { from, Observable } from 'rxjs';
-import { catchError, throwIfEmpty } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class IdeaService {
@@ -20,7 +19,7 @@ export class IdeaService {
   find(id: number): Observable<Idea> {
     return from(this.ideaRepository.findOneOrFail(id)).pipe(
       catchError(() => {
-        throw new IdeaNotFoundException(`Cannot find idea with id: ${id}.`);
+        throw new NotFoundException(`Cannot find idea with id: ${id}.`);
       })
     );
   }
@@ -32,7 +31,8 @@ export class IdeaService {
   update(updateIdea: IdeaUpdateDto): void {
     from(this.ideaRepository.update(updateIdea.id, updateIdea)).pipe(
       catchError(() => {
-        throw new IdeaNotFoundException(
+        // TODO: Split into multiple exception types
+        throw new NotFoundException(
           `Cannot find idea with id: ${updateIdea.id} to update.`
         );
       })
@@ -42,7 +42,8 @@ export class IdeaService {
   delete(id: number): void {
     from(this.ideaRepository.delete(id)).pipe(
       catchError(() => {
-        throw new IdeaNotFoundException(
+        // TODO: Split into multiple exception types
+        throw new NotFoundException(
           `Cannot find idea with id: ${id} to delete.`
         );
       })

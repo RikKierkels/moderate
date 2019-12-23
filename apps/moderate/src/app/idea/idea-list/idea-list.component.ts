@@ -9,7 +9,7 @@ import { IdeasService } from '../ideas.service';
 })
 export class IdeaListComponent implements OnInit {
   ideas$ = this.ideasService.getAll();
-  constructor(private ideasService: IdeasService) {}
+  constructor(private readonly ideasService: IdeasService) {}
 
   ngOnInit() {}
 }

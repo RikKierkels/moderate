@@ -18,9 +18,9 @@ export class IdeaCreateComponent {
   });
 
   constructor(
-    private formBuilder: FormBuilder,
-    private ideasService: IdeasService,
-    private router: Router
+    private readonly formBuilder: FormBuilder,
+    private readonly ideasService: IdeasService,
+    private readonly router: Router
   ) {}
 
   createIdea(): void {

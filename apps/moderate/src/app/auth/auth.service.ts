@@ -43,7 +43,10 @@ export class AuthService {
 
   loggedIn: boolean = null;
 
-  constructor(private environment: Environment, private router: Router) {
+  constructor(
+    private readonly environment: Environment,
+    private readonly router: Router
+  ) {
     this.localAuthSetup();
     this.handleAuthCallback();
   }

@@ -16,8 +16,8 @@ import { UNAUTHORIZED_ENDPOINTS } from './unauthorized-endpoints';
 export class TokenInterceptorService implements HttpInterceptor {
   constructor(
     @Inject(UNAUTHORIZED_ENDPOINTS)
-    private unauthorizedEndpoints: { [key: string]: string[] },
-    private authService: AuthService
+    private readonly unauthorizedEndpoints: { [key: string]: string[] },
+    private readonly authService: AuthService
   ) {}
 
   intercept(

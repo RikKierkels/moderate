@@ -10,7 +10,7 @@ import { AuthService } from '../auth/auth.service';
 export class ToolbarComponent {
   userProfile$ = this.authService.userProfile$;
 
-  constructor(private authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
   logout(): void {
     this.authService.logout();

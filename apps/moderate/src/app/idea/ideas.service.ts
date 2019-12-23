@@ -12,8 +12,8 @@ export class IdeasService {
   baseUrl = `${this.environment.API_BASE_URL}/ideas`;
 
   constructor(
-    private httpClient: HttpClient,
-    private environment: Environment
+    private readonly httpClient: HttpClient,
+    private readonly environment: Environment
   ) {}
 
   getAll(): Observable<Ideas> {

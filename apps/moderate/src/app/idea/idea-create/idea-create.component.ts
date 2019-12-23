@@ -19,13 +19,13 @@ export class IdeaCreateComponent {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly ideasService: IdeaService,
+    private readonly ideaService: IdeaService,
     private readonly router: Router
   ) {}
 
   createIdea(): void {
     const idea = this.ideaForm.value as Idea;
-    this.ideasService
+    this.ideaService
       .create(idea)
       .subscribe(() => this.router.navigate(['/ideas/list']));
   }

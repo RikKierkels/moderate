@@ -1,80 +1,51 @@
 import { Injectable } from '@nestjs/common';
-import { Idea, Ideas } from '@moderate/api-interfaces';
+import { Idea } from '@moderate/api-interfaces';
 import { IdeaNotFoundException } from '../shared/exceptions';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { from, Observable } from 'rxjs';
+import { catchError, throwIfEmpty } from 'rxjs/operators';
 
 @Injectable()
 export class IdeaService {
-  private readonly ideas: Ideas = {
-    1: {
-      id: 1,
-      title: 'The first idea',
-      description: 'The first description',
-      difficulty: 3,
-      tags: ['full-stack']
-    },
-    2: {
-      id: 1,
-      title: 'The second idea',
-      description: 'The second description',
-      difficulty: 4,
-      tags: ['javascript']
-    },
-    3: {
-      id: 1,
-      title: 'The third idea',
-      description: 'The third description',
-      difficulty: 2,
-      tags: ['typescript']
-    }
-  };
-
   constructor(
     @InjectRepository(Idea)
     private readonly ideaRepository: Repository<Idea>
   ) {}
 
-  findAll(): Ideas {
-    return this.ideas;
+  findAll(): Observable<Idea[]> {
+    return from(this.ideaRepository.find());
   }
 
-  find(id: number): Idea {
-    const idea = this.ideas[id];
-
-    if (!idea) {
-      throw new IdeaNotFoundException(`Cannot find idea with id: ${id}.`);
-    }
-
-    return idea;
+  find(id: number): Observable<Idea> {
+    return from(this.ideaRepository.findOneOrFail(id)).pipe(
+      catchError(() => {
+        throw new IdeaNotFoundException(`Cannot find idea with id: ${id}.`);
+      })
+    );
   }
 
   create(idea: Idea): void {
-    const id = new Date().valueOf();
-    this.ideas[id] = { ...idea, id };
+    this.ideaRepository.create(idea);
   }
 
   update(updateIdea: Idea): void {
-    const { id } = updateIdea;
-
-    if (!this.ideas[id]) {
-      throw new IdeaNotFoundException(
-        `Cannot find idea with id: ${id} to update.`
-      );
-    }
-
-    this.ideas[id] = updateIdea;
+    from(this.ideaRepository.update(updateIdea.id, updateIdea)).pipe(
+      catchError(() => {
+        throw new IdeaNotFoundException(
+          `Cannot find idea with id: ${updateIdea.id} to update.`
+        );
+      })
+    );
   }
 
   delete(id: number): void {
-    const idea = this.ideas[id];
-
-    if (!idea) {
-      throw new IdeaNotFoundException(
-        `Cannot find idea with id: ${id} to delete.`
-      );
-    }
-
-    delete this.ideas[id];
+    from(this.ideaRepository.delete(id)).pipe(
+      catchError(() => {
+        throw new IdeaNotFoundException(
+          `Cannot find idea with id: ${id} to delete.`
+        );
+      })
+    );
   }
 }

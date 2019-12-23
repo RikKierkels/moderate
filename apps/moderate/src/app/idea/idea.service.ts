@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { Idea, Ideas } from '@moderate/api-interfaces';
+import { Idea } from '@moderate/api-interfaces';
 import { Environment } from '../shared/environment';
 import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class IdeasService {
+export class IdeaService {
   baseUrl = `${this.environment.API_BASE_URL}/ideas`;
 
   constructor(
@@ -16,9 +16,9 @@ export class IdeasService {
     private readonly environment: Environment
   ) {}
 
-  getAll(): Observable<Ideas> {
+  getAll(): Observable<Idea[]> {
     return this.httpClient
-      .get<Ideas>(this.baseUrl)
+      .get<Idea[]>(this.baseUrl)
       .pipe(catchError(() => of([])));
   }
 

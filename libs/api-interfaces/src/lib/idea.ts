@@ -38,7 +38,3 @@ export class Idea {
   @ArrayUnique()
   tags: string[];
 }
-
-export class Ideas {
-  [key: number]: Idea;
-}

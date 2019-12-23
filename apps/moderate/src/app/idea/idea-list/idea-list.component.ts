@@ -8,8 +8,8 @@ import { IdeaService } from '../idea.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IdeaListComponent implements OnInit {
-  ideas$ = this.ideasService.getAll();
-  constructor(private readonly ideasService: IdeaService) {}
+  ideas$ = this.ideaService.getAll();
+  constructor(private readonly ideaService: IdeaService) {}
 
   ngOnInit() {}
 }

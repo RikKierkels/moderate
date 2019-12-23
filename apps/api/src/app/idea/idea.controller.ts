@@ -9,7 +9,7 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { IdeaService } from './idea.service';
-import { Idea } from '@moderate/api-interfaces';
+import { Idea, IdeaCreateDto, IdeaUpdateDto } from '@moderate/api-interfaces';
 import { FindOneParams } from '../shared/models';
 import { AuthGuard } from '@nestjs/passport';
 import { Observable } from 'rxjs';
@@ -33,14 +33,14 @@ export class IdeaController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Post()
-  create(@Body('idea') idea: Idea): void {
+  create(@Body('idea') idea: IdeaCreateDto): void {
     this.ideaService.create(idea);
   }
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Put()
-  update(@Body('idea') idea: Idea): void {
+  update(@Body('idea') idea: IdeaUpdateDto): void {
     this.ideaService.update(idea);
   }
 

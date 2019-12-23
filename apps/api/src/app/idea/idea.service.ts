@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Idea } from '@moderate/api-interfaces';
+import { Idea, IdeaCreateDto, IdeaUpdateDto } from '@moderate/api-interfaces';
 import { IdeaNotFoundException } from '../shared/exceptions';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -25,11 +25,11 @@ export class IdeaService {
     );
   }
 
-  create(idea: Idea): void {
+  create(idea: IdeaCreateDto): void {
     this.ideaRepository.create(idea);
   }
 
-  update(updateIdea: Idea): void {
+  update(updateIdea: IdeaUpdateDto): void {
     from(this.ideaRepository.update(updateIdea.id, updateIdea)).pipe(
       catchError(() => {
         throw new IdeaNotFoundException(

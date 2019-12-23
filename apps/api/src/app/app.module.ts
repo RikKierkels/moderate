@@ -6,6 +6,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from '../config/configuration';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Idea } from '@moderate/api-interfaces';
+import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 
 @Module({
   imports: [
@@ -24,13 +25,7 @@ export class AppModule {}
 
 const getDatabaseConfig = (config: ConfigService) => {
   return {
-    type: config.get('database.type'),
-    host: config.get('database.host'),
-    port: config.get('database.port'),
-    username: config.get('database.username'),
-    password: config.get('database.password'),
-    database: config.get('database.name'),
-    entities: [Idea],
-    synchronize: config.get('database.synchronize')
+    ...config.get<PostgresConnectionOptions>('database'),
+    entities: [Idea]
   };
 };

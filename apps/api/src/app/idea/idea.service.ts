@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class IdeasService {
+export class IdeaService {
   private readonly ideas: Ideas = {
     1: {
       id: 1,

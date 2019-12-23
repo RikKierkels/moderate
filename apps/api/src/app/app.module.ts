@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { IdeasModule } from './ideas/ideas.module';
+import { IdeaModule } from './idea/idea.module';
 import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -15,7 +15,7 @@ import { Idea } from '@moderate/api-interfaces';
       useFactory: async (config: ConfigService) => getDatabaseConfig(config),
       inject: [ConfigService]
     }),
-    IdeasModule,
+    IdeaModule,
     AuthModule,
     SharedModule
   ]

@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { IdeasService } from '../ideas.service';
+import { IdeaService } from '../idea.service';
 
 @Component({
   selector: 'mod-idea-list',
@@ -9,7 +9,7 @@ import { IdeasService } from '../ideas.service';
 })
 export class IdeaListComponent implements OnInit {
   ideas$ = this.ideasService.getAll();
-  constructor(private readonly ideasService: IdeasService) {}
+  constructor(private readonly ideasService: IdeaService) {}
 
   ngOnInit() {}
 }

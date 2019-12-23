@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { IdeasService } from '../ideas.service';
+import { IdeaService } from '../idea.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Idea } from '@moderate/api-interfaces';
 import { Router } from '@angular/router';
@@ -19,7 +19,7 @@ export class IdeaCreateComponent {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly ideasService: IdeasService,
+    private readonly ideasService: IdeaService,
     private readonly router: Router
   ) {}
 

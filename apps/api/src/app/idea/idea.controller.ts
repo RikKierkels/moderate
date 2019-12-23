@@ -46,10 +46,11 @@ export class IdeaController {
   }
 
   @ApiBearerAuth()
+  @ApiResponse({ type: Idea })
   @UseGuards(AuthGuard('jwt'))
   @Post()
-  create(@Body() idea: IdeaCreateDto): void {
-    this.ideaService.create(idea);
+  create(@Body() idea: IdeaCreateDto): Idea {
+    return this.ideaService.create(idea);
   }
 
   @ApiBearerAuth()

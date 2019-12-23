@@ -24,8 +24,8 @@ export class IdeaService {
     );
   }
 
-  create(idea: IdeaCreateDto): void {
-    this.ideaRepository.create(idea);
+  create(idea: IdeaCreateDto): Idea {
+    return this.ideaRepository.create(idea);
   }
 
   update(updateIdea: IdeaUpdateDto): void {

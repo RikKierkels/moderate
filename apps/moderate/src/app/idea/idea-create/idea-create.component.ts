@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { IdeaService } from '../idea.service';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Idea } from '@moderate/api-interfaces';
+import { IdeaCreateDto } from '@moderate/api-interfaces';
 import { Router } from '@angular/router';
 
 @Component({
@@ -24,9 +24,10 @@ export class IdeaCreateComponent {
   ) {}
 
   createIdea(): void {
-    const idea = this.ideaForm.value as Idea;
-    this.ideaService
-      .create(idea)
-      .subscribe(() => this.router.navigate(['/ideas/list']));
+    const idea = this.ideaForm.value as IdeaCreateDto;
+    this.ideaService.create(idea).subscribe({
+      next: createdIdea => this.router.navigate([`/ideas/${createdIdea.id}`]),
+      error: () => this.router.navigate(['/ideas/list'])
+    });
   }
 }

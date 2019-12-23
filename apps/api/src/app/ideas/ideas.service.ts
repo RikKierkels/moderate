@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Idea, Ideas } from '@moderate/api-interfaces';
 import { IdeaNotFoundException } from '../shared/exceptions';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class IdeasService {
@@ -27,6 +29,11 @@ export class IdeasService {
       tags: ['typescript']
     }
   };
+
+  constructor(
+    @InjectRepository(Idea)
+    private readonly ideaRepository: Repository<Idea>
+  ) {}
 
   findAll(): Ideas {
     return this.ideas;

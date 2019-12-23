@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from '../config/configuration';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Idea } from '@moderate/api-interfaces';
 
 @Module({
   imports: [
@@ -29,7 +30,7 @@ const getDatabaseConfig = (config: ConfigService) => {
     username: config.get('database.username'),
     password: config.get('database.password'),
     database: config.get('database.name'),
-    entities: ['dist/**/*.entity{.ts,.js}'],
+    entities: [Idea],
     synchronize: config.get('database.synchronize')
   };
 };

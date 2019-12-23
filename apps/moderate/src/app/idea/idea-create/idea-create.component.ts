@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { IdeaService } from '../idea.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Idea } from '@moderate/api-interfaces';

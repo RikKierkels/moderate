@@ -1,7 +1,9 @@
+import { EntitySchema } from 'typeorm';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 
 interface Configuration {
   port: number;
+  isProduction: boolean;
   auth: AuthConfiguration;
   database: PostgresConnectionOptions;
 }
@@ -12,7 +14,8 @@ interface AuthConfiguration {
 }
 
 export default (): Configuration => ({
-  port: parseInt(process.env.de, 10) || 7000,
+  port: parseInt(process.env.PORT, 10) || 7000,
+  isProduction: process.env.PRODUCTION === 'true',
   auth: {
     audience: process.env.AUTH0_AUDIENCE,
     domain: process.env.AUTH0_DOMAIN

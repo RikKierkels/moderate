@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Idea } from '@moderate/api-interfaces';
+import { Idea } from '../idea/idea.entity';
 
 @Entity()
 export class Message {

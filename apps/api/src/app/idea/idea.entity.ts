@@ -27,7 +27,7 @@ export class Idea {
   @JoinTable()
   readonly tags: Tag[];
 
-  @OneToMany(type => Message, message => message.idea)
+  @OneToMany(type => Message, message => message.idea, { onDelete: 'CASCADE' })
   readonly replies: Message[];
 
   @Column()

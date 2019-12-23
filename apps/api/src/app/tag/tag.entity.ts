@@ -1,5 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Idea } from '@moderate/api-interfaces';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Tag {
@@ -8,7 +7,4 @@ export class Tag {
 
   @Column()
   readonly name: string;
-
-  @ManyToOne(type => Idea, idea => idea.tags)
-  readonly idea: Idea;
 }

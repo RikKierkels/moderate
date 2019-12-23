@@ -44,7 +44,7 @@ export class IdeaCreateDto {
   @IsNotEmpty()
   readonly description: string;
 
-  @ApiProperty()
+  @ApiProperty({ minimum: 1, maximum: 5 })
   @IsInt()
   @Min(1)
   @Max(5)
@@ -59,6 +59,5 @@ export class IdeaCreateDto {
 export class IdeaUpdateDto extends IdeaCreateDto {
   @ApiProperty()
   @IsInt()
-  @IsNotEmpty()
   readonly id: number;
 }

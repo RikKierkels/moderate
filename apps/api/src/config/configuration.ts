@@ -1,5 +1,8 @@
-import { EntitySchema } from 'typeorm';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
+import { ConfigService } from '@nestjs/config';
+import { Idea } from '../app/idea/idea.entity';
+import { Tag } from '../app/tag/tag.entity';
+import { Message } from '../app/message/message.entity';
 
 interface Configuration {
   port: number;
@@ -30,3 +33,10 @@ export default (): Configuration => ({
     synchronize: process.env.DATABASE_SYNCHRONIZE === 'true'
   }
 });
+
+export const getDatabaseConfig = (config: ConfigService) => {
+  return {
+    ...config.get<PostgresConnectionOptions>('database'),
+    entities: [Idea, Tag, Message]
+  };
+};

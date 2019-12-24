@@ -9,23 +9,11 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { IdeaService } from './idea.service';
-import {
-  Idea,
-  IdeaCreateDto,
-  IdeaUpdateDto,
-  Message,
-  Tag
-} from '@moderate/api-interfaces';
+import { Idea, IdeaCreateDto, IdeaUpdateDto } from '@moderate/api-interfaces';
 import { FindOneParams } from '../shared/models';
 import { AuthGuard } from '@nestjs/passport';
 import { Observable } from 'rxjs';
-import {
-  ApiBearerAuth,
-  ApiExtraModels,
-  ApiParam,
-  ApiResponse,
-  ApiTags
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Idea')
 @Controller('ideas')

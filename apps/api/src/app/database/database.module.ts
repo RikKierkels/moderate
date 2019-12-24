@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import configuration, { getDatabaseConfig } from '../config/configuration';
+import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
+import { IdeaEntity, MessageEntity, TagEntity } from './database-entities';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ load: [configuration] }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (config: ConfigService) => getDatabaseConfig(config),
@@ -14,3 +14,10 @@ import configuration, { getDatabaseConfig } from '../config/configuration';
   ]
 })
 export class DatabaseModule {}
+
+const getDatabaseConfig = (config: ConfigService) => {
+  return {
+    ...config.get<PostgresConnectionOptions>('database'),
+    entities: [IdeaEntity, TagEntity, MessageEntity]
+  };
+};

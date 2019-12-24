@@ -4,12 +4,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { from, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { IdeaEntity } from '../database/database-entities';
 
 @Injectable()
 export class IdeaService {
   constructor(
-    @InjectRepository(Idea)
-    private readonly ideaRepository: Repository<Idea>
+    @InjectRepository(IdeaEntity)
+    private readonly ideaRepository: Repository<IdeaEntity>
   ) {}
 
   findAll(): Observable<Idea[]> {

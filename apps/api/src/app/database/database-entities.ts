@@ -8,8 +8,8 @@ import {
   PrimaryGeneratedColumn
 } from 'typeorm';
 
-// Entities need to be located in the same file to avoid circular dependencies due to the ManyToOne
-// relationships.
+// Entities need to be located in the same file to avoid circular dependencies due to the interaction
+// between NX (specifically the webpack bundler) and the ManyToOne relationships of the TypeORM.
 
 @Entity({ name: 'idea' })
 export class IdeaEntity {

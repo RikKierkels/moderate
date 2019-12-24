@@ -6,13 +6,15 @@ import { IdeaCreateComponent } from './idea-create/idea-create.component';
 import { IdeaListItemComponent } from './idea-list-item/idea-list-item.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IdeaDetailComponent } from './idea-detail/idea-detail.component';
+import { IdeaHomeComponent } from './idea-home/idea-home.component';
 
 @NgModule({
   declarations: [
     IdeaListComponent,
     IdeaCreateComponent,
     IdeaListItemComponent,
-    IdeaDetailComponent
+    IdeaDetailComponent,
+    IdeaHomeComponent
   ],
   imports: [CommonModule, IdeaRoutingModule, ReactiveFormsModule]
 })

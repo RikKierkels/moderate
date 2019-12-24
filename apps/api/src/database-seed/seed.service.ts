@@ -28,9 +28,9 @@ export class SeedService {
   }
 
   private async clearDatabase() {
-    await this.ideaRepository.clear();
-    await this.tagRepository.clear();
-    await this.messageRepository.clear();
+    await this.ideaRepository.delete({});
+    await this.tagRepository.delete({});
+    await this.messageRepository.delete({});
   }
 
   private seedTags(): void {

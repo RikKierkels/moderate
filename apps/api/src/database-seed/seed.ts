@@ -10,12 +10,12 @@ async function bootstrap() {
 
   try {
     await seeder.seed();
-  } catch {
-    logger.log('Seeding failed!');
+    logger.log('Seeding completed!');
+  } catch (err) {
+    logger.log('Seeding failed!', err);
+  } finally {
+    await appContext.close();
   }
-
-  logger.log('Seeding completed!');
-  await appContext.close();
 }
 
 bootstrap();

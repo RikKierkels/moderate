@@ -7,6 +7,7 @@ import {
   MessageEntity,
   TagEntity
 } from '../app/database/database-entities';
+import * as faker from 'faker';
 
 @Injectable()
 export class SeedService {
@@ -21,42 +22,42 @@ export class SeedService {
     private readonly messageRepository: Repository<MessageEntity>
   ) {}
 
-  async seed() {
+  async seed(): Promise<void> {
     await this.clearDatabase();
-    this.seedTags();
+    await this.seedTags();
     await this.seedIdeas();
   }
 
-  private async clearDatabase() {
+  private async clearDatabase(): Promise<void> {
     await this.ideaRepository.delete({});
     await this.tagRepository.delete({});
     await this.messageRepository.delete({});
   }
 
-  private seedTags(): void {
+  private async seedTags(): Promise<void> {
     for (const tag of tags) {
-      this.tagRepository.create(tag);
+      await this.tagRepository.save(tag);
     }
   }
 
-  private async seedIdeas() {
+  private async seedIdeas(): Promise<void> {
     for (const { name } of tags) {
       const tag = await this.tagRepository.findOneOrFail({ name });
 
       for (let i = 0; i < this.ideasPerTagCount; i++) {
         const idea = this.createIdea(tag, i);
-        this.ideaRepository.create(idea);
+        await this.ideaRepository.save(idea);
       }
     }
   }
 
   private createIdea(tag: TagEntity, index: number): Partial<IdeaEntity> {
     return {
-      title: '123',
-      description: '123',
-      difficulty: index,
-      authorId: '123',
-      tags: []
+      title: faker.hacker.phrase(),
+      description: faker.lorem.paragraph(),
+      difficulty: index + 1,
+      authorId: faker.random.uuid(),
+      tags: [tag]
     };
   }
 }

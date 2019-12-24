@@ -37,7 +37,7 @@ export class IdeaController {
   @ApiResponse({ type: Idea })
   @UseGuards(AuthGuard('jwt'))
   @Post()
-  create(@Body() idea: IdeaCreateDto): Idea {
+  create(@Body() idea: IdeaCreateDto): Observable<Idea> {
     return this.ideaService.create(idea);
   }
 

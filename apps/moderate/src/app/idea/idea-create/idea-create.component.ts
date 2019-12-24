@@ -3,6 +3,8 @@ import { IdeaService } from '../idea.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { IdeaCreateDto } from '@moderate/api-interfaces';
 import { Router } from '@angular/router';
+import { CanComponentDeactivate } from '../../shared/can-deactivate.guard';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'mod-idea-create',
@@ -10,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./idea-create.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IdeaCreateComponent {
+export class IdeaCreateComponent implements CanComponentDeactivate {
   ideaForm = this.formBuilder.group({
     title: ['', Validators.required],
     description: ['', Validators.required],
@@ -26,8 +28,13 @@ export class IdeaCreateComponent {
   createIdea(): void {
     const idea = this.ideaForm.value as IdeaCreateDto;
     this.ideaService.create(idea).subscribe({
-      next: createdIdea => this.router.navigate([`/ideas/${createdIdea.id}`]),
-      error: () => this.router.navigate(['/ideas/list'])
+      next: createdIdea => this.router.navigate([`ideas`, createdIdea.id]),
+      error: () => this.router.navigate(['ideas'])
     });
+  }
+
+  canDeactivate(): boolean {
+    // TODO: Show modal
+    return true;
   }
 }

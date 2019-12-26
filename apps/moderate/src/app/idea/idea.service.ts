@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { Idea, IdeaCreateDto } from '@moderate/api-interfaces';
+import { Idea } from '@moderate/api-interfaces';
 import { Environment } from '../shared/environment';
 import { catchError } from 'rxjs/operators';
 
@@ -22,7 +22,7 @@ export class IdeaService {
       .pipe(catchError(() => of([])));
   }
 
-  create(idea: IdeaCreateDto): Observable<Idea> {
+  create(idea: Idea): Observable<Idea> {
     return this.httpClient.post<Idea>(this.baseUrl, idea);
   }
 }

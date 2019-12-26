@@ -9,7 +9,12 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { IdeaService } from './idea.service';
-import { Idea, IdeaCreateDto, IdeaUpdateDto } from '@moderate/api-interfaces';
+import {
+  IdeaCreateDto,
+  IdeaDto,
+  IdeaUpdateDto,
+  IdeaWithMessagesDto
+} from '@moderate/api-interfaces';
 import { AuthGuard } from '@nestjs/passport';
 import { Observable } from 'rxjs';
 import { ApiBearerAuth, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -21,24 +26,25 @@ import { IdeaEntity } from '../database/database-entities';
 export class IdeaController {
   constructor(private readonly ideaService: IdeaService) {}
 
-  @ApiResponse({ type: [IdeaEntity] })
+  @ApiResponse({ type: [IdeaDto] })
   @Get()
-  findAll(): Observable<IdeaEntity[]> {
+  public findAll(): Observable<IdeaDto[]> {
     return this.ideaService.findAll();
   }
 
-  @ApiResponse({ type: IdeaEntity })
+  @ApiResponse({ type: IdeaWithMessagesDto })
   @ApiParam({ name: 'id', type: Number })
   @Get(':id')
-  find(@Param('id', IdeaByIdPipe) idea: IdeaEntity): IdeaEntity {
+  find(@Param('id', IdeaByIdPipe) idea: IdeaEntity): IdeaWithMessagesDto {
+    // TODO: Map
     return idea;
   }
 
   @ApiBearerAuth()
-  @ApiResponse({ type: IdeaEntity })
+  @ApiResponse({ type: IdeaDto })
   @UseGuards(AuthGuard('jwt'))
   @Post()
-  create(@Body() idea: IdeaCreateDto): Observable<IdeaEntity> {
+  create(@Body() idea: IdeaCreateDto): Observable<IdeaDto> {
     return this.ideaService.create(idea);
   }
 

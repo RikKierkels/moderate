@@ -1,9 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Idea, IdeaCreateDto, IdeaUpdateDto } from '@moderate/api-interfaces';
+import {
+  IdeaCreateDto,
+  IdeaDto,
+  IdeaUpdateDto,
+  IdeaWithMessagesDto
+} from '@moderate/api-interfaces';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { from, Observable } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { IdeaEntity } from '../database/database-entities';
 
 @Injectable()
@@ -13,11 +18,11 @@ export class IdeaService {
     private readonly ideaRepository: Repository<IdeaEntity>
   ) {}
 
-  findAll(): Observable<IdeaEntity[]> {
+  findAll(): Observable<IdeaDto[]> {
     return from(this.ideaRepository.find());
   }
 
-  find(id: number): Observable<IdeaEntity> {
+  find(id: number): Observable<IdeaWithMessagesDto> {
     return from(this.ideaRepository.findOneOrFail(id)).pipe(
       catchError(() => {
         throw new NotFoundException(`Cannot find idea with id: ${id}.`);
@@ -25,8 +30,7 @@ export class IdeaService {
     );
   }
 
-  // TODO: Repo returns IdeaEntity, map to Entity
-  create(idea: IdeaCreateDto): Observable<IdeaEntity> {
+  create(idea: IdeaCreateDto): Observable<IdeaDto> {
     return from(this.ideaRepository.save(idea));
   }
 

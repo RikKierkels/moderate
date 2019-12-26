@@ -1,3 +1,6 @@
-<p>idea-list works!</p>
-
-{{ ideas$ | async | json }}
+<section *ngIf="ideas$ | async as ideas">
+  <mod-idea-list-item
+    *ngFor="let idea of ideas"
+    [idea]="idea"
+  ></mod-idea-list-item>
+</section>

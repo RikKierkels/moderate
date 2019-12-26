@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Idea } from '@moderate/api-interfaces';
 
 @Component({
   selector: 'mod-idea-list-item',
@@ -6,8 +7,8 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./idea-list-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IdeaListItemComponent implements OnInit {
-  constructor() {}
+export class IdeaListItemComponent {
+  @Input() idea: Idea;
 
-  ngOnInit() {}
+  constructor() {}
 }

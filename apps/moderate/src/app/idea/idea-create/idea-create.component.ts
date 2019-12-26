@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { IdeaService } from '../idea.service';
 import { FormBuilder, Validators } from '@angular/forms';
-import { IdeaCreateDto } from '@moderate/api-interfaces';
+import { Idea } from '@moderate/api-interfaces';
 import { Router } from '@angular/router';
 import { CanComponentDeactivate } from '../../shared/can-deactivate.guard';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'mod-idea-create',
@@ -26,7 +25,7 @@ export class IdeaCreateComponent implements CanComponentDeactivate {
   ) {}
 
   createIdea(): void {
-    const idea = this.ideaForm.value as IdeaCreateDto;
+    const idea = this.ideaForm.value as Idea;
     this.ideaService.create(idea).subscribe({
       next: createdIdea => this.router.navigate([`ideas`, createdIdea.id]),
       error: () => this.router.navigate(['ideas'])

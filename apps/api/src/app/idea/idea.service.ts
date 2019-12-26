@@ -3,7 +3,7 @@ import { Idea, IdeaCreateDto, IdeaUpdateDto } from '@moderate/api-interfaces';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { from, Observable } from 'rxjs';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 import { IdeaEntity } from '../database/database-entities';
 
 @Injectable()
@@ -13,13 +13,11 @@ export class IdeaService {
     private readonly ideaRepository: Repository<IdeaEntity>
   ) {}
 
-  // TODO: Repo returns IdeaEntity, map to Entity
-  findAll(): Observable<Idea[]> {
+  findAll(): Observable<IdeaEntity[]> {
     return from(this.ideaRepository.find());
   }
 
-  // TODO: Repo returns IdeaEntity, map to Entity
-  find(id: number): Observable<Idea> {
+  find(id: number): Observable<IdeaEntity> {
     return from(this.ideaRepository.findOneOrFail(id)).pipe(
       catchError(() => {
         throw new NotFoundException(`Cannot find idea with id: ${id}.`);
@@ -28,7 +26,7 @@ export class IdeaService {
   }
 
   // TODO: Repo returns IdeaEntity, map to Entity
-  create(idea: IdeaCreateDto): Observable<Idea> {
+  create(idea: IdeaCreateDto): Observable<IdeaEntity> {
     return from(this.ideaRepository.save(idea));
   }
 
@@ -43,14 +41,7 @@ export class IdeaService {
     );
   }
 
-  delete(id: number): void {
-    // TODO: Move to a pipe later on
-    const idea$ = from(this.ideaRepository.findOneOrFail(id)).pipe(
-      catchError(() => {
-        throw new NotFoundException(`Cannot find idea with id: ${id}.`);
-      })
-    );
-
-    idea$.pipe(switchMap(idea => this.ideaRepository.remove(idea)));
+  delete(idea: IdeaEntity): void {
+    this.ideaRepository.remove(idea);
   }
 }

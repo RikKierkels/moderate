@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Connection, Repository } from 'typeorm';
 import { tags } from './data';
 import {
   IdeaEntity,
@@ -19,19 +19,19 @@ export class SeedService {
     @InjectRepository(TagEntity)
     private readonly tagRepository: Repository<TagEntity>,
     @InjectRepository(MessageEntity)
-    private readonly messageRepository: Repository<MessageEntity>
+    private readonly messageRepository: Repository<MessageEntity>,
+    private readonly connection: Connection
   ) {}
 
   async seed(): Promise<void> {
-    await this.clearDatabase();
+    await this.dropAndSyncDatabase();
     await this.seedTags();
     await this.seedIdeas();
   }
 
-  private async clearDatabase(): Promise<void> {
-    await this.ideaRepository.delete({});
-    await this.tagRepository.delete({});
-    await this.messageRepository.delete({});
+  private async dropAndSyncDatabase(): Promise<void> {
+    const shouldDropBeforeSync = true;
+    await this.connection.synchronize(shouldDropBeforeSync);
   }
 
   private async seedTags(): Promise<void> {

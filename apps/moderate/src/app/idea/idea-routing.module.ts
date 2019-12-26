@@ -9,7 +9,7 @@ import { IdeaHomeComponent } from './idea-home/idea-home.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'ideas',
     component: IdeaHomeComponent,
     children: [
       {

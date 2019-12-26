@@ -21,17 +21,17 @@ import { IdeaEntity } from '../database/database-entities';
 export class IdeaController {
   constructor(private readonly ideaService: IdeaService) {}
 
+  @ApiResponse({ type: [IdeaEntity] })
+  @Get()
+  findAll(): Observable<IdeaEntity[]> {
+    return this.ideaService.findAll();
+  }
+
   @ApiResponse({ type: IdeaEntity })
   @ApiParam({ name: 'id', type: Number })
   @Get(':id')
   find(@Param('id', IdeaByIdPipe) idea: IdeaEntity): IdeaEntity {
     return idea;
-  }
-
-  @ApiResponse({ type: [IdeaEntity] })
-  @Get()
-  findAll(): Observable<IdeaEntity[]> {
-    return this.ideaService.findAll();
   }
 
   @ApiBearerAuth()

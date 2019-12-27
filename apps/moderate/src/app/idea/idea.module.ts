@@ -10,11 +10,11 @@ import { IdeaHomeComponent } from './idea-home/idea-home.component';
 
 @NgModule({
   declarations: [
+    IdeaHomeComponent,
     IdeaListComponent,
-    IdeaCreateComponent,
     IdeaListItemComponent,
     IdeaDetailComponent,
-    IdeaHomeComponent
+    IdeaCreateComponent
   ],
   imports: [CommonModule, IdeaRoutingModule, ReactiveFormsModule]
 })

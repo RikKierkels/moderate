@@ -1,3 +1,3 @@
-export * from './lib/idea';
-export * from './lib/tag';
-export * from './lib/message';
+export * from './lib/idea.interface';
+export * from './lib/tag.interface';
+export * from './lib/message.interface';

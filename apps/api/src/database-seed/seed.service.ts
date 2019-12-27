@@ -14,13 +14,13 @@ export class SeedService {
   ideasPerTagCount = 5;
 
   constructor(
+    private readonly connection: Connection,
     @InjectRepository(IdeaEntity)
     private readonly ideaRepository: Repository<IdeaEntity>,
     @InjectRepository(TagEntity)
     private readonly tagRepository: Repository<TagEntity>,
     @InjectRepository(MessageEntity)
-    private readonly messageRepository: Repository<MessageEntity>,
-    private readonly connection: Connection
+    private readonly messageRepository: Repository<MessageEntity>
   ) {}
 
   async seed(): Promise<void> {

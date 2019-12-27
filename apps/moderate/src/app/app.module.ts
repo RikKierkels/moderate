@@ -4,7 +4,7 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing-module';
 import { SharedModule } from './shared/shared.module';
-import { Environment } from './shared/environment';
+import { Environment } from './shared/environment.model';
 import { environment } from '../environments/environment';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 

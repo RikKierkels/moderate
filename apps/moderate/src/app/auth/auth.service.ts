@@ -11,8 +11,8 @@ import {
 } from 'rxjs';
 import { tap, catchError, concatMap, shareReplay, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { Environment } from '../shared/environment';
-import { UserProfile } from './user-profile';
+import { Environment } from '../shared/environment.model';
+import { UserProfile } from './user-profile.interface';
 
 @Injectable({
   providedIn: 'root'

@@ -12,8 +12,7 @@ import { DatabaseModule } from './database/database.module';
     DatabaseModule,
     IdeaModule,
     AuthModule,
-    SharedModule,
-    DatabaseModule
+    SharedModule
   ]
 })
 export class AppModule {}

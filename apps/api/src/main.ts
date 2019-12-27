@@ -15,7 +15,7 @@ async function bootstrap() {
   if (!config.get<boolean>('isProduction')) {
     const options = new DocumentBuilder()
       .setTitle('Moderate API')
-      .setDescription('idea Repository')
+      .setDescription('Idea Repository')
       .setVersion('1.0')
       .addTag('Idea')
       .addBearerAuth()

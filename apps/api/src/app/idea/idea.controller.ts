@@ -40,8 +40,8 @@ export class IdeaController {
     return idea;
   }
 
-  @ApiBearerAuth()
   @ApiResponse({ type: IdeaDto })
+  @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Post()
   create(@Body() idea: IdeaCreateDto): Observable<IdeaDto> {
@@ -56,8 +56,8 @@ export class IdeaController {
   }
 
   @ApiBearerAuth()
-  @ApiParam({ name: 'id', type: Number })
   @UseGuards(AuthGuard('jwt'))
+  @ApiParam({ name: 'id', type: Number })
   @Delete(':id')
   delete(@Param('id', IdeaByIdPipe) idea: IdeaEntity): void {
     this.ideaService.delete(idea);

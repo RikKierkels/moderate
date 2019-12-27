@@ -22,7 +22,7 @@ export class IdeaService {
     return from(this.ideaRepository.find());
   }
 
-  find(id: number): Observable<IdeaWithMessagesDto> {
+  find(id: number): Observable<IdeaEntity> {
     return from(this.ideaRepository.findOneOrFail(id)).pipe(
       catchError(() => {
         throw new NotFoundException(`Cannot find idea with id: ${id}.`);

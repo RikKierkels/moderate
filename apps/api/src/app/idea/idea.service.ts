@@ -1,15 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import {
-  IdeaCreateDto,
-  IdeaDto,
-  IdeaUpdateDto,
-  IdeaWithMessagesDto
-} from '@moderate/api-interfaces';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { from, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { IdeaEntity } from '../database/database-entities';
+import { IdeaCreateDto, IdeaDto, IdeaUpdateDto } from './idea.model';
 
 @Injectable()
 export class IdeaService {

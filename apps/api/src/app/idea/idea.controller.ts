@@ -9,17 +9,17 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { IdeaService } from './idea.service';
-import {
-  IdeaCreateDto,
-  IdeaDto,
-  IdeaUpdateDto,
-  IdeaWithMessagesDto
-} from '@moderate/api-interfaces';
 import { AuthGuard } from '@nestjs/passport';
 import { Observable } from 'rxjs';
 import { ApiBearerAuth, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { IdeaByIdPipe } from '../shared/idea-by-id.pipe';
 import { IdeaEntity } from '../database/database-entities';
+import {
+  IdeaCreateDto,
+  IdeaDto,
+  IdeaUpdateDto,
+  IdeaWithMessagesDto
+} from './idea.model';
 
 @ApiTags('Idea')
 @Controller('ideas')

@@ -12,7 +12,7 @@ import { IdeaService } from './idea.service';
 import { AuthGuard } from '@nestjs/passport';
 import { Observable } from 'rxjs';
 import { ApiBearerAuth, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { IdeaByIdPipe } from '../shared/idea-by-id.pipe';
+import { IdeaByIdPipe } from '../shared/pipes/idea-by-id.pipe';
 import { IdeaEntity } from '../database/database-entities';
 import {
   IdeaCreateDto,

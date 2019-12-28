@@ -1,7 +1,7 @@
 import { Injectable, PipeTransform } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { IdeaService } from '../idea/idea.service';
-import { IdeaEntity } from '../database/database-entities';
+import { IdeaService } from '../../idea/idea.service';
+import { IdeaEntity } from '../../database/database-entities';
 
 @Injectable()
 export class IdeaByIdPipe

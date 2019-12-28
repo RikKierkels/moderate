@@ -9,19 +9,3 @@ $font-sizes: (
 @function font-size($size) {
   @return map-get($font-sizes, $size);
 }
-
-$font-family-default: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica,
-  Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-$font-line-height-ratio: 1.25;
-
-%font-content {
-  font-family: $font-family-default;
-  font-weight: 400;
-  color: $font-color;
-}
-
-@mixin typography($font-size) {
-  font-size: $font-size;
-  line-height: $font-size * $font-line-height-ratio;
-  @extend %font-content;
-}

@@ -1,14 +1,17 @@
 @import 'design/index';
-
-* {
-  box-sizing: border-box;
-}
+@import 'design/sanitize/sanitize.css';
+@import 'design/sanitize/forms.css';
+@import 'design/sanitize/typography.css';
 
 body {
-  @include typography(font-size('medium'));
-  margin: 0;
+  font-size: font-size(medium);
+  color: $font-color;
 }
 
-textarea {
-  resize: none;
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 0;
 }

@@ -20,6 +20,8 @@ import {
   IdeaUpdateDto,
   IdeaWithMessagesDto
 } from './idea.model';
+import { UserId } from '../shared/decorators/user.decorator';
+import { Auth } from '../shared/decorators/auth.decorator';
 
 @ApiTags('Idea')
 @Controller('ideas')
@@ -27,8 +29,9 @@ export class IdeaController {
   constructor(private readonly ideaService: IdeaService) {}
 
   @ApiResponse({ type: [IdeaDto] })
+  @UseGuards(AuthGuard('jwt'))
   @Get()
-  public findAll(): Observable<IdeaDto[]> {
+  public findAll(@UserId() userId): Observable<IdeaDto[]> {
     return this.ideaService.findAll();
   }
 
@@ -41,23 +44,20 @@ export class IdeaController {
   }
 
   @ApiResponse({ type: IdeaDto })
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard('jwt'))
+  @Auth()
   @Post()
   create(@Body() idea: IdeaCreateDto): Observable<IdeaDto> {
     return this.ideaService.create(idea);
   }
 
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard('jwt'))
+  @Auth()
   @Put()
   update(@Body() idea: IdeaUpdateDto): void {
     this.ideaService.update(idea);
   }
 
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard('jwt'))
   @ApiParam({ name: 'id', type: Number })
+  @Auth()
   @Delete(':id')
   delete(@Param('id', IdeaByIdPipe) idea: IdeaEntity): void {
     this.ideaService.delete(idea);

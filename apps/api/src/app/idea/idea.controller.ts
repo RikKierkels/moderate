@@ -5,13 +5,11 @@ import {
   Get,
   Param,
   Post,
-  Put,
-  UseGuards
+  Put
 } from '@nestjs/common';
 import { IdeaService } from './idea.service';
-import { AuthGuard } from '@nestjs/passport';
 import { Observable } from 'rxjs';
-import { ApiBearerAuth, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { IdeaByIdPipe } from '../shared/pipes/idea-by-id.pipe';
 import { IdeaEntity } from '../database/database-entities';
 import {
@@ -20,7 +18,6 @@ import {
   IdeaUpdateDto,
   IdeaWithMessagesDto
 } from './idea.model';
-import { UserId } from '../shared/decorators/user.decorator';
 import { Auth } from '../shared/decorators/auth.decorator';
 
 @ApiTags('Idea')
@@ -29,9 +26,8 @@ export class IdeaController {
   constructor(private readonly ideaService: IdeaService) {}
 
   @ApiResponse({ type: [IdeaDto] })
-  @UseGuards(AuthGuard('jwt'))
   @Get()
-  public findAll(@UserId() userId): Observable<IdeaDto[]> {
+  public findAll(): Observable<IdeaDto[]> {
     return this.ideaService.findAll();
   }
 

@@ -1,9 +1,7 @@
-import { ApiProperty } from '@nestjs/swagger';
-
-export class Tag {
-  @ApiProperty()
+export interface Tag {
   readonly id: number;
-
-  @ApiProperty()
   readonly name: string;
+  readonly color: string;
 }
+
+export type TagCreate = Omit<Tag, 'id'>;

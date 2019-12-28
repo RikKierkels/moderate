@@ -12,10 +12,10 @@ import {
   Idea,
   IdeaCreate,
   IdeaUpdate,
-  IdeaWithMessages,
-  Message,
-  Tag
+  IdeaWithMessages
 } from '@moderate/api-interfaces';
+import { TagDto } from '../tag/tag.model';
+import { MessageDto } from '../message/message.model';
 
 export class IdeaDto implements Idea {
   @ApiProperty()
@@ -31,7 +31,7 @@ export class IdeaDto implements Idea {
   readonly difficulty: number;
 
   @ApiProperty()
-  readonly tags: Tag[];
+  readonly tags: TagDto[];
 
   @ApiProperty()
   readonly authorId: string;
@@ -39,7 +39,7 @@ export class IdeaDto implements Idea {
 
 export class IdeaWithMessagesDto extends IdeaDto implements IdeaWithMessages {
   @ApiProperty()
-  readonly replies: Message[];
+  readonly replies: MessageDto[];
 }
 
 export class IdeaCreateDto implements IdeaCreate {
@@ -62,7 +62,7 @@ export class IdeaCreateDto implements IdeaCreate {
   @ApiProperty()
   @ArrayNotEmpty({ each: true })
   @ArrayUnique({ each: true })
-  readonly tags: Tag[];
+  readonly tags: TagDto[];
 }
 
 export class IdeaUpdateDto extends IdeaCreateDto implements IdeaUpdate {

@@ -1,0 +1,11 @@
+@import '../../../design/index';
+
+.idea-grid {
+  display: grid;
+  grid-gap: spacing-size(medium);
+  grid-template-columns: repeat(3, 1fr);
+
+  @include breakpoint-down(small) {
+    grid-template-columns: 1fr;
+  }
+}

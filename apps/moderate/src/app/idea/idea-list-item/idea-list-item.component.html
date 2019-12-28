@@ -1,4 +1,4 @@
-<article>
-  <h1>{{ idea.title }}</h1>
-  <p>{{ idea.description }}</p>
+<article class="idea-container">
+  <h3 class="idea-title">{{ idea.title }}</h3>
+  <p class="idea-description">{{ idea.description | truncate: 30 }}</p>
 </article>

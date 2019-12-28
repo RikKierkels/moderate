@@ -1,0 +1,15 @@
+@import '../../../design/index';
+
+.idea-container {
+  display: flex;
+  flex-direction: column;
+  padding: spacing-size(medium);
+  height: 100%;
+  border: 1px solid #d1d5da;
+  border-radius: 3px;
+  background: white;
+}
+
+.idea-description {
+  flex-grow: 1;
+}

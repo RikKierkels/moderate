@@ -1,0 +1,33 @@
+$spacing-sizes: (small: 8px, medium: 16px, large: 32px);
+$spacing-multiplier: 1;
+
+@function spacing-size($size) {
+  @if(map-has-key($spacing-sizes, $size)){
+    @return map-get($spacing-sizes, $size) * $spacing-multiplier;
+  }
+  @warn 'Invalid size: #{$size}.';
+}
+
+$breakpoints: (
+  small : 600px,
+);
+
+@mixin breakpoint-up($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (min-width: map-get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  } @else {
+    @warn 'Invalid breakpoint: #{$breakpoint}.';
+  }
+}
+
+@mixin breakpoint-down($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (max-width: map-get($breakpoints, $breakpoint) - 1) {
+      @content;
+    }
+  } @else {
+    @warn 'Invalid breakpoint: #{$breakpoint}.';
+  }
+}

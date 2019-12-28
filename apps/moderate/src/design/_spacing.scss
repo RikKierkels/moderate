@@ -1,6 +1,0 @@
-$spacing-sizes: (small: 8px, medium: 16px, large: 32px);
-$spacing-multiplier: 1;
-
-@function spacing-size($size) {
-  @return map-get($spacing-sizes, $size) * $spacing-multiplier;
-}

@@ -25,7 +25,7 @@ export class IdeaEntity {
   @Column()
   readonly difficulty: number;
 
-  @ManyToMany(type => TagEntity)
+  @ManyToMany(type => TagEntity, { eager: true })
   @JoinTable()
   readonly tags: TagEntity[];
 

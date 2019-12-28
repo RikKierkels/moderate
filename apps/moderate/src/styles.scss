@@ -5,7 +5,7 @@
 }
 
 body {
-  @include typography($font-size-medium);
+  @include typography(font-size('medium'));
   margin: 0;
 }
 

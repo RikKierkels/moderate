@@ -45,6 +45,9 @@ export class TagEntity {
 
   @Column()
   readonly name: string;
+
+  @Column()
+  readonly color: string;
 }
 
 @Entity({ name: 'message' })

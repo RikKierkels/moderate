@@ -2,12 +2,12 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { IdeaService } from '../idea.service';
 
 @Component({
-  selector: 'mod-idea-list',
-  templateUrl: './idea-list.component.html',
-  styleUrls: ['./idea-list.component.scss'],
+  selector: 'mod-idea-grid',
+  templateUrl: './idea-grid.component.html',
+  styleUrls: ['./idea-grid.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IdeaListComponent implements OnInit {
+export class IdeaGridComponent implements OnInit {
   ideas$ = this.ideaService.getAll();
   constructor(private readonly ideaService: IdeaService) {}
 

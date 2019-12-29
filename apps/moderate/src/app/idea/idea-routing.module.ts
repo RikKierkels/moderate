@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { IdeaListComponent } from './idea-list/idea-list.component';
+import { IdeaGridComponent } from './idea-grid/idea-grid.component';
 import { IdeaCreateComponent } from './idea-create/idea-create.component';
 import { AuthGuard } from '../auth/auth.guard';
 import { IdeaDetailComponent } from './idea-detail/idea-detail.component';
@@ -14,7 +14,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: IdeaListComponent
+        component: IdeaGridComponent
       },
       {
         path: 'create',

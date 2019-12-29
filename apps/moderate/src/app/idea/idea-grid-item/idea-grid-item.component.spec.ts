@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IdeaListComponent } from './idea-list.component';
+import { IdeaGridItemComponent } from './idea-grid-item.component';
 
-describe('IdeaListComponent', () => {
-  let component: IdeaListComponent;
-  let fixture: ComponentFixture<IdeaListComponent>;
+describe('IdeaGridItemComponent', () => {
+  let component: IdeaGridItemComponent;
+  let fixture: ComponentFixture<IdeaGridItemComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [IdeaListComponent]
+      declarations: [IdeaGridItemComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(IdeaListComponent);
+    fixture = TestBed.createComponent(IdeaGridItemComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -3,13 +3,20 @@
 .idea-container {
   display: flex;
   flex-direction: column;
-  padding: spacing-size(medium);
   height: 100%;
+  padding: spacing-size(medium);
+  // TODO: Move colors to scss variables.
   border: 1px solid #d1d5da;
   border-radius: 3px;
   background: white;
-}
 
-.idea-description {
-  flex-grow: 1;
+  .idea-description {
+    flex-grow: 1;
+  }
+
+  .tag-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: spacing-size(small);
+  }
 }

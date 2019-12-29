@@ -9,6 +9,4 @@ import { Idea } from '@moderate/api-interfaces';
 })
 export class IdeaGridItemComponent {
   @Input() idea: Idea;
-
-  constructor() {}
 }

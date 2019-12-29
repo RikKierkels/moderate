@@ -1,4 +1,7 @@
 <article class="idea-container">
   <h3 class="idea-title">{{ idea.title }}</h3>
   <p class="idea-description">{{ idea.description | truncate: 30 }}</p>
+  <div class="tag-wrapper">
+    <mod-tag *ngFor="let tag of idea.tags" [tag]="tag"></mod-tag>
+  </div>
 </article>

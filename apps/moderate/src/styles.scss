@@ -15,8 +15,21 @@ h4,
 h5 {
   margin-top: 0;
   margin-bottom: spacing-size(small);
+  color: #374171;
 }
 
 p {
   margin: 0;
+}
+
+.link {
+  border-bottom: 1px solid transparent;
+  text-decoration: none;
+  color: inherit;
+  transition: border 0.2s ease-out;
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
 }

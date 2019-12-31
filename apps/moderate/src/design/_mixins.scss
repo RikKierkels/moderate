@@ -1,0 +1,8 @@
+@import 'variables';
+
+@mixin card {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  box-shadow: $outset-shadow;
+  background-color: transparent;
+}

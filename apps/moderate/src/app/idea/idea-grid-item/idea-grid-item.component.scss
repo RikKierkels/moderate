@@ -5,10 +5,7 @@
   flex-direction: column;
   height: 100%;
   padding: spacing-size(medium);
-  // TODO: Move colors to scss variables.
-  border: 1px solid #d1d5da;
-  border-radius: 3px;
-  background: white;
+  @include card;
 
   .idea-description {
     flex-grow: 1;
@@ -18,5 +15,13 @@
     display: flex;
     flex-wrap: wrap;
     margin-top: spacing-size(small);
+
+    .tag {
+      // TODO: Remove inset and rework
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 10px;
+      box-shadow: $inset-shadow;
+    }
   }
 }

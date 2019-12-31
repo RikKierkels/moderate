@@ -2,8 +2,8 @@
 
 .idea-grid {
   display: grid;
-  grid-gap: spacing-size(medium);
-  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 50px;
+  grid-template-columns: repeat(2, 1fr);
 
   @include breakpoint-down(small) {
     grid-template-columns: 1fr;

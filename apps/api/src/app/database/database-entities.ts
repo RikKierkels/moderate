@@ -11,8 +11,19 @@ import {
 // Entities need to be located in the same file to avoid circular dependencies due to the interaction
 // between NX (specifically the webpack bundler) and the ManyToOne relationships of the TypeORM.
 
+abstract class AuditableEntity {
+  @Column({ default: () => 'false' })
+  readonly isDeleted: boolean;
+
+  @Column({
+    type: 'timestamp',
+    default: () => 'now()'
+  })
+  readonly createdAt: string;
+}
+
 @Entity({ name: 'idea' })
-export class IdeaEntity {
+export class IdeaEntity extends AuditableEntity {
   @PrimaryGeneratedColumn()
   readonly id: number;
 
@@ -34,8 +45,8 @@ export class IdeaEntity {
   })
   readonly replies: MessageEntity[];
 
-  @Column()
-  readonly authorId: string;
+  @ManyToOne(type => AuthorEntity, author => author.ideas)
+  readonly author: AuthorEntity;
 }
 
 @Entity({ name: 'tag' })
@@ -51,7 +62,7 @@ export class TagEntity {
 }
 
 @Entity({ name: 'message' })
-export class MessageEntity {
+export class MessageEntity extends AuditableEntity {
   @PrimaryGeneratedColumn()
   readonly id: number;
 
@@ -61,6 +72,18 @@ export class MessageEntity {
   @ManyToOne(type => IdeaEntity, idea => idea.replies)
   readonly idea: IdeaEntity;
 
-  @Column()
-  readonly authorId: string;
+  @ManyToOne(type => AuthorEntity, author => author.ideas)
+  readonly author: AuthorEntity;
+}
+
+@Entity({ name: 'author' })
+export class AuthorEntity {
+  @PrimaryGeneratedColumn()
+  readonly id: number;
+
+  @OneToMany(type => IdeaEntity, idea => idea.author)
+  readonly ideas: IdeaEntity[];
+
+  @OneToMany(type => MessageEntity, author => author.author)
+  readonly messages: MessageEntity[];
 }

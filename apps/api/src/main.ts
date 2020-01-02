@@ -18,6 +18,7 @@ async function bootstrap() {
       .setDescription('Idea Repository')
       .setVersion('1.0')
       .addTag('Idea')
+      .addTag('Tag')
       .addBearerAuth()
       .build();
     const document = SwaggerModule.createDocument(app, options);

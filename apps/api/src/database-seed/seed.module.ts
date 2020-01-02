@@ -10,8 +10,18 @@ import {
   TagEntity,
   UserEntity
 } from '../app/database/database-entities';
-import { TAG_SEED_TOKEN, USER_SEED_TOKEN } from './seed.constants';
+import {
+  SEED_CONFIG_TOKEN,
+  TAG_SEED_TOKEN,
+  USER_SEED_TOKEN
+} from './seed.constants';
 import { tagsToSeed, usersToSeed } from './seed-data';
+import { SeedConfig } from './seed-config.interface';
+
+const seedConfig: SeedConfig = {
+  ideaPerUserCount: 3,
+  messagesPerIdeaCount: 5
+};
 
 @Module({
   imports: [
@@ -27,6 +37,10 @@ import { tagsToSeed, usersToSeed } from './seed-data';
     {
       provide: USER_SEED_TOKEN,
       useValue: usersToSeed
+    },
+    {
+      provide: SEED_CONFIG_TOKEN,
+      useValue: seedConfig
     },
     SeedService,
     Logger

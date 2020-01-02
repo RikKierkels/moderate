@@ -5,6 +5,7 @@ import {
   ManyToMany,
   ManyToOne,
   OneToMany,
+  PrimaryColumn,
   PrimaryGeneratedColumn
 } from 'typeorm';
 
@@ -24,7 +25,7 @@ abstract class AuditableEntity {
 
 @Entity({ name: 'user' })
 export class UserEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   readonly id: string;
 
   @OneToMany(type => IdeaEntity, idea => idea.author)

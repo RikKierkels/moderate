@@ -1,4 +1,4 @@
-import { Message, Tag } from '@moderate/api-interfaces';
+import { Message, Tag, User } from '@moderate/api-interfaces';
 
 export interface Idea {
   readonly id: number;
@@ -6,12 +6,12 @@ export interface Idea {
   readonly description: string;
   readonly difficulty: number;
   readonly tags: Tag[];
-  readonly authorId: string;
+  readonly author: User;
 }
 
 export interface IdeaWithMessages extends Idea {
   readonly replies: Message[];
 }
 
-export type IdeaCreate = Omit<Idea, 'id' | 'authorId'>;
-export type IdeaUpdate = Omit<Idea, 'authorId'>;
+export type IdeaCreate = Omit<Idea, 'id' | 'author'>;
+export type IdeaUpdate = Omit<Idea, 'author'>;

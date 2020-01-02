@@ -1,5 +1,7 @@
+import { User } from '@moderate/api-interfaces';
+
 export interface Message {
   readonly id: number;
   readonly text: string;
-  readonly authorId: string;
+  readonly author: User;
 }

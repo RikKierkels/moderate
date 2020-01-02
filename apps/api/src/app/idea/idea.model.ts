@@ -16,6 +16,7 @@ import {
 } from '@moderate/api-interfaces';
 import { TagDto } from '../tag/tag.model';
 import { MessageDto } from '../message/message.model';
+import { UserDto } from '../user/user.model';
 
 export class IdeaDto implements Idea {
   @ApiProperty()
@@ -34,7 +35,7 @@ export class IdeaDto implements Idea {
   readonly tags: TagDto[];
 
   @ApiProperty()
-  readonly authorId: string;
+  readonly author: UserDto;
 }
 
 export class IdeaWithMessagesDto extends IdeaDto implements IdeaWithMessages {

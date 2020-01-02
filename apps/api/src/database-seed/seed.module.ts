@@ -5,6 +5,7 @@ import configuration from '../config/configuration';
 import { SeedService } from './seed.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {
+  UserEntity,
   IdeaEntity,
   MessageEntity,
   TagEntity
@@ -14,7 +15,7 @@ import {
   imports: [
     ConfigModule.forRoot({ load: [configuration] }),
     DatabaseModule,
-    TypeOrmModule.forFeature([IdeaEntity, TagEntity, MessageEntity])
+    TypeOrmModule.forFeature([IdeaEntity, TagEntity, MessageEntity, UserEntity])
   ],
   providers: [SeedService, Logger]
 })

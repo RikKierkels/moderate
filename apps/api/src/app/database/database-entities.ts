@@ -22,6 +22,18 @@ abstract class AuditableEntity {
   readonly createdAt: string;
 }
 
+@Entity({ name: 'user' })
+export class UserEntity {
+  @PrimaryGeneratedColumn()
+  readonly id: number;
+
+  @OneToMany(type => IdeaEntity, idea => idea.author)
+  readonly ideas: IdeaEntity[];
+
+  @OneToMany(type => MessageEntity, message => message.author)
+  readonly messages: MessageEntity[];
+}
+
 @Entity({ name: 'idea' })
 export class IdeaEntity extends AuditableEntity {
   @PrimaryGeneratedColumn()
@@ -45,8 +57,8 @@ export class IdeaEntity extends AuditableEntity {
   })
   readonly replies: MessageEntity[];
 
-  @ManyToOne(type => AuthorEntity, author => author.ideas)
-  readonly author: AuthorEntity;
+  @ManyToOne(type => UserEntity, user => user.ideas)
+  readonly author: UserEntity;
 }
 
 @Entity({ name: 'tag' })
@@ -72,18 +84,6 @@ export class MessageEntity extends AuditableEntity {
   @ManyToOne(type => IdeaEntity, idea => idea.replies)
   readonly idea: IdeaEntity;
 
-  @ManyToOne(type => AuthorEntity, author => author.ideas)
-  readonly author: AuthorEntity;
-}
-
-@Entity({ name: 'author' })
-export class AuthorEntity {
-  @PrimaryGeneratedColumn()
-  readonly id: number;
-
-  @OneToMany(type => IdeaEntity, idea => idea.author)
-  readonly ideas: IdeaEntity[];
-
-  @OneToMany(type => MessageEntity, author => author.author)
-  readonly messages: MessageEntity[];
+  @ManyToOne(type => UserEntity, user => user.ideas)
+  readonly author: UserEntity;
 }

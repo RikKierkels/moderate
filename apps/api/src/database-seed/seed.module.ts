@@ -20,7 +20,7 @@ import { SeedConfig } from './seed-config.interface';
 
 const seedConfig: SeedConfig = {
   ideaPerUserCount: 3,
-  messagesPerIdeaCount: 5
+  messagePerIdeaCount: 5
 };
 
 @Module({

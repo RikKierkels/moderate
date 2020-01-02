@@ -75,7 +75,7 @@ export class SeedService {
   private makeMessagesForIdea(users: UserEntity[]): Partial<MessageEntity>[] {
     const messages = [];
 
-    for (let i = 0; i < this.config.messagesPerIdeaCount; i++) {
+    for (let i = 0; i < this.config.messagePerIdeaCount; i++) {
       const author = SeedService.randomItem(users);
       messages.push(this.makeMessage(author));
     }

@@ -25,7 +25,7 @@ abstract class AuditableEntity {
 @Entity({ name: 'user' })
 export class UserEntity {
   @PrimaryGeneratedColumn()
-  readonly id: number;
+  readonly id: string;
 
   @OneToMany(type => IdeaEntity, idea => idea.author)
   readonly ideas: IdeaEntity[];

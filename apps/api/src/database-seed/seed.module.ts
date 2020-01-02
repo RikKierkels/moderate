@@ -5,11 +5,13 @@ import configuration from '../config/configuration';
 import { SeedService } from './seed.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {
-  UserEntity,
   IdeaEntity,
   MessageEntity,
-  TagEntity
+  TagEntity,
+  UserEntity
 } from '../app/database/database-entities';
+import { TAG_SEED_TOKEN, USER_SEED_TOKEN } from './seed.constants';
+import { tagsToSeed, usersToSeed } from './seed-data';
 
 @Module({
   imports: [
@@ -17,6 +19,17 @@ import {
     DatabaseModule,
     TypeOrmModule.forFeature([IdeaEntity, TagEntity, MessageEntity, UserEntity])
   ],
-  providers: [SeedService, Logger]
+  providers: [
+    {
+      provide: TAG_SEED_TOKEN,
+      useValue: tagsToSeed
+    },
+    {
+      provide: USER_SEED_TOKEN,
+      useValue: usersToSeed
+    },
+    SeedService,
+    Logger
+  ]
 })
 export class SeedModule {}

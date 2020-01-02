@@ -10,15 +10,15 @@ import { IdeaCreateDto, IdeaDto, IdeaUpdateDto } from './idea.model';
 export class IdeaService {
   constructor(
     @InjectRepository(IdeaEntity)
-    private readonly ideaRepository: Repository<IdeaEntity>
+    private readonly repository: Repository<IdeaEntity>
   ) {}
 
   findAll(): Observable<IdeaDto[]> {
-    return from(this.ideaRepository.find());
+    return from(this.repository.find());
   }
 
   find(id: number): Observable<IdeaEntity> {
-    return from(this.ideaRepository.findOneOrFail(id)).pipe(
+    return from(this.repository.findOneOrFail(id)).pipe(
       catchError(() => {
         throw new NotFoundException(`Cannot find idea with id: ${id}.`);
       })
@@ -26,11 +26,11 @@ export class IdeaService {
   }
 
   create(idea: IdeaCreateDto): Observable<IdeaDto> {
-    return from(this.ideaRepository.save(idea));
+    return from(this.repository.save(idea));
   }
 
   update(updateIdea: IdeaUpdateDto): void {
-    from(this.ideaRepository.update(updateIdea.id, updateIdea)).pipe(
+    from(this.repository.update(updateIdea.id, updateIdea)).pipe(
       catchError(() => {
         // TODO: Split into multiple exception types
         throw new NotFoundException(
@@ -41,6 +41,6 @@ export class IdeaService {
   }
 
   delete(idea: IdeaEntity): void {
-    this.ideaRepository.remove(idea);
+    this.repository.remove(idea);
   }
 }

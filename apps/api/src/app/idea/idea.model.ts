@@ -34,6 +34,9 @@ abstract class IdeaBaseDto implements IdeaBase {
   readonly difficulty: number;
 
   @ApiProperty()
+  readonly createdAt: string;
+
+  @ApiProperty()
   readonly tags: TagDto[];
 
   @ApiProperty()
@@ -45,6 +48,7 @@ abstract class IdeaBaseDto implements IdeaBase {
       title: entity.title,
       description: entity.description,
       difficulty: entity.difficulty,
+      createdAt: entity.createdAt,
       tags: (entity.tags || []).map(tag => TagDto.fromEntity(tag)),
       author: UserDto.fromEntity(entity.author)
     };

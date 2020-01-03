@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Message } from '@moderate/api-interfaces';
 import { UserDto } from '../user/user.model';
 import { MessageEntity } from '../database/database-entities';
+import { TEXT_MESSAGE_DELETED } from '../shared/constants';
 
 export class MessageDto implements Message {
   @ApiProperty()
@@ -11,12 +12,16 @@ export class MessageDto implements Message {
   readonly text: string;
 
   @ApiProperty()
+  readonly createdAt: string;
+
+  @ApiProperty()
   readonly author: UserDto;
 
   static fromEntity(entity: MessageEntity): MessageDto {
     return {
       id: entity.id,
-      text: entity.text,
+      text: entity.isDeleted ? TEXT_MESSAGE_DELETED : entity.text,
+      createdAt: entity.createdAt,
       author: UserDto.fromEntity(entity.author)
     };
   }

@@ -5,6 +5,7 @@ export interface IdeaBase {
   readonly title: string;
   readonly description: string;
   readonly difficulty: number;
+  readonly createdAt: string;
   readonly tags: Tag[];
   readonly author: User;
 }

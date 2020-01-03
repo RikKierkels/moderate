@@ -54,11 +54,12 @@ export class IdeaEntity extends AuditableEntity {
   readonly tags: TagEntity[];
 
   @OneToMany(type => MessageEntity, message => message.idea, {
+    eager: true,
     onDelete: 'CASCADE'
   })
   readonly messages: MessageEntity[];
 
-  @ManyToOne(type => UserEntity, user => user.ideas)
+  @ManyToOne(type => UserEntity, user => user.ideas, { eager: true })
   readonly author: UserEntity;
 }
 
@@ -85,6 +86,6 @@ export class MessageEntity extends AuditableEntity {
   @ManyToOne(type => IdeaEntity, idea => idea.messages)
   readonly idea: IdeaEntity;
 
-  @ManyToOne(type => UserEntity, user => user.ideas)
+  @ManyToOne(type => UserEntity, user => user.ideas, { eager: true })
   readonly author: UserEntity;
 }

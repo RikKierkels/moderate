@@ -59,7 +59,7 @@ export class IdeaService {
   private user$(userId: string): Observable<UserEntity> {
     return from(this.userRepository.findOne(userId)).pipe(
       switchMap(user =>
-        user ? from(this.userRepository.save({ id: userId })) : of(user)
+        user ? of(user) : from(this.userRepository.save({ id: userId }))
       )
     );
   }

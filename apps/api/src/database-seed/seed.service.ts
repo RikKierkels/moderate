@@ -37,10 +37,10 @@ export class SeedService {
     return items[Math.floor(Math.random() * items.length)];
   }
 
-  static randomNumberBetween(min: number, max: number): number {
+  static randomNumberBetweenInclusive(min: number, max: number): number {
     min = Math.ceil(min);
     max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min;
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
   async seed(): Promise<void> {
@@ -98,7 +98,7 @@ export class SeedService {
     return {
       title: faker.hacker.phrase(),
       description: faker.lorem.paragraph(),
-      difficulty: SeedService.randomNumberBetween(1, 5),
+      difficulty: SeedService.randomNumberBetweenInclusive(1, 5),
       author: user,
       replies: messages,
       tags: [SeedService.randomItem(tags)]

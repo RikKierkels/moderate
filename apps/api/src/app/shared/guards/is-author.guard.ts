@@ -8,10 +8,10 @@ export class IsAuthorGuard implements CanActivate {
   constructor(private readonly ideaService: IdeaService) {}
 
   canActivate(context: ExecutionContext): Observable<boolean> {
-    const { user, params } = context.switchToHttp().getRequest();
+    const { user, params, body } = context.switchToHttp().getRequest();
 
     return this.ideaService
-      .find$(params.id)
+      .find$(params.id || body.id)
       .pipe(map(idea => idea.author.id === user.sub));
   }
 }

@@ -20,7 +20,6 @@ import { Auth } from '../shared/decorators/auth.decorator';
 import { IsAuthorGuard } from '../shared/guards/is-author.guard';
 import { UserId } from '../shared/decorators/user.decorator';
 import { map } from 'rxjs/operators';
-import { IdeaEntity } from '../database/database-entities';
 
 @ApiTags('Idea')
 @Controller('ideas')
@@ -56,7 +55,7 @@ export class IdeaController {
       .pipe(map(idea => IdeaDto.fromEntity(idea)));
   }
 
-  @Auth()
+  @Auth(IsAuthorGuard)
   @Put()
   update(@Body() ideaUpdated: IdeaUpdateDto): Observable<IdeaDto> {
     return this.ideaService

@@ -98,8 +98,8 @@ export class IdeaCreateDto implements IdeaCreate {
   readonly difficulty: number;
 
   @ApiProperty()
-  @ArrayNotEmpty({ each: true })
-  @ArrayUnique({ each: true })
+  @ArrayNotEmpty()
+  @ArrayUnique()
   readonly tags: number[];
 }
 

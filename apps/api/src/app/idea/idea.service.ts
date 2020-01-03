@@ -1,9 +1,13 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { forkJoin, from, Observable } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
-import { IdeaEntity } from '../database/database-entities';
+import { catchError, switchMap, tap } from 'rxjs/operators';
+import { IdeaEntity, TagEntity } from '../database/database-entities';
 import { IdeaCreateDto, IdeaUpdateDto } from './idea.model';
 import { TagService } from '../tag/tag.service';
 import { UserService } from '../user/user.service';
@@ -44,7 +48,7 @@ export class IdeaService {
           tags,
           author: user
         });
-        return from(this.ideaRepository.save(entity));
+        return this.ideaRepository.save(entity);
       })
     );
   }
@@ -53,7 +57,7 @@ export class IdeaService {
     return this.tagService.findByIds$(ideaUpdated.tags).pipe(
       switchMap(tags => {
         const entity = this.ideaRepository.create({ ...ideaUpdated, tags });
-        return from(this.ideaRepository.save(entity));
+        return this.ideaRepository.save(entity);
       }),
       switchMap(entity => this.ideaRepository.findOne(entity.id))
     );

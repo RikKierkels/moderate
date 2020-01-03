@@ -1,15 +1,17 @@
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 
-interface Configuration {
+export interface Configuration {
   port: number;
   isProduction: boolean;
   auth: AuthConfiguration;
   database: PostgresConnectionOptions;
 }
 
-interface AuthConfiguration {
+export interface AuthConfiguration {
   audience: string;
   domain: string;
+  clientId: string;
+  clientSecret: string;
 }
 
 export default (): Configuration => ({
@@ -17,7 +19,9 @@ export default (): Configuration => ({
   isProduction: process.env.PRODUCTION === 'true',
   auth: {
     audience: process.env.AUTH0_AUDIENCE,
-    domain: process.env.AUTH0_DOMAIN
+    domain: process.env.AUTH0_DOMAIN,
+    clientId: process.env.AUTH0_CLIENT_ID,
+    clientSecret: process.env.AUTH0_CLIENT_SECRET
   },
   database: {
     type: 'postgres',

@@ -14,7 +14,7 @@ export class TagController {
   @Get()
   public findAll(): Observable<TagDto[]> {
     return this.tagService
-      .findAll()
+      .findAll$()
       .pipe(map(tags => tags.map(tag => TagDto.fromEntity(tag))));
   }
 }

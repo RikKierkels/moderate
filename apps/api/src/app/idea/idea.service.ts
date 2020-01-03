@@ -1,14 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { forkJoin, from, Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
-import {
-  IdeaEntity,
-  TagEntity,
-  UserEntity
-} from '../database/database-entities';
+import { forkJoin, from, Observable } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
+import { IdeaEntity } from '../database/database-entities';
 import { IdeaCreateDto, IdeaUpdateDto } from './idea.model';
+import { TagService } from '../tag/tag.service';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class IdeaService {
@@ -17,10 +15,8 @@ export class IdeaService {
   constructor(
     @InjectRepository(IdeaEntity)
     private readonly ideaRepository: Repository<IdeaEntity>,
-    @InjectRepository(TagEntity)
-    private readonly tagRepository: Repository<TagEntity>,
-    @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>
+    private readonly tagService: TagService,
+    private readonly userService: UserService
   ) {}
 
   findAll$(): Observable<IdeaEntity[]> {
@@ -38,7 +34,10 @@ export class IdeaService {
   }
 
   create$(ideaToCreate: IdeaCreateDto, userId: string): Observable<IdeaEntity> {
-    return forkJoin([this.user$(userId), this.tags$(ideaToCreate.tags)]).pipe(
+    return forkJoin([
+      this.userService.findOrCreate$(userId),
+      this.tagService.findByIds$(ideaToCreate.tags)
+    ]).pipe(
       switchMap(([user, tags]) => {
         const entity = this.ideaRepository.create({
           ...ideaToCreate,
@@ -50,22 +49,8 @@ export class IdeaService {
     );
   }
 
-  // TODO: Move to tag service
-  private tags$(tagIds: number[]): Observable<TagEntity[]> {
-    return from(this.tagRepository.findByIds(tagIds));
-  }
-
-  // TODO: Move to user service
-  private user$(userId: string): Observable<UserEntity> {
-    return from(this.userRepository.findOne(userId)).pipe(
-      switchMap(user =>
-        user ? of(user) : from(this.userRepository.save({ id: userId }))
-      )
-    );
-  }
-
   update$(ideaUpdated: IdeaUpdateDto): Observable<IdeaEntity> {
-    return this.tags$(ideaUpdated.tags).pipe(
+    return this.tagService.findByIds$(ideaUpdated.tags).pipe(
       switchMap(tags => {
         const entity = this.ideaRepository.create({ ...ideaUpdated, tags });
         return from(this.ideaRepository.save(entity));

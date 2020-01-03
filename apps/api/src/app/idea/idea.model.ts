@@ -10,6 +10,7 @@ import {
 } from 'class-validator';
 import {
   Idea,
+  IdeaBase,
   IdeaCreate,
   IdeaUpdate,
   IdeaWithMessages
@@ -18,7 +19,7 @@ import { TagDto } from '../tag/tag.model';
 import { MessageDto } from '../message/message.model';
 import { UserDto } from '../user/user.model';
 
-export class IdeaDto implements Idea {
+abstract class IdeaBaseDto implements IdeaBase {
   @ApiProperty()
   readonly id: number;
 
@@ -38,7 +39,13 @@ export class IdeaDto implements Idea {
   readonly author: UserDto;
 }
 
-export class IdeaWithMessagesDto extends IdeaDto implements IdeaWithMessages {
+export class IdeaDto extends IdeaBaseDto implements Idea {
+  @ApiProperty()
+  readonly messageCount: number;
+}
+
+export class IdeaWithMessagesDto extends IdeaBaseDto
+  implements IdeaWithMessages {
   @ApiProperty()
   readonly replies: MessageDto[];
 }

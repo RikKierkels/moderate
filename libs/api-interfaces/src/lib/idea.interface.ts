@@ -1,6 +1,6 @@
 import { Message, Tag, User } from '@moderate/api-interfaces';
 
-export interface Idea {
+export interface IdeaBase {
   readonly id: number;
   readonly title: string;
   readonly description: string;
@@ -9,9 +9,13 @@ export interface Idea {
   readonly author: User;
 }
 
-export interface IdeaWithMessages extends Idea {
+export interface Idea extends IdeaBase {
+  readonly messageCount: number;
+}
+
+export interface IdeaWithMessages extends IdeaBase {
   readonly replies: Message[];
 }
 
-export type IdeaCreate = Omit<Idea, 'id' | 'author'>;
-export type IdeaUpdate = Omit<Idea, 'author'>;
+export type IdeaCreate = Omit<IdeaBase, 'id' | 'author'>;
+export type IdeaUpdate = Omit<IdeaBase, 'author'>;

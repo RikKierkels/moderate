@@ -1,13 +1,9 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { forkJoin, from, Observable } from 'rxjs';
-import { catchError, switchMap, tap } from 'rxjs/operators';
-import { IdeaEntity, TagEntity } from '../database/database-entities';
+import { catchError, switchMap } from 'rxjs/operators';
+import { IdeaEntity } from '../database/database-entities';
 import { IdeaCreateDto, IdeaUpdateDto } from './idea.model';
 import { TagService } from '../tag/tag.service';
 import { UserService } from '../user/user.service';

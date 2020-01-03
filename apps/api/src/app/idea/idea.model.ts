@@ -18,6 +18,7 @@ import {
 import { TagDto } from '../tag/tag.model';
 import { MessageDto } from '../message/message.model';
 import { UserDto } from '../user/user.model';
+import { IdeaEntity } from '../database/database-entities';
 
 abstract class IdeaBaseDto implements IdeaBase {
   @ApiProperty()
@@ -37,17 +38,42 @@ abstract class IdeaBaseDto implements IdeaBase {
 
   @ApiProperty()
   readonly author: UserDto;
+
+  static fromEntityToBase(entity: IdeaEntity): IdeaBaseDto {
+    return {
+      id: entity.id,
+      title: entity.title,
+      description: entity.description,
+      difficulty: entity.difficulty,
+      tags: (entity.tags || []).map(tag => TagDto.fromEntity(tag)),
+      author: UserDto.fromEntity(entity.author)
+    };
+  }
 }
 
 export class IdeaDto extends IdeaBaseDto implements Idea {
   @ApiProperty()
   readonly messageCount: number;
+
+  static fromEntity(entity: IdeaEntity): IdeaDto {
+    const ideaBase = this.fromEntityToBase(entity);
+    const messageCount = (entity.messages && entity.messages.length) || 0;
+    return { ...ideaBase, messageCount };
+  }
 }
 
 export class IdeaWithMessagesDto extends IdeaBaseDto
   implements IdeaWithMessages {
   @ApiProperty()
-  readonly replies: MessageDto[];
+  readonly messages: MessageDto[];
+
+  static fromEntity(entity: IdeaEntity): IdeaWithMessagesDto {
+    const ideaBase = this.fromEntityToBase(entity);
+    const messages = (entity.messages || []).map(message =>
+      MessageDto.fromEntity(message)
+    );
+    return { ...ideaBase, messages };
+  }
 }
 
 export class IdeaCreateDto implements IdeaCreate {

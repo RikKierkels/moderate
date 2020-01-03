@@ -56,7 +56,7 @@ export class IdeaEntity extends AuditableEntity {
   @OneToMany(type => MessageEntity, message => message.idea, {
     onDelete: 'CASCADE'
   })
-  readonly replies: MessageEntity[];
+  readonly messages: MessageEntity[];
 
   @ManyToOne(type => UserEntity, user => user.ideas)
   readonly author: UserEntity;
@@ -82,7 +82,7 @@ export class MessageEntity extends AuditableEntity {
   @Column()
   readonly text: string;
 
-  @ManyToOne(type => IdeaEntity, idea => idea.replies)
+  @ManyToOne(type => IdeaEntity, idea => idea.messages)
   readonly idea: IdeaEntity;
 
   @ManyToOne(type => UserEntity, user => user.ideas)

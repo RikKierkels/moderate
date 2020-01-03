@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Tag, TagCreate } from '@moderate/api-interfaces';
+import { TagEntity } from '../database/database-entities';
 
 export class TagDto implements Tag {
   @ApiProperty()
@@ -10,6 +11,14 @@ export class TagDto implements Tag {
 
   @ApiProperty()
   readonly color: string;
+
+  static fromEntity(entity: TagEntity): TagDto {
+    return {
+      id: entity.id,
+      name: entity.name,
+      color: entity.color
+    };
+  }
 }
 
 export class TagCreateDto implements TagCreate {

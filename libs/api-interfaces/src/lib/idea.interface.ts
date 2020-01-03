@@ -14,7 +14,7 @@ export interface Idea extends IdeaBase {
 }
 
 export interface IdeaWithMessages extends IdeaBase {
-  readonly replies: Message[];
+  readonly messages: Message[];
 }
 
 export type IdeaCreate = Omit<IdeaBase, 'id' | 'author'>;

@@ -100,7 +100,7 @@ export class SeedService {
       description: faker.lorem.paragraph(),
       difficulty: SeedService.randomNumberBetweenInclusive(1, 5),
       author: user,
-      replies: messages,
+      messages: messages,
       tags: [SeedService.randomItem(tags)]
     };
   }

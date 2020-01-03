@@ -100,7 +100,7 @@ export class IdeaCreateDto implements IdeaCreate {
   @ApiProperty()
   @ArrayNotEmpty({ each: true })
   @ArrayUnique({ each: true })
-  readonly tags: TagDto[];
+  readonly tags: number[];
 }
 
 export class IdeaUpdateDto extends IdeaCreateDto implements IdeaUpdate {

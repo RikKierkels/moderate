@@ -18,5 +18,9 @@ export interface IdeaWithMessages extends IdeaBase {
   readonly messages: Message[];
 }
 
-export type IdeaCreate = Omit<IdeaBase, 'id' | 'author' | 'createdAt'>;
-export type IdeaUpdate = Omit<IdeaBase, 'author' | 'createdAt'>;
+export interface IdeaCreate
+  extends Pick<IdeaBase, 'title' | 'description' | 'difficulty'> {
+  readonly tags: number[];
+}
+
+export type IdeaUpdate = IdeaCreate & Pick<IdeaBase, 'id'>;

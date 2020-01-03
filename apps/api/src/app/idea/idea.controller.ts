@@ -10,8 +10,6 @@ import {
 import { IdeaService } from './idea.service';
 import { Observable } from 'rxjs';
 import { ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { IdeaByIdPipe } from '../shared/pipes/idea-by-id.pipe';
-import { IdeaEntity } from '../database/database-entities';
 import {
   IdeaCreateDto,
   IdeaDto,
@@ -19,31 +17,42 @@ import {
   IdeaWithMessagesDto
 } from './idea.model';
 import { Auth } from '../shared/decorators/auth.decorator';
+import { IsAuthorGuard } from '../shared/guards/is-author.guard';
+import { UserId } from '../shared/decorators/user.decorator';
+import { map } from 'rxjs/operators';
 
 @ApiTags('Idea')
 @Controller('ideas')
 export class IdeaController {
   constructor(private readonly ideaService: IdeaService) {}
 
-  @ApiResponse({ type: [IdeaDto] })
+  @ApiResponse({ type: IdeaDto })
   @Get()
   public findAll(): Observable<IdeaDto[]> {
-    return this.ideaService.findAll();
+    return this.ideaService
+      .findAll$()
+      .pipe(map(ideas => ideas.map(idea => IdeaDto.fromEntity(idea))));
   }
 
   @ApiResponse({ type: IdeaWithMessagesDto })
   @ApiParam({ name: 'id', type: Number })
   @Get(':id')
-  find(@Param('id', IdeaByIdPipe) idea: IdeaEntity): IdeaWithMessagesDto {
-    // TODO: Map
-    return idea;
+  find(@Param('id') id: number): Observable<IdeaWithMessagesDto> {
+    return this.ideaService
+      .find$(id)
+      .pipe(map(idea => IdeaWithMessagesDto.fromEntity(idea)));
   }
 
   @ApiResponse({ type: IdeaDto })
   @Auth()
   @Post()
-  create(@Body() idea: IdeaCreateDto): Observable<IdeaDto> {
-    return this.ideaService.create(idea);
+  create(
+    @Body() ideaToCreate: IdeaCreateDto,
+    @UserId() userId: string
+  ): Observable<IdeaDto> {
+    return this.ideaService
+      .create$(ideaToCreate, userId)
+      .pipe(map(idea => IdeaDto.fromEntity(idea)));
   }
 
   @Auth()
@@ -53,9 +62,9 @@ export class IdeaController {
   }
 
   @ApiParam({ name: 'id', type: Number })
-  @Auth()
+  @Auth(IsAuthorGuard)
   @Delete(':id')
-  delete(@Param('id', IdeaByIdPipe) idea: IdeaEntity): void {
-    this.ideaService.delete(idea);
+  delete(@Param('id') id: number): void {
+    this.ideaService.delete(id);
   }
 }

@@ -4,6 +4,7 @@ import { TagDto } from './tag.model';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TagEntity } from '../database/database-entities';
 import { Repository } from 'typeorm';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class TagService {
@@ -12,7 +13,7 @@ export class TagService {
     private readonly repository: Repository<TagEntity>
   ) {}
 
-  findAll(): Observable<TagDto[]> {
+  findAll(): Observable<TagEntity[]> {
     return from(this.repository.find());
   }
 }

@@ -11,7 +11,7 @@ export class IsAuthorGuard implements CanActivate {
     const { user, params } = context.switchToHttp().getRequest();
 
     return this.ideaService
-      .find(params.id)
+      .find$(params.id)
       .pipe(map(idea => idea.id === user.sub));
   }
 }

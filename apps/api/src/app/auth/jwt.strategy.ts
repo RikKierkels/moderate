@@ -17,7 +17,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       audience: config.get('auth.audience'),
-      issuer: `${config.get('auth.domain')}/`,
+      issuer: `https://${config.get('auth.domain')}/`,
       algorithms: ['RS256']
     });
   }

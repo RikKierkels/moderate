@@ -45,18 +45,17 @@ export class IdeaService {
           author: user
         });
       }),
-      switchMap(idea => {
-        return this.ideaRepository.save(idea);
+      switchMap(ideaEntity => {
+        return this.ideaRepository.save(ideaEntity);
       })
     );
   }
 
-  // TODO: Rename
   update$(ideaToUpdate: IdeaUpdateDto): Observable<IdeaEntity> {
     return this.tagService.findByIds$(ideaToUpdate.tags).pipe(
       map(tags => this.ideaRepository.create({ ...ideaToUpdate, tags })),
-      switchMap(idea => this.ideaRepository.save(idea)),
-      switchMap(idea => this.ideaRepository.findOne(idea.id))
+      switchMap(ideaEntity => this.ideaRepository.save(ideaEntity)),
+      switchMap(ideaEntity => this.ideaRepository.findOne(ideaEntity.id))
     );
   }
 

@@ -57,9 +57,9 @@ export class IdeaController {
 
   @Auth(IsAuthorGuard)
   @Put()
-  update(@Body() ideaUpdated: IdeaUpdateDto): Observable<IdeaDto> {
+  update(@Body() ideaToUpdate: IdeaUpdateDto): Observable<IdeaDto> {
     return this.ideaService
-      .update$(ideaUpdated)
+      .update$(ideaToUpdate)
       .pipe(map(idea => IdeaDto.fromEntity(idea)));
   }
 

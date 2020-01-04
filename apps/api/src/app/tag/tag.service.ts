@@ -19,7 +19,7 @@ export class TagService {
   findByIds$(ids: number[]): Observable<TagEntity[]> {
     return from(this.repository.findByIds(ids)).pipe(
       map(tags => {
-        if (tags.length === ids.length) {
+        if (tags.length !== ids.length) {
           throw new NotFoundException(
             `One or more tags with Ids: ${ids.join(', ')} could not be found.`
           );

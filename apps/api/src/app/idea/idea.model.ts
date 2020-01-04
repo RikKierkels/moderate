@@ -17,7 +17,7 @@ import {
 } from '@moderate/api-interfaces';
 import { TagDto } from '../tag/tag.model';
 import { MessageDto } from '../message/message.model';
-import { UserDto, UserWithProfileDto } from '../user/user.model';
+import { UserDto } from '../user/user.model';
 import { IdeaEntity } from '../database/database-entities';
 
 abstract class IdeaBaseDto implements IdeaBase {
@@ -39,6 +39,9 @@ abstract class IdeaBaseDto implements IdeaBase {
   @ApiProperty()
   readonly tags: TagDto[];
 
+  @ApiProperty()
+  readonly author: UserDto;
+
   static fromEntityToBase(entity: IdeaEntity): IdeaBaseDto {
     return {
       id: entity.id,
@@ -46,7 +49,8 @@ abstract class IdeaBaseDto implements IdeaBase {
       description: entity.description,
       difficulty: entity.difficulty,
       createdAt: entity.createdAt,
-      tags: (entity.tags || []).map(tag => TagDto.fromEntity(tag))
+      tags: (entity.tags || []).map(tag => TagDto.fromEntity(tag)),
+      author: UserDto.fromEntity(entity.author)
     };
   }
 }
@@ -55,16 +59,12 @@ export class IdeaDto extends IdeaBaseDto implements Idea {
   @ApiProperty()
   readonly messageCount: number;
 
-  @ApiProperty()
-  readonly author: UserDto;
-
   static fromEntity(entity: IdeaEntity): IdeaDto {
     const ideaBase = this.fromEntityToBase(entity);
     const messageCount = (entity.messages && entity.messages.length) || 0;
     return {
       ...ideaBase,
-      messageCount,
-      author: UserDto.fromEntity(entity.author)
+      messageCount
     };
   }
 }
@@ -74,18 +74,12 @@ export class IdeaWithMessagesDto extends IdeaBaseDto
   @ApiProperty()
   readonly messages: MessageDto[];
 
-  @ApiProperty()
-  readonly author: UserWithProfileDto;
-
-  static fromEntity(
-    entity: IdeaEntity,
-    author: UserWithProfileDto
-  ): IdeaWithMessagesDto {
+  static fromEntity(entity: IdeaEntity): IdeaWithMessagesDto {
     const ideaBase = this.fromEntityToBase(entity);
     const messages = (entity.messages || []).map(message =>
       MessageDto.fromEntity(message)
     );
-    return { ...ideaBase, messages, author };
+    return { ...ideaBase, messages };
   }
 }
 

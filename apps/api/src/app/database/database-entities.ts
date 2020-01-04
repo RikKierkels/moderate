@@ -28,6 +28,12 @@ export class UserEntity {
   @PrimaryColumn()
   readonly id: string;
 
+  @Column()
+  readonly username: string;
+
+  @Column()
+  readonly picture: string;
+
   @OneToMany(type => IdeaEntity, idea => idea.author)
   readonly ideas: IdeaEntity[];
 

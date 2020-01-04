@@ -1,4 +1,4 @@
-import { Message, Tag, User, UserWithProfile } from '@moderate/api-interfaces';
+import { Message, Tag, User } from '@moderate/api-interfaces';
 
 export interface IdeaBase {
   readonly id: number;
@@ -7,15 +7,14 @@ export interface IdeaBase {
   readonly difficulty: number;
   readonly createdAt: string;
   readonly tags: Tag[];
+  readonly author: User;
 }
 
 export interface Idea extends IdeaBase {
-  readonly author: User;
   readonly messageCount: number;
 }
 
 export interface IdeaWithMessages extends IdeaBase {
-  readonly author: UserWithProfile;
   readonly messages: Message[];
 }
 

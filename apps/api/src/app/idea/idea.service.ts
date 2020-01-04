@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { forkJoin, from, Observable } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { IdeaEntity } from '../database/database-entities';
 import { IdeaCreateDto, IdeaUpdateDto } from './idea.model';
 import { TagService } from '../tag/tag.service';
@@ -38,24 +38,25 @@ export class IdeaService {
       this.userService.findOrCreate$(userId),
       this.tagService.findByIds$(ideaToCreate.tags)
     ]).pipe(
-      switchMap(([user, tags]) => {
-        const entity = this.ideaRepository.create({
+      map(([user, tags]) => {
+        return this.ideaRepository.create({
           ...ideaToCreate,
           tags,
           author: user
         });
-        return this.ideaRepository.save(entity);
+      }),
+      switchMap(idea => {
+        return this.ideaRepository.save(idea);
       })
     );
   }
 
-  update$(ideaUpdated: IdeaUpdateDto): Observable<IdeaEntity> {
-    return this.tagService.findByIds$(ideaUpdated.tags).pipe(
-      switchMap(tags => {
-        const entity = this.ideaRepository.create({ ...ideaUpdated, tags });
-        return this.ideaRepository.save(entity);
-      }),
-      switchMap(entity => this.ideaRepository.findOne(entity.id))
+  // TODO: Rename
+  update$(ideaToUpdate: IdeaUpdateDto): Observable<IdeaEntity> {
+    return this.tagService.findByIds$(ideaToUpdate.tags).pipe(
+      map(tags => this.ideaRepository.create({ ...ideaToUpdate, tags })),
+      switchMap(idea => this.ideaRepository.save(idea)),
+      switchMap(idea => this.ideaRepository.findOne(idea.id))
     );
   }
 

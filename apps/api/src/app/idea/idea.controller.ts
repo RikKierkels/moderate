@@ -26,7 +26,7 @@ import { map } from 'rxjs/operators';
 export class IdeaController {
   constructor(private readonly ideaService: IdeaService) {}
 
-  @ApiResponse({ type: IdeaDto })
+  @ApiResponse({ type: [IdeaDto] })
   @Get()
   public findAll(): Observable<IdeaDto[]> {
     return this.ideaService

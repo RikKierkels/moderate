@@ -10,7 +10,7 @@ import { UserService } from '../user/user.service';
 
 @Injectable()
 export class IdeaService {
-  whereIdeaIsNotDeleted = { where: { isDeleted: false } };
+  whereIsNotDeleted = { where: { isDeleted: false } };
 
   constructor(
     @InjectRepository(IdeaEntity)
@@ -20,12 +20,12 @@ export class IdeaService {
   ) {}
 
   findAll$(): Observable<IdeaEntity[]> {
-    return from(this.ideaRepository.find({ ...this.whereIdeaIsNotDeleted }));
+    return from(this.ideaRepository.find({ ...this.whereIsNotDeleted }));
   }
 
   find$(id: number): Observable<IdeaEntity> {
     return from(
-      this.ideaRepository.findOneOrFail(id, { ...this.whereIdeaIsNotDeleted })
+      this.ideaRepository.findOneOrFail(id, { ...this.whereIsNotDeleted })
     ).pipe(
       catchError(() => {
         throw new NotFoundException(`Cannot find idea with id: ${id}.`);

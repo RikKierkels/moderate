@@ -22,7 +22,7 @@ export class UserService {
     );
   }
 
-  create$(userId: string): Observable<UserEntity> {
+  private create$(userId: string): Observable<UserEntity> {
     return this.getUserProfile$(userId).pipe(
       map(profile => {
         return this.userRepository.create({
@@ -37,7 +37,7 @@ export class UserService {
     );
   }
 
-  getUserProfile$(userId: string): Observable<User> {
+  private getUserProfile$(userId: string): Observable<User> {
     const config = this.configService.get<AuthConfiguration>('auth');
 
     const client = new ManagementClient({

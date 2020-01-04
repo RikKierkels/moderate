@@ -3,5 +3,3 @@ export interface Tag {
   readonly name: string;
   readonly color: string;
 }
-
-export type TagCreate = Omit<Tag, 'id'>;

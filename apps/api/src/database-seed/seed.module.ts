@@ -10,17 +10,14 @@ import {
   TagEntity,
   UserEntity
 } from '../app/database/database-entities';
-import {
-  SEED_CONFIG_TOKEN,
-  TAG_SEED_TOKEN,
-  USER_SEED_TOKEN
-} from './seed.constants';
-import { tagsToSeed, usersToSeed } from './seed-data';
+import { SEED_CONFIG_TOKEN, TAG_SEED_TOKEN } from './seed.constants';
+import { tagsToSeed } from './seed-data';
 import { SeedConfig } from './seed-config.interface';
 
 const seedConfig: SeedConfig = {
-  ideaPerUserCount: 3,
-  messagePerIdeaCount: 5
+  userCount: 6,
+  ideasPerUserCount: 3,
+  messagesPerIdeaCount: 5
 };
 
 @Module({
@@ -33,10 +30,6 @@ const seedConfig: SeedConfig = {
     {
       provide: TAG_SEED_TOKEN,
       useValue: tagsToSeed
-    },
-    {
-      provide: USER_SEED_TOKEN,
-      useValue: usersToSeed
     },
     {
       provide: SEED_CONFIG_TOKEN,

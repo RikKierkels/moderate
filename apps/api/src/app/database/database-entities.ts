@@ -61,7 +61,7 @@ export class IdeaEntity extends AuditableEntity {
 
   @OneToMany(type => MessageEntity, message => message.idea, {
     eager: true,
-    onDelete: 'CASCADE'
+    cascade: true
   })
   readonly messages: MessageEntity[];
 

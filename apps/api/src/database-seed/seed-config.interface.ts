@@ -1,4 +1,5 @@
 export interface SeedConfig {
-  ideaPerUserCount: number;
-  messagePerIdeaCount: number;
+  userCount: number;
+  ideasPerUserCount: number;
+  messagesPerIdeaCount: number;
 }

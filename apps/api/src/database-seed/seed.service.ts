@@ -7,21 +7,16 @@ import {
   TagEntity,
   UserEntity
 } from '../app/database/database-entities';
-import {
-  SEED_CONFIG_TOKEN,
-  TAG_SEED_TOKEN,
-  USER_SEED_TOKEN
-} from './seed.constants';
+import { SEED_CONFIG_TOKEN, TAG_SEED_TOKEN } from './seed.constants';
 import { SeedConfig } from './seed-config.interface';
 import * as faker from 'faker';
+import { random, range } from 'lodash';
 
 @Injectable()
 export class SeedService {
   constructor(
     @Inject(SEED_CONFIG_TOKEN) private readonly config: SeedConfig,
     @Inject(TAG_SEED_TOKEN) private readonly tags: Partial<TagEntity>[],
-    @Inject(USER_SEED_TOKEN)
-    private readonly users: Partial<UserEntity>[],
     private readonly connection: Connection,
     @InjectRepository(IdeaEntity)
     private readonly ideaRepository: Repository<IdeaEntity>,
@@ -33,23 +28,15 @@ export class SeedService {
     private readonly userRepository: Repository<UserEntity>
   ) {}
 
-  static randomItem(items: any): any {
-    return items[Math.floor(Math.random() * items.length)];
-  }
-
-  static randomNumberBetweenInclusive(min: number, max: number): number {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
   async seed(): Promise<void> {
     await this.dropAndSyncDatabase();
 
-    const users = await this.userRepository.save(this.users);
     const tags = await this.tagRepository.save(this.tags);
+    const users = await this.seedUsers();
 
-    await this.seedIdeas(users, tags);
+    for (const user of users) {
+      await this.seedIdeas(user, users, tags);
+    }
   }
 
   private async dropAndSyncDatabase(): Promise<void> {
@@ -57,51 +44,51 @@ export class SeedService {
     await this.connection.synchronize(shouldDropBeforeSync);
   }
 
+  private async seedUsers(): Promise<UserEntity[]> {
+    const users = range(0, this.config.userCount).map(() => {
+      return this.userRepository.create({
+        id: faker.random.number(),
+        username: faker.internet.userName(),
+        picture: faker.image.avatar()
+      });
+    });
+    return this.userRepository.save(users);
+  }
+
   private async seedIdeas(
+    author: UserEntity,
     users: UserEntity[],
     tags: TagEntity[]
   ): Promise<void> {
-    for (const user of users) {
-      for (let i = 0; i < this.config.ideaPerUserCount; i++) {
-        let messages = this.makeMessagesForIdea(users);
-        messages = await this.messageRepository.save(messages);
-
-        const idea = this.makeIdea(user, tags, messages as MessageEntity[]);
-        await this.ideaRepository.save(idea);
-      }
-    }
+    const ideas = range(0, this.config.ideasPerUserCount).map(() => {
+      const messages = this.createMessagesForIdea(users);
+      return this.createIdea(author, tags, messages);
+    });
+    await this.ideaRepository.save(ideas);
   }
 
-  private makeMessagesForIdea(users: UserEntity[]): Partial<MessageEntity>[] {
-    const messages = [];
-
-    for (let i = 0; i < this.config.messagePerIdeaCount; i++) {
-      const author = SeedService.randomItem(users);
-      messages.push(this.makeMessage(author));
-    }
-
-    return messages;
+  private createMessagesForIdea(users: UserEntity[]): MessageEntity[] {
+    return range(0, this.config.messagesPerIdeaCount).map(() => {
+      const author = users[random(0, users.length - 1)];
+      return this.messageRepository.create({
+        text: faker.hacker.phrase(),
+        author
+      });
+    });
   }
 
-  private makeMessage(author: UserEntity): Partial<MessageEntity> {
-    return {
-      text: faker.hacker.phrase(),
-      author
-    };
-  }
-
-  private makeIdea(
-    user: UserEntity,
+  private createIdea(
+    author: UserEntity,
     tags: TagEntity[],
     messages: MessageEntity[]
-  ): Partial<IdeaEntity> {
-    return {
-      title: faker.hacker.phrase(),
-      description: faker.lorem.paragraph(),
-      difficulty: SeedService.randomNumberBetweenInclusive(1, 5),
-      author: user,
-      messages: messages,
-      tags: [SeedService.randomItem(tags)]
-    };
+  ): IdeaEntity {
+    return this.ideaRepository.create({
+      title: faker.lorem.sentence(),
+      description: faker.lorem.paragraphs(),
+      difficulty: random(1, 5),
+      author,
+      messages,
+      tags: [tags[random(0, tags.length - 1)]]
+    });
   }
 }

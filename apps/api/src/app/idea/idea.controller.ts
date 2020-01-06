@@ -39,7 +39,7 @@ export class IdeaController {
   @Get(':id')
   find(@Param('id') id: number): Observable<IdeaWithMessagesDto> {
     return this.ideaService
-      .find$(id)
+      .findById$(id)
       .pipe(map(idea => IdeaWithMessagesDto.fromEntity(idea)));
   }
 

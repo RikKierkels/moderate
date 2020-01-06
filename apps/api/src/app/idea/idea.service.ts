@@ -23,7 +23,7 @@ export class IdeaService {
     return from(this.repository.find({ ...this.whereIsNotDeleted }));
   }
 
-  find$(id: number): Observable<IdeaEntity> {
+  findById$(id: number): Observable<IdeaEntity> {
     return from(
       this.repository.findOneOrFail(id, { ...this.whereIsNotDeleted })
     ).pipe(
@@ -60,7 +60,7 @@ export class IdeaService {
   }
 
   delete$(id: number): Observable<IdeaEntity> {
-    return this.find$(id).pipe(
+    return this.findById$(id).pipe(
       map(ideaEntity => {
         const messages = ideaEntity.messages.map(message => ({
           ...message,

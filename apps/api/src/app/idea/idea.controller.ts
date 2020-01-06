@@ -9,7 +9,12 @@ import {
 } from '@nestjs/common';
 import { IdeaService } from './idea.service';
 import { Observable } from 'rxjs';
-import { ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiNotFoundResponse,
+  ApiParam,
+  ApiResponse,
+  ApiTags
+} from '@nestjs/swagger';
 import {
   IdeaCreateDto,
   IdeaDto,
@@ -45,6 +50,7 @@ export class IdeaController {
   }
 
   @ApiResponse({ type: IdeaWithMessagesDto })
+  @ApiNotFoundResponse()
   @ApiParam({ name: 'id', type: Number })
   @Get(':id')
   findIdea(@Param('id') id: number): Observable<IdeaWithMessagesDto> {
@@ -66,6 +72,7 @@ export class IdeaController {
   }
 
   @ApiResponse({ type: IdeaDto })
+  @ApiNotFoundResponse()
   @Auth(IsAuthorOfIdeaGuard)
   @Put()
   updateIdea(@Body() ideaToUpdate: IdeaUpdateDto): Observable<IdeaDto> {
@@ -75,6 +82,7 @@ export class IdeaController {
   }
 
   @ApiParam({ name: 'id', type: Number })
+  @ApiNotFoundResponse()
   @Auth(IsAuthorOfIdeaGuard)
   @Delete(':id')
   deleteIdea(@Param('id') id: number): void {
@@ -98,6 +106,7 @@ export class IdeaController {
   }
 
   @ApiResponse({ type: MessageDto })
+  @ApiNotFoundResponse()
   @Auth(IsAuthorOfMessageGuard)
   @Put(':id/messages')
   updateMessage(
@@ -109,6 +118,7 @@ export class IdeaController {
   }
 
   @ApiResponse({ type: MessageDto })
+  @ApiNotFoundResponse()
   @Auth(IsAuthorOfMessageGuard)
   @Delete(':ideaId/messages/:messageId')
   deleteMessage(@Param('messageId') id: number): void {

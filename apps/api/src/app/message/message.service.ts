@@ -3,11 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { MessageEntity } from '../database/database-entities';
 import { Repository } from 'typeorm';
 import { forkJoin, from, Observable } from 'rxjs';
-import {
-  MessageCreateDto,
-  MessageDto,
-  MessageUpdateDto
-} from './message.model';
+import { MessageCreateDto, MessageUpdateDto } from './message.model';
 import { IdeaService } from '../idea/idea.service';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { UserService } from '../user/user.service';

@@ -19,6 +19,7 @@ async function bootstrap() {
       .setVersion('1.0')
       .addTag('Idea')
       .addTag('Tag')
+      .addTag('Message')
       .addBearerAuth()
       .build();
     const document = SwaggerModule.createDocument(app, options);

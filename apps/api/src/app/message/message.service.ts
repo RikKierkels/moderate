@@ -21,6 +21,16 @@ export class MessageService {
     private readonly userService: UserService
   ) {}
 
+  findById$(id: number): Observable<MessageEntity> {
+    return from(
+      this.repository.findOneOrFail(id, { where: { isDeleted: false } })
+    ).pipe(
+      catchError(() => {
+        throw new NotFoundException(`Cannot find message with id: ${id}.`);
+      })
+    );
+  }
+
   create$(
     ideaId: number,
     userId: string,
@@ -45,13 +55,7 @@ export class MessageService {
     return from(this.repository.save(messageToUpdate));
   }
 
-  private findById$(id: number): Observable<MessageEntity> {
-    return from(
-      this.repository.findOneOrFail(id, { where: { isDeleted: false } })
-    ).pipe(
-      catchError(() => {
-        throw new NotFoundException(`Cannot find message with id: ${id}.`);
-      })
-    );
+  delete(id: number): void {
+    this.repository.update(id, { isDeleted: true });
   }
 }

@@ -107,4 +107,12 @@ export class IdeaController {
       .update$(messageToUpdate)
       .pipe(map(message => MessageDto.fromEntity(message)));
   }
+
+  @ApiResponse({ type: MessageDto })
+  // TODO: Check for author
+  @Auth()
+  @Delete(':ideaId/messages/:messageId')
+  deleteMessage(@Param('messageId') id: number): void {
+    this.messageService.delete(id);
+  }
 }

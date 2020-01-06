@@ -1,5 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Message, MessageCreate } from '@moderate/api-interfaces';
+import {
+  Message,
+  MessageCreate,
+  MessageUpdate
+} from '@moderate/api-interfaces';
 import { UserDto } from '../user/user.model';
 import { MessageEntity } from '../database/database-entities';
 import { TEXT_MESSAGE_DELETED } from '../shared/constants';
@@ -30,4 +34,10 @@ export class MessageDto implements Message {
 export class MessageCreateDto implements MessageCreate {
   @ApiProperty()
   readonly text: string;
+}
+
+export class MessageUpdateDto extends MessageCreateDto
+  implements MessageUpdate {
+  @ApiProperty()
+  readonly id: number;
 }

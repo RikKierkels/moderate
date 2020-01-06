@@ -1,11 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MessageEntity } from '../database/database-entities';
 import { Repository } from 'typeorm';
-import { forkJoin, Observable } from 'rxjs';
-import { MessageCreateDto } from './message.model';
+import { forkJoin, from, Observable } from 'rxjs';
+import {
+  MessageCreateDto,
+  MessageDto,
+  MessageUpdateDto
+} from './message.model';
 import { IdeaService } from '../idea/idea.service';
-import { map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { UserService } from '../user/user.service';
 
 @Injectable()
@@ -34,6 +38,20 @@ export class MessageService {
         });
       }),
       switchMap(messageEntity => this.repository.save(messageEntity))
+    );
+  }
+
+  update$(messageToUpdate: MessageUpdateDto): Observable<MessageEntity> {
+    return from(this.repository.save(messageToUpdate));
+  }
+
+  private findById$(id: number): Observable<MessageEntity> {
+    return from(
+      this.repository.findOneOrFail(id, { where: { isDeleted: false } })
+    ).pipe(
+      catchError(() => {
+        throw new NotFoundException(`Cannot find message with id: ${id}.`);
+      })
     );
   }
 }

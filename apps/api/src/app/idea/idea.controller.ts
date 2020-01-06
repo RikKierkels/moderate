@@ -20,7 +20,11 @@ import { Auth } from '../shared/decorators/auth.decorator';
 import { IsAuthorGuard } from '../shared/guards/is-author.guard';
 import { UserId } from '../shared/decorators/user.decorator';
 import { first, map } from 'rxjs/operators';
-import { MessageCreateDto, MessageDto } from '../message/message.model';
+import {
+  MessageCreateDto,
+  MessageDto,
+  MessageUpdateDto
+} from '../message/message.model';
 import { MessageService } from '../message/message.service';
 
 @ApiTags('Idea')
@@ -89,6 +93,18 @@ export class IdeaController {
   ): Observable<MessageDto> {
     return this.messageService
       .create$(ideaId, userId, messageToCreate)
+      .pipe(map(message => MessageDto.fromEntity(message)));
+  }
+
+  @ApiResponse({ type: MessageDto })
+  // TODO: Check for author
+  @Auth()
+  @Put(':id/messages')
+  updateMessage(
+    @Body() messageToUpdate: MessageUpdateDto
+  ): Observable<MessageDto> {
+    return this.messageService
+      .update$(messageToUpdate)
       .pipe(map(message => MessageDto.fromEntity(message)));
   }
 }

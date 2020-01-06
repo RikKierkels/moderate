@@ -8,3 +8,4 @@ export interface Message {
 }
 
 export type MessageCreate = Pick<Message, 'text'>;
+export type MessageUpdate = Pick<Message, 'id' | 'text'>;

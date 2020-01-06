@@ -62,10 +62,7 @@ export class IdeaDto extends IdeaBaseDto implements Idea {
   static fromEntity(entity: IdeaEntity): IdeaDto {
     const ideaBase = this.fromEntityToBase(entity);
     const messageCount = (entity.messages && entity.messages.length) || 0;
-    return {
-      ...ideaBase,
-      messageCount
-    };
+    return { ...ideaBase, messageCount };
   }
 }
 

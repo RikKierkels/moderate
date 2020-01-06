@@ -54,6 +54,7 @@
     "cache-manager": "2.10.1",
     "class-transformer": "0.2.3",
     "class-validator": "0.11.0",
+    "compression": "1.7.4",
     "core-js": "2.5.4",
     "faker": "4.1.0",
     "jwks-rsa": "1.6.0",

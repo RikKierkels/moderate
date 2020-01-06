@@ -52,7 +52,9 @@ export class MessageService {
   }
 
   update$(messageToUpdate: MessageUpdateDto): Observable<MessageEntity> {
-    return from(this.repository.save(messageToUpdate));
+    return from(
+      this.repository.update(messageToUpdate.id, { text: messageToUpdate.text })
+    ).pipe(switchMap(() => this.repository.findOne(messageToUpdate.id)));
   }
 
   delete(id: number): void {

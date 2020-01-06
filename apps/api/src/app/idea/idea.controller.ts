@@ -19,7 +19,7 @@ import {
 import { Auth } from '../shared/decorators/auth.decorator';
 import { IsAuthorGuard } from '../shared/guards/is-author.guard';
 import { UserId } from '../shared/decorators/user.decorator';
-import { map } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 
 @ApiTags('Idea')
 @Controller('ideas')
@@ -67,6 +67,9 @@ export class IdeaController {
   @Auth(IsAuthorGuard)
   @Delete(':id')
   delete(@Param('id') id: number): void {
-    this.ideaService.delete(id);
+    this.ideaService
+      .delete$(id)
+      .pipe(first())
+      .subscribe();
   }
 }

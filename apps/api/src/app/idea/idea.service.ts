@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { forkJoin, from, Observable } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { IdeaEntity } from '../database/database-entities';
 import { IdeaCreateDto, IdeaUpdateDto } from './idea.model';
 import { TagService } from '../tag/tag.service';
@@ -14,18 +14,18 @@ export class IdeaService {
 
   constructor(
     @InjectRepository(IdeaEntity)
-    private readonly ideaRepository: Repository<IdeaEntity>,
+    private readonly repository: Repository<IdeaEntity>,
     private readonly tagService: TagService,
     private readonly userService: UserService
   ) {}
 
   findAll$(): Observable<IdeaEntity[]> {
-    return from(this.ideaRepository.find({ ...this.whereIsNotDeleted }));
+    return from(this.repository.find({ ...this.whereIsNotDeleted }));
   }
 
   find$(id: number): Observable<IdeaEntity> {
     return from(
-      this.ideaRepository.findOneOrFail(id, { ...this.whereIsNotDeleted })
+      this.repository.findOneOrFail(id, { ...this.whereIsNotDeleted })
     ).pipe(
       catchError(() => {
         throw new NotFoundException(`Cannot find idea with id: ${id}.`);
@@ -39,28 +39,36 @@ export class IdeaService {
       this.tagService.findByIds$(ideaToCreate.tags)
     ]).pipe(
       map(([user, tags]) => {
-        return this.ideaRepository.create({
+        return this.repository.create({
           ...ideaToCreate,
           tags,
           author: user
         });
       }),
       switchMap(ideaEntity => {
-        return this.ideaRepository.save(ideaEntity);
+        return this.repository.save(ideaEntity);
       })
     );
   }
 
   update$(ideaToUpdate: IdeaUpdateDto): Observable<IdeaEntity> {
     return this.tagService.findByIds$(ideaToUpdate.tags).pipe(
-      map(tags => this.ideaRepository.create({ ...ideaToUpdate, tags })),
-      switchMap(ideaEntity => this.ideaRepository.save(ideaEntity)),
-      switchMap(ideaEntity => this.ideaRepository.findOne(ideaEntity.id))
+      map(tags => this.repository.create({ ...ideaToUpdate, tags })),
+      switchMap(ideaEntity => this.repository.save(ideaEntity)),
+      switchMap(ideaEntity => this.repository.findOne(ideaEntity.id))
     );
   }
 
-  delete(id: number): void {
-    // TODO: Mark all linked messages as deleted.
-    this.ideaRepository.update(id, { isDeleted: true });
+  delete$(id: number): Observable<IdeaEntity> {
+    return this.find$(id).pipe(
+      map(ideaEntity => {
+        const messages = ideaEntity.messages.map(message => ({
+          ...message,
+          isDeleted: true
+        }));
+        return { ...ideaEntity, messages, isDeleted: true };
+      }),
+      switchMap(ideaEntity => this.repository.save(ideaEntity))
+    );
   }
 }

@@ -11,13 +11,13 @@ import { MANAGEMENT_CLIENT_TOKEN } from '../shared/constants';
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
+    private readonly repository: Repository<UserEntity>,
     @Inject(MANAGEMENT_CLIENT_TOKEN)
     private readonly managementClient: ManagementClient
   ) {}
 
   findOrCreate$(userId: string): Observable<UserEntity> {
-    return from(this.userRepository.findOne(userId)).pipe(
+    return from(this.repository.findOne(userId)).pipe(
       switchMap(user => (user ? of(user) : this.create$(userId)))
     );
   }
@@ -25,14 +25,14 @@ export class UserService {
   private create$(userId: string): Observable<UserEntity> {
     return this.getUserProfile$(userId).pipe(
       map(profile => {
-        return this.userRepository.create({
+        return this.repository.create({
           id: profile.user_id,
           username: profile.nickname,
           picture: profile.picture
         });
       }),
       switchMap(userEntity => {
-        return this.userRepository.save(userEntity);
+        return this.repository.save(userEntity);
       })
     );
   }

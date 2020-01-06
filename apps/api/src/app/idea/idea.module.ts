@@ -2,13 +2,18 @@ import { Module } from '@nestjs/common';
 import { IdeaService } from './idea.service';
 import { IdeaController } from './idea.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { IdeaEntity } from '../database/database-entities';
+import { IdeaEntity, MessageEntity } from '../database/database-entities';
 import { TagModule } from '../tag/tag.module';
 import { UserModule } from '../user/user.module';
+import { MessageService } from '../message/message.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([IdeaEntity]), TagModule, UserModule],
+  imports: [
+    TagModule,
+    UserModule,
+    TypeOrmModule.forFeature([IdeaEntity, MessageEntity])
+  ],
   controllers: [IdeaController],
-  providers: [IdeaService]
+  providers: [IdeaService, MessageService]
 })
 export class IdeaModule {}

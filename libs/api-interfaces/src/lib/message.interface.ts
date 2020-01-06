@@ -6,3 +6,5 @@ export interface Message {
   readonly createdAt: string;
   readonly author: User;
 }
+
+export type MessageCreate = Pick<Message, 'text'>;

@@ -45,9 +45,7 @@ export class IdeaService {
           author: user
         });
       }),
-      switchMap(ideaEntity => {
-        return this.repository.save(ideaEntity);
-      })
+      switchMap(ideaEntity => this.repository.save(ideaEntity))
     );
   }
 

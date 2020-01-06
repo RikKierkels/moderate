@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Message } from '@moderate/api-interfaces';
+import { Message, MessageCreate } from '@moderate/api-interfaces';
 import { UserDto } from '../user/user.model';
 import { MessageEntity } from '../database/database-entities';
 import { TEXT_MESSAGE_DELETED } from '../shared/constants';
@@ -25,4 +25,9 @@ export class MessageDto implements Message {
       author: UserDto.fromEntity(entity.author)
     };
   }
+}
+
+export class MessageCreateDto implements MessageCreate {
+  @ApiProperty()
+  readonly text: string;
 }

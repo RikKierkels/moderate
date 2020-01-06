@@ -17,7 +17,7 @@ import {
   IdeaWithMessagesDto
 } from './idea.model';
 import { Auth } from '../shared/decorators/auth.decorator';
-import { IsAuthorGuard } from '../shared/guards/is-author.guard';
+import { IsAuthorOfIdeaGuard } from '../shared/guards/is-author-of-idea-guard';
 import { UserId } from '../shared/decorators/user.decorator';
 import { first, map } from 'rxjs/operators';
 import {
@@ -26,6 +26,7 @@ import {
   MessageUpdateDto
 } from '../message/message.model';
 import { MessageService } from '../message/message.service';
+import { IsAuthorOfMessageGuard } from '../shared/guards/is-author-of-message.guard';
 
 @ApiTags('Idea')
 @Controller('ideas')
@@ -65,7 +66,7 @@ export class IdeaController {
   }
 
   @ApiResponse({ type: IdeaDto })
-  @Auth(IsAuthorGuard)
+  @Auth(IsAuthorOfIdeaGuard)
   @Put()
   updateIdea(@Body() ideaToUpdate: IdeaUpdateDto): Observable<IdeaDto> {
     return this.ideaService
@@ -74,7 +75,7 @@ export class IdeaController {
   }
 
   @ApiParam({ name: 'id', type: Number })
-  @Auth(IsAuthorGuard)
+  @Auth(IsAuthorOfIdeaGuard)
   @Delete(':id')
   deleteIdea(@Param('id') id: number): void {
     this.ideaService
@@ -97,8 +98,7 @@ export class IdeaController {
   }
 
   @ApiResponse({ type: MessageDto })
-  // TODO: Check for author
-  @Auth()
+  @Auth(IsAuthorOfMessageGuard)
   @Put(':id/messages')
   updateMessage(
     @Body() messageToUpdate: MessageUpdateDto
@@ -109,8 +109,7 @@ export class IdeaController {
   }
 
   @ApiResponse({ type: MessageDto })
-  // TODO: Check for author
-  @Auth()
+  @Auth(IsAuthorOfMessageGuard)
   @Delete(':ideaId/messages/:messageId')
   deleteMessage(@Param('messageId') id: number): void {
     this.messageService.delete(id);

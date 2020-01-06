@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { IdeaModule } from './idea/idea.module';
-import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import configuration from '../config/configuration';
@@ -13,8 +12,7 @@ import { UserModule } from './user/user.module';
     DatabaseModule,
     IdeaModule,
     AuthModule,
-    UserModule,
-    SharedModule
+    UserModule
   ]
 })
 export class AppModule {}

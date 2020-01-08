@@ -6,6 +6,7 @@ import configuration from '../config/configuration';
 import { DatabaseModule } from './database/database.module';
 import { UserModule } from './user/user.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { MessageModule } from './message/message.module';
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
     DatabaseModule,
     IdeaModule,
     AuthModule,
-    UserModule
+    UserModule,
+    MessageModule
   ],
   providers: [
     {

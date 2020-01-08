@@ -9,6 +9,7 @@ import { UserModule } from '../user/user.module';
 @Module({
   imports: [TagModule, UserModule, TypeOrmModule.forFeature([IdeaEntity])],
   controllers: [IdeaController],
-  providers: [IdeaService]
+  providers: [IdeaService],
+  exports: [IdeaService]
 })
 export class IdeaModule {}

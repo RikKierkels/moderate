@@ -11,8 +11,10 @@ export class IsAuthorOfMessageGuard implements CanActivate {
   canActivate(context: ExecutionContext): Observable<boolean> {
     const { body, params, user } = context.switchToHttp().getRequest();
 
+    console.log(body, params, user);
+
     return this.messageService
-      .findById$(body.id || params.messageId)
+      .findById$(body.id || params.id)
       .pipe(map(idea => idea.author.id === user.sub));
   }
 }

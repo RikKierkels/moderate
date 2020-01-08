@@ -27,14 +27,14 @@ export class MessageService {
     );
   }
 
+  // TODO: CHECK;
   create$(
-    ideaId: number,
-    userId: string,
-    messageToCreate: MessageCreateDto
+    messageToCreate: MessageCreateDto,
+    userId: string
   ): Observable<MessageEntity> {
     return forkJoin([
       this.userService.findOrCreate$(userId),
-      this.ideaService.findById$(ideaId)
+      this.ideaService.findById$(messageToCreate.ideaId)
     ]).pipe(
       map(([user, idea]) => {
         return this.repository.create({

@@ -7,5 +7,8 @@ export interface Message {
   readonly author: User;
 }
 
-export type MessageCreate = Pick<Message, 'text'>;
+export interface MessageCreate extends Pick<Message, 'text'> {
+  readonly ideaId: number;
+}
+
 export type MessageUpdate = Pick<Message, 'id' | 'text'>;

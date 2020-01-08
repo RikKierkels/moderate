@@ -33,11 +33,16 @@ export class MessageDto implements Message {
 
 export class MessageCreateDto implements MessageCreate {
   @ApiProperty()
+  readonly ideaId: number;
+
+  @ApiProperty()
   readonly text: string;
 }
 
-export class MessageUpdateDto extends MessageCreateDto
-  implements MessageUpdate {
+export class MessageUpdateDto implements MessageUpdate {
   @ApiProperty()
   readonly id: number;
+
+  @ApiProperty()
+  readonly text: string;
 }

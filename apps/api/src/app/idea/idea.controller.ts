@@ -33,7 +33,7 @@ export class IdeaController {
 
   @ApiResponse({ type: [IdeaDto] })
   @Get()
-  public findIdeas(): Observable<IdeaDto[]> {
+  public findAll(): Observable<IdeaDto[]> {
     return this.ideaService
       .findAll$()
       .pipe(map(ideas => ideas.map(idea => IdeaDto.fromEntity(idea))));
@@ -43,7 +43,7 @@ export class IdeaController {
   @ApiNotFoundResponse()
   @ApiParam({ name: 'id', type: Number })
   @Get(':id')
-  findIdea(@Param('id') id: number): Observable<IdeaWithMessagesDto> {
+  find(@Param('id') id: number): Observable<IdeaWithMessagesDto> {
     return this.ideaService
       .findById$(id)
       .pipe(map(idea => IdeaWithMessagesDto.fromEntity(idea)));
@@ -52,7 +52,7 @@ export class IdeaController {
   @ApiResponse({ type: IdeaDto })
   @Auth()
   @Post()
-  createIdea(
+  create(
     @Body() ideaToCreate: IdeaCreateDto,
     @UserId() userId: string
   ): Observable<IdeaDto> {
@@ -65,7 +65,7 @@ export class IdeaController {
   @ApiNotFoundResponse()
   @Auth(IsAuthorOfIdeaGuard)
   @Put()
-  updateIdea(@Body() ideaToUpdate: IdeaUpdateDto): Observable<IdeaDto> {
+  update(@Body() ideaToUpdate: IdeaUpdateDto): Observable<IdeaDto> {
     return this.ideaService
       .update$(ideaToUpdate)
       .pipe(map(idea => IdeaDto.fromEntity(idea)));
@@ -75,7 +75,7 @@ export class IdeaController {
   @ApiNotFoundResponse()
   @Auth(IsAuthorOfIdeaGuard)
   @Delete(':id')
-  deleteIdea(@Param('id') id: number): void {
+  delete(@Param('id') id: number): void {
     this.ideaService
       .delete$(id)
       .pipe(first())

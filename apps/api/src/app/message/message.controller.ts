@@ -25,7 +25,7 @@ export class MessageController {
   @ApiResponse({ type: MessageDto })
   @Auth()
   @Post()
-  createMessage(
+  create(
     @Body() messageToCreate: MessageCreateDto,
     @UserId() userId: string
   ): Observable<MessageDto> {
@@ -38,9 +38,7 @@ export class MessageController {
   @ApiNotFoundResponse()
   @Auth(IsAuthorOfMessageGuard)
   @Put()
-  updateMessage(
-    @Body() messageToUpdate: MessageUpdateDto
-  ): Observable<MessageDto> {
+  update(@Body() messageToUpdate: MessageUpdateDto): Observable<MessageDto> {
     return this.messageService
       .update$(messageToUpdate)
       .pipe(map(message => MessageDto.fromEntity(message)));
@@ -50,7 +48,7 @@ export class MessageController {
   @ApiNotFoundResponse()
   @Auth(IsAuthorOfMessageGuard)
   @Delete(':id')
-  deleteMessage(@Param('id') id: number): void {
+  delete(@Param('id') id: number): void {
     this.messageService.delete(id);
   }
 }

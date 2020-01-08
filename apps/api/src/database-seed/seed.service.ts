@@ -52,6 +52,7 @@ export class SeedService {
         picture: faker.image.avatar()
       });
     });
+
     return this.userRepository.save(users);
   }
 
@@ -64,12 +65,14 @@ export class SeedService {
       const messages = this.createMessagesForIdea(users);
       return this.createIdea(author, tags, messages);
     });
+
     await this.ideaRepository.save(ideas);
   }
 
   private createMessagesForIdea(users: UserEntity[]): MessageEntity[] {
     return range(0, this.config.messagesPerIdeaCount).map(() => {
       const author = users[random(0, users.length - 1)];
+
       return this.messageRepository.create({
         text: faker.hacker.phrase(),
         author

@@ -25,21 +25,11 @@ import { Auth } from '../shared/decorators/auth.decorator';
 import { IsAuthorOfIdeaGuard } from '../shared/guards/is-author-of-idea-guard';
 import { UserId } from '../shared/decorators/user.decorator';
 import { first, map } from 'rxjs/operators';
-import {
-  MessageCreateDto,
-  MessageDto,
-  MessageUpdateDto
-} from '../message/message.model';
-import { MessageService } from '../message/message.service';
-import { IsAuthorOfMessageGuard } from '../shared/guards/is-author-of-message.guard';
 
 @ApiTags('Idea')
 @Controller('ideas')
 export class IdeaController {
-  constructor(
-    private readonly ideaService: IdeaService,
-    private readonly messageService: MessageService
-  ) {}
+  constructor(private readonly ideaService: IdeaService) {}
 
   @ApiResponse({ type: [IdeaDto] })
   @Get()
@@ -90,38 +80,5 @@ export class IdeaController {
       .delete$(id)
       .pipe(first())
       .subscribe();
-  }
-
-  @ApiResponse({ type: MessageDto })
-  @Auth()
-  @Post(':id/messages')
-  createMessage(
-    @Param('id') ideaId: number,
-    @UserId() userId: string,
-    @Body() messageToCreate: MessageCreateDto
-  ): Observable<MessageDto> {
-    return this.messageService
-      .create$(ideaId, userId, messageToCreate)
-      .pipe(map(message => MessageDto.fromEntity(message)));
-  }
-
-  @ApiResponse({ type: MessageDto })
-  @ApiNotFoundResponse()
-  @Auth(IsAuthorOfMessageGuard)
-  @Put(':id/messages')
-  updateMessage(
-    @Body() messageToUpdate: MessageUpdateDto
-  ): Observable<MessageDto> {
-    return this.messageService
-      .update$(messageToUpdate)
-      .pipe(map(message => MessageDto.fromEntity(message)));
-  }
-
-  @ApiResponse({ type: MessageDto })
-  @ApiNotFoundResponse()
-  @Auth(IsAuthorOfMessageGuard)
-  @Delete(':ideaId/messages/:messageId')
-  deleteMessage(@Param('messageId') id: number): void {
-    this.messageService.delete(id);
   }
 }

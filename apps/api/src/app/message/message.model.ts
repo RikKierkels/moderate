@@ -7,6 +7,7 @@ import {
 import { UserDto } from '../user/user.model';
 import { MessageEntity } from '../database/database-entities';
 import { TEXT_MESSAGE_DELETED } from '../shared/constants';
+import { IsInt, IsNotEmpty, IsString } from 'class-validator';
 
 export class MessageDto implements Message {
   @ApiProperty()
@@ -33,16 +34,22 @@ export class MessageDto implements Message {
 
 export class MessageCreateDto implements MessageCreate {
   @ApiProperty()
+  @IsInt()
   readonly ideaId: number;
 
   @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
   readonly text: string;
 }
 
 export class MessageUpdateDto implements MessageUpdate {
   @ApiProperty()
+  @IsInt()
   readonly id: number;
 
   @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
   readonly text: string;
 }

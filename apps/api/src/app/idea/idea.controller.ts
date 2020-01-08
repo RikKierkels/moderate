@@ -25,6 +25,7 @@ import { Auth } from '../shared/decorators/auth.decorator';
 import { IsAuthorOfIdeaGuard } from '../shared/guards/is-author-of-idea-guard';
 import { UserId } from '../shared/decorators/user.decorator';
 import { first, map } from 'rxjs/operators';
+import { FindOneParams } from '../shared/find-one-params.model';
 
 @ApiTags('Idea')
 @Controller('ideas')
@@ -43,9 +44,9 @@ export class IdeaController {
   @ApiNotFoundResponse()
   @ApiParam({ name: 'id', type: Number })
   @Get(':id')
-  find(@Param('id') id: number): Observable<IdeaWithMessagesDto> {
+  find(@Param() params: FindOneParams): Observable<IdeaWithMessagesDto> {
     return this.ideaService
-      .findById$(id)
+      .findById$(params.id)
       .pipe(map(idea => IdeaWithMessagesDto.fromEntity(idea)));
   }
 
@@ -75,9 +76,9 @@ export class IdeaController {
   @ApiNotFoundResponse()
   @Auth(IsAuthorOfIdeaGuard)
   @Delete(':id')
-  delete(@Param('id') id: number): void {
+  delete(@Param() params: FindOneParams): void {
     this.ideaService
-      .delete$(id)
+      .delete$(params.id)
       .pipe(first())
       .subscribe();
   }

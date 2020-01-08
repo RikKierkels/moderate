@@ -27,7 +27,6 @@ export class MessageService {
     );
   }
 
-  // TODO: CHECK;
   create$(
     messageToCreate: MessageCreateDto,
     userId: string

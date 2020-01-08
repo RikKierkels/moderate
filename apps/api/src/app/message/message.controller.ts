@@ -16,6 +16,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IsAuthorOfMessageGuard } from '../shared/guards/is-author-of-message.guard';
 import { MessageService } from './message.service';
+import { FindOneParams } from '../shared/find-one-params.model';
 
 @ApiTags('Message')
 @Controller('messages')
@@ -48,7 +49,7 @@ export class MessageController {
   @ApiNotFoundResponse()
   @Auth(IsAuthorOfMessageGuard)
   @Delete(':id')
-  delete(@Param('id') id: number): void {
-    this.messageService.delete(id);
+  delete(@Param('id') params: FindOneParams): void {
+    this.messageService.delete(params.id);
   }
 }

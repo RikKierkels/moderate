@@ -34,7 +34,7 @@ export class IdeaController {
 
   @ApiResponse({ type: [IdeaDto] })
   @Get()
-  public findAll(): Observable<IdeaDto[]> {
+  findAll(): Observable<IdeaDto[]> {
     return this.ideaService
       .findAll$()
       .pipe(map(ideas => ideas.map(idea => IdeaDto.fromEntity(idea))));

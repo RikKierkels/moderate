@@ -12,7 +12,7 @@ export class TagController {
 
   @ApiResponse({ type: [TagDto] })
   @Get()
-  public findAll(): Observable<TagDto[]> {
+  findAll(): Observable<TagDto[]> {
     return this.tagService
       .findAll$()
       .pipe(map(tags => tags.map(tag => TagDto.fromEntity(tag))));

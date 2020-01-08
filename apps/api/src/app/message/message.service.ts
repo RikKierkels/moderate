@@ -7,9 +7,10 @@ import { MessageCreateDto, MessageUpdateDto } from './message.model';
 import { IdeaService } from '../idea/idea.service';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { UserService } from '../user/user.service';
+import { Service } from '../shared/service.interface';
 
 @Injectable()
-export class MessageService {
+export class MessageService implements Service<MessageEntity> {
   constructor(
     @InjectRepository(MessageEntity)
     private readonly repository: Repository<MessageEntity>,

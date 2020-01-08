@@ -14,7 +14,10 @@ import { Auth } from '../shared/decorators/auth.decorator';
 import { UserId } from '../shared/decorators/user.decorator';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { IsAuthorOfMessageGuard } from '../shared/guards/is-author-of-message.guard';
+import {
+  IsAuthorOfGuard,
+  IsAuthorOfMessageGuard
+} from '../shared/guards/is-author-of.guard';
 import { MessageService } from './message.service';
 import { FindOneParams } from '../shared/find-one-params.model';
 

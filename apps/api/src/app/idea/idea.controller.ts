@@ -22,10 +22,10 @@ import {
   IdeaWithMessagesDto
 } from './idea.model';
 import { Auth } from '../shared/decorators/auth.decorator';
-import { IsAuthorOfIdeaGuard } from '../shared/guards/is-author-of-idea-guard';
 import { UserId } from '../shared/decorators/user.decorator';
 import { first, map } from 'rxjs/operators';
 import { FindOneParams } from '../shared/find-one-params.model';
+import { IsAuthorOfIdeaGuard } from '../shared/guards/is-author-of.guard';
 
 @ApiTags('Idea')
 @Controller('ideas')

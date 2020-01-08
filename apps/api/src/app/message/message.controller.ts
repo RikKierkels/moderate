@@ -14,10 +14,7 @@ import { Auth } from '../shared/decorators/auth.decorator';
 import { UserId } from '../shared/decorators/user.decorator';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import {
-  IsAuthorOfGuard,
-  IsAuthorOfMessageGuard
-} from '../shared/guards/is-author-of.guard';
+import { IsAuthorOfMessageGuard } from '../shared/guards/is-author-of.guard';
 import { MessageService } from './message.service';
 import { FindOneParams } from '../shared/find-one-params.model';
 
@@ -52,7 +49,7 @@ export class MessageController {
   @ApiNotFoundResponse()
   @Auth(IsAuthorOfMessageGuard)
   @Delete(':id')
-  delete(@Param('id') params: FindOneParams): void {
+  delete(@Param() params: FindOneParams): void {
     this.messageService.delete(params.id);
   }
 }

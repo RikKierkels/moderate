@@ -13,7 +13,7 @@ import {
 // between NX (specifically the webpack bundler) and the ManyToOne relationships of the TypeORM.
 
 abstract class AuditableEntity {
-  @Column({ default: () => 'false' })
+  @Column({ type: 'boolean', default: false })
   readonly isDeleted: boolean;
 
   @Column({
@@ -25,13 +25,13 @@ abstract class AuditableEntity {
 
 @Entity({ name: 'user' })
 export class UserEntity {
-  @PrimaryColumn()
+  @PrimaryColumn({ type: 'varchar', length: 50 })
   readonly id: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   readonly username: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   readonly picture: string;
 
   @OneToMany(type => IdeaEntity, idea => idea.author)
@@ -46,13 +46,13 @@ export class IdeaEntity extends AuditableEntity {
   @PrimaryGeneratedColumn()
   readonly id: number;
 
-  @Column()
+  @Column({ type: 'varchar', length: 200 })
   readonly title: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   readonly description: string;
 
-  @Column()
+  @Column({ type: 'smallint' })
   readonly difficulty: number;
 
   @ManyToMany(type => TagEntity, { eager: true })
@@ -74,10 +74,10 @@ export class TagEntity {
   @PrimaryGeneratedColumn()
   readonly id: number;
 
-  @Column()
+  @Column({ type: 'varchar', length: 50 })
   readonly name: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 7 })
   readonly color: string;
 }
 
@@ -86,7 +86,7 @@ export class MessageEntity extends AuditableEntity {
   @PrimaryGeneratedColumn()
   readonly id: number;
 
-  @Column()
+  @Column({ type: 'varchar' })
   readonly text: string;
 
   @ManyToOne(type => IdeaEntity, idea => idea.messages)

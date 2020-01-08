@@ -5,7 +5,9 @@ import {
   IsInt,
   IsNotEmpty,
   IsString,
+  Length,
   Max,
+  MaxLength,
   Min
 } from 'class-validator';
 import {
@@ -84,6 +86,7 @@ export class IdeaCreateDto implements IdeaCreate {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
+  @MaxLength(200)
   readonly title: string;
 
   @ApiProperty()

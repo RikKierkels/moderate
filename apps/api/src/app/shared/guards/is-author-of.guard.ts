@@ -39,6 +39,6 @@ function isAuthorOfEntity<T extends { author: { id: string } }>(
   service: Service<T>
 ) {
   return (id: string, sub: string): Observable<boolean> => {
-    return service.findById$(id).pipe(map(idea => idea.author.id === sub));
+    return service.findById$(id).pipe(map(entity => entity.author.id === sub));
   };
 }

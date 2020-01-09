@@ -17,7 +17,7 @@ export class MessageDto implements Message {
   readonly text: string;
 
   @ApiProperty()
-  readonly createdAt: string;
+  readonly createdAt: Date;
 
   @ApiProperty()
   readonly author: UserDto;

@@ -1,12 +1,14 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryColumn,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
 } from 'typeorm';
 
 // Entities need to be located in the same file to avoid circular dependencies due to the interaction
@@ -16,11 +18,11 @@ abstract class AuditableEntity {
   @Column({ type: 'boolean', default: false })
   readonly isDeleted: boolean;
 
-  @Column({
-    type: 'timestamp',
-    default: () => 'now()'
-  })
-  readonly createdAt: string;
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp with time zone' })
+  readonly createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp with time zone' })
+  readonly updatedAt: Date;
 }
 
 @Entity({ name: 'user' })
@@ -28,10 +30,10 @@ export class UserEntity {
   @PrimaryColumn({ type: 'varchar', length: 50 })
   readonly id: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'text' })
   readonly username: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', length: 2000 })
   readonly picture: string;
 
   @OneToMany(type => IdeaEntity, idea => idea.author)
@@ -49,7 +51,7 @@ export class IdeaEntity extends AuditableEntity {
   @Column({ type: 'varchar', length: 200 })
   readonly title: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'text' })
   readonly description: string;
 
   @Column({ type: 'smallint' })
@@ -86,7 +88,7 @@ export class MessageEntity extends AuditableEntity {
   @PrimaryGeneratedColumn()
   readonly id: number;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'text' })
   readonly text: string;
 
   @ManyToOne(type => IdeaEntity, idea => idea.messages)

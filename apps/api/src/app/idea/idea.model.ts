@@ -5,7 +5,6 @@ import {
   IsInt,
   IsNotEmpty,
   IsString,
-  Length,
   Max,
   MaxLength,
   Min
@@ -36,7 +35,7 @@ abstract class IdeaBaseDto implements IdeaBase {
   readonly difficulty: number;
 
   @ApiProperty()
-  readonly createdAt: string;
+  readonly createdAt: Date;
 
   @ApiProperty()
   readonly tags: TagDto[];

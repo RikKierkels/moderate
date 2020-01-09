@@ -20,7 +20,7 @@ abstract class BaseEntity {
 }
 
 abstract class AuditableEntity extends BaseEntity {
-  @Column({ type: 'boolean', default: false })
+  @Column({ name: 'deleted', type: 'boolean', default: false })
   readonly isDeleted: boolean;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp with time zone' })

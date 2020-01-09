@@ -6,7 +6,7 @@ import { TagDto } from './tag.model';
 import { map } from 'rxjs/operators';
 
 @ApiTags('Tag')
-@Controller('tag')
+@Controller('tags')
 export class TagController {
   constructor(private readonly tagService: TagService) {}
 

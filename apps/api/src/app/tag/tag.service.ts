@@ -16,7 +16,7 @@ export class TagService {
     return from(this.repository.find());
   }
 
-  findByIds$(ids: number[]): Observable<TagEntity[]> {
+  findByIds$(ids: string[]): Observable<TagEntity[]> {
     return from(this.repository.findByIds(ids)).pipe(
       map(tags => {
         if (tags.length !== ids.length) {

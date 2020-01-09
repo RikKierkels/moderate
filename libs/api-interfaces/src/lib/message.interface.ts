@@ -1,14 +1,14 @@
 import { User } from '@moderate/api-interfaces';
 
 export interface Message {
-  readonly id: number;
+  readonly id: string;
   readonly text: string;
   readonly createdAt: Date;
   readonly author: User;
 }
 
 export interface MessageCreate extends Pick<Message, 'text'> {
-  readonly ideaId: number;
+  readonly ideaId: string;
 }
 
 export type MessageUpdate = Pick<Message, 'id' | 'text'>;

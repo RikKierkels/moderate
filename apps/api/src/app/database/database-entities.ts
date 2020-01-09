@@ -14,7 +14,12 @@ import {
 // Entities need to be located in the same file to avoid circular dependencies due to the interaction
 // between NX (specifically the webpack bundler) and the ManyToOne relationships of the TypeORM.
 
-abstract class AuditableEntity {
+abstract class BaseEntity {
+  @PrimaryGeneratedColumn('uuid')
+  readonly id: string;
+}
+
+abstract class AuditableEntity extends BaseEntity {
   @Column({ type: 'boolean', default: false })
   readonly isDeleted: boolean;
 
@@ -45,9 +50,6 @@ export class UserEntity {
 
 @Entity({ name: 'idea' })
 export class IdeaEntity extends AuditableEntity {
-  @PrimaryGeneratedColumn()
-  readonly id: number;
-
   @Column({ type: 'varchar', length: 200 })
   readonly title: string;
 
@@ -72,10 +74,7 @@ export class IdeaEntity extends AuditableEntity {
 }
 
 @Entity({ name: 'tag' })
-export class TagEntity {
-  @PrimaryGeneratedColumn()
-  readonly id: number;
-
+export class TagEntity extends BaseEntity {
   @Column({ type: 'varchar', length: 50 })
   readonly name: string;
 
@@ -85,9 +84,6 @@ export class TagEntity {
 
 @Entity({ name: 'message' })
 export class MessageEntity extends AuditableEntity {
-  @PrimaryGeneratedColumn()
-  readonly id: number;
-
   @Column({ type: 'text' })
   readonly text: string;
 

@@ -4,7 +4,7 @@ import { TagEntity } from '../database/database-entities';
 
 export class TagDto implements Tag {
   @ApiProperty()
-  readonly id: number;
+  readonly id: string;
 
   @ApiProperty()
   readonly name: string;

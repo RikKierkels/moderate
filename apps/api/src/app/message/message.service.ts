@@ -18,7 +18,7 @@ export class MessageService implements Service<MessageEntity> {
     private readonly userService: UserService
   ) {}
 
-  findById$(id: number): Observable<MessageEntity> {
+  findById$(id: string): Observable<MessageEntity> {
     return from(
       this.repository.findOneOrFail(id, { where: { isDeleted: false } })
     ).pipe(
@@ -53,7 +53,7 @@ export class MessageService implements Service<MessageEntity> {
     ).pipe(switchMap(() => this.repository.findOne(messageToUpdate.id)));
   }
 
-  delete(id: number): void {
+  delete(id: string): void {
     this.repository.update(id, { isDeleted: true });
   }
 }

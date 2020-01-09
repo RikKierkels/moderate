@@ -23,7 +23,7 @@ import { IdeaEntity } from '../database/database-entities';
 
 abstract class IdeaBaseDto implements IdeaBase {
   @ApiProperty()
-  readonly id: number;
+  readonly id: string;
 
   @ApiProperty()
   readonly title: string;
@@ -102,11 +102,12 @@ export class IdeaCreateDto implements IdeaCreate {
   @ApiProperty()
   @ArrayNotEmpty()
   @ArrayUnique()
-  readonly tags: number[];
+  readonly tags: string[];
 }
 
 export class IdeaUpdateDto extends IdeaCreateDto implements IdeaUpdate {
   @ApiProperty()
-  @IsInt()
-  readonly id: number;
+  @IsString()
+  @IsNotEmpty()
+  readonly id: string;
 }

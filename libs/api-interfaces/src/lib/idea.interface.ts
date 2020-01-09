@@ -1,7 +1,7 @@
 import { Message, Tag, User } from '@moderate/api-interfaces';
 
 export interface IdeaBase {
-  readonly id: number;
+  readonly id: string;
   readonly title: string;
   readonly description: string;
   readonly difficulty: number;
@@ -20,7 +20,7 @@ export interface IdeaWithMessages extends IdeaBase {
 
 export interface IdeaCreate
   extends Pick<IdeaBase, 'title' | 'description' | 'difficulty'> {
-  readonly tags: number[];
+  readonly tags: string[];
 }
 
 export type IdeaUpdate = IdeaCreate & Pick<IdeaBase, 'id'>;

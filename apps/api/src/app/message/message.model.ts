@@ -11,7 +11,7 @@ import { IsInt, IsNotEmpty, IsString } from 'class-validator';
 
 export class MessageDto implements Message {
   @ApiProperty()
-  readonly id: number;
+  readonly id: string;
 
   @ApiProperty()
   readonly text: string;
@@ -34,8 +34,9 @@ export class MessageDto implements Message {
 
 export class MessageCreateDto implements MessageCreate {
   @ApiProperty()
-  @IsInt()
-  readonly ideaId: number;
+  @IsString()
+  @IsNotEmpty()
+  readonly ideaId: string;
 
   @ApiProperty()
   @IsString()
@@ -45,8 +46,9 @@ export class MessageCreateDto implements MessageCreate {
 
 export class MessageUpdateDto implements MessageUpdate {
   @ApiProperty()
-  @IsInt()
-  readonly id: number;
+  @IsString()
+  @IsNotEmpty()
+  readonly id: string;
 
   @ApiProperty()
   @IsString()

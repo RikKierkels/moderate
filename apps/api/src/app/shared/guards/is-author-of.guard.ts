@@ -9,7 +9,7 @@ import { IsAuthorOfGuard } from './is-author-of-guard.interface';
 
 @Injectable()
 export class IsAuthorOfMessageGuard implements CanActivate, IsAuthorOfGuard {
-  isAuthorOfFn: (id: number, sub: string) => Observable<boolean>;
+  isAuthorOfFn: (id: string, sub: string) => Observable<boolean>;
 
   constructor(private readonly messageService: MessageService) {
     this.isAuthorOfFn = isAuthorOfEntity<MessageEntity>(messageService);
@@ -23,7 +23,7 @@ export class IsAuthorOfMessageGuard implements CanActivate, IsAuthorOfGuard {
 
 @Injectable()
 export class IsAuthorOfIdeaGuard implements CanActivate, IsAuthorOfGuard {
-  isAuthorOfFn: (id: number, sub: string) => Observable<boolean>;
+  isAuthorOfFn: (id: string, sub: string) => Observable<boolean>;
 
   constructor(private readonly ideaService: IdeaService) {
     this.isAuthorOfFn = isAuthorOfEntity<IdeaEntity>(ideaService);
@@ -38,7 +38,7 @@ export class IsAuthorOfIdeaGuard implements CanActivate, IsAuthorOfGuard {
 function isAuthorOfEntity<T extends { author: { id: string } }>(
   service: Service<T>
 ) {
-  return (id: number, sub: string): Observable<boolean> => {
+  return (id: string, sub: string): Observable<boolean> => {
     return service.findById$(id).pipe(map(idea => idea.author.id === sub));
   };
 }

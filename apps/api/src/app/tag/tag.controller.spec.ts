@@ -6,7 +6,7 @@ import { TagEntity } from '../database/database-entities';
 import { of } from 'rxjs';
 import { TagDto } from './tag.model';
 
-const tagsForTest: TagEntity[] = [{ id: '1', color: '#000000', name: 'Jest' }];
+const tagEntities: TagEntity[] = [{ id: '1', color: '#000000', name: 'Jest' }];
 
 describe('Tag Controller', () => {
   let controller: TagController;
@@ -30,7 +30,7 @@ describe('Tag Controller', () => {
 
   describe('finding all tags', () => {
     it('should map found tags to dtos', () => {
-      jest.spyOn(service, 'findAll$').mockReturnValueOnce(of(tagsForTest));
+      jest.spyOn(service, 'findAll$').mockReturnValueOnce(of(tagEntities));
 
       controller.findAll().subscribe(tags => {
         expect(tags instanceof TagDto).toBeTruthy();

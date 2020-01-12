@@ -49,8 +49,10 @@ describe('TagService', () => {
   });
 
   describe('When finding tags by their id', () => {
+    const expectedTag = tagEntities[0];
+
     beforeEach(() => {
-      repository.findByIds.mockReturnValueOnce(Promise.resolve(tagEntities[0]));
+      repository.findByIds.mockReturnValueOnce(Promise.resolve(expectedTag));
     });
 
     it('should call the repository with the ids', () => {
@@ -60,8 +62,6 @@ describe('TagService', () => {
     });
 
     it('should return the tag entities for the ids', () => {
-      const expectedTag = tagEntities[0];
-
       service.findByIds$([expectedTag.id]).subscribe(tag => {
         expect(tag).toEqual(expectedTag);
       });

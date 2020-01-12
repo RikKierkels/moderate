@@ -36,14 +36,16 @@ describe('TagService', () => {
     });
 
     it('should call the repository once', () => {
-      service.findAll$().subscribe(() => {
-        expect(repository.find).toHaveBeenCalledTimes(1);
+      service.findAll$().subscribe({
+        next: () => expect(repository.find).toHaveBeenCalledTimes(1),
+        error: () => fail()
       });
     });
 
     it('should return all tag entities', () => {
-      service.findAll$().subscribe(tags => {
-        expect(tags).toEqual(tagEntities);
+      service.findAll$().subscribe({
+        next: tags => expect(tags).toEqual(tagEntities),
+        error: () => fail()
       });
     });
   });
@@ -52,18 +54,21 @@ describe('TagService', () => {
     const expectedTag = tagEntities[0];
 
     beforeEach(() => {
-      repository.findByIds.mockReturnValueOnce(Promise.resolve(expectedTag));
+      repository.findByIds.mockReturnValueOnce(Promise.resolve([expectedTag]));
     });
 
     it('should call the repository with the ids', () => {
-      service.findByIds$(['1', '2']).subscribe(() => {
-        expect(repository.findByIds).toHaveBeenCalledWith(['1', '2']);
+      service.findByIds$([expectedTag.id]).subscribe({
+        next: () =>
+          expect(repository.findByIds).toHaveBeenCalledWith(expectedTag.id),
+        error: err => fail()
       });
     });
 
     it('should return the tag entities for the ids', () => {
-      service.findByIds$([expectedTag.id]).subscribe(tag => {
-        expect(tag).toEqual(expectedTag);
+      service.findByIds$([expectedTag.id]).subscribe({
+        next: tag => expect(tag).toEqual(expectedTag),
+        error: () => fail()
       });
     });
 

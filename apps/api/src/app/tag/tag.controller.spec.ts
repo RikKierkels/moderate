@@ -28,14 +28,16 @@ describe('Tag Controller', () => {
     });
 
     it('should retrieve all tags exactly once', () => {
-      controller.findAll().subscribe(() => {
-        expect(service.findAll$).toHaveBeenCalledTimes(1);
+      controller.findAll().subscribe({
+        next: () => expect(service.findAll$).toHaveBeenCalledTimes(1),
+        error: () => fail()
       });
     });
 
     it('should map found tags to DTOs', () => {
-      controller.findAll().subscribe(tags => {
-        expect(tags instanceof TagDto).toBeTruthy();
+      controller.findAll().subscribe({
+        next: tags => expect(tags instanceof TagDto).toBeTruthy(),
+        error: () => fail()
       });
     });
   });

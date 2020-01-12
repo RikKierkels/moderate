@@ -2,23 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TagService } from './tag.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { TagEntity } from '../database/database-entities';
-import { Type } from '@nestjs/common';
-import { ValueProvider } from '@nestjs/common/interfaces';
-import { Repository, UpdateResult } from 'typeorm';
-
-function mockRepositoryProvider<T>(entity: Type<T>): ValueProvider {
-  return {
-    provide: getRepositoryToken(entity),
-    useValue: {
-      find: (): Promise<T[]> => null,
-      findOne: (): Promise<T> => null,
-      findOneOrFail: (): Promise<T> => null,
-      findByIds: (): Promise<T[]> => null,
-      update: (): Promise<UpdateResult> => null,
-      save: (): Promise<T[]> => null
-    }
-  };
-}
+import { Repository } from 'typeorm';
+import { MockType, repositoryMockFactory } from '../database/mock-repository';
 
 const tagEntities: TagEntity[] = [
   { id: '1', color: '#000000', name: 'Jest' },
@@ -27,24 +12,50 @@ const tagEntities: TagEntity[] = [
 
 describe('TagService', () => {
   let service: TagService;
-  let repository: Repository<TagEntity>;
+  let repository: MockType<Repository<TagEntity>>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [TagService, mockRepositoryProvider<TagEntity>(TagEntity)]
+      providers: [
+        TagService,
+        {
+          provide: getRepositoryToken(TagEntity),
+          useValue: repositoryMockFactory()
+        }
+      ]
     }).compile();
 
-    service = module.get<TagService>(TagService);
-    repository = module.get<Repository<TagEntity>>(
-      getRepositoryToken(TagEntity)
-    );
+    service = module.get(TagService);
+    repository = module.get(getRepositoryToken(TagEntity));
   });
 
-  describe('finding all tags', () => {
-    it('should return all tags', () => {
-      jest
-        .spyOn(repository, 'find')
-        .mockReturnValueOnce(Promise.resolve(tagEntities));
+  describe('when fetching all tags', () => {
+    beforeEach(() => {
+      repository.find.mockReturnValueOnce(Promise.resolve(tagEntities));
     });
+
+    it('should call the repository once', () => {
+      service.findAll$().subscribe(() => {
+        expect(repository.find).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    it('should return all tag entities', () => {
+      service.findAll$().subscribe(tags => {
+        expect(tags).toBe(tagEntities);
+      });
+    });
+  });
+
+  describe('When finding tags by their id', () => {
+    it('should call the repository with the ids', () => {
+      const ids = tagEntities.map(tag => tag.id);
+
+      service.findByIds$(ids).subscribe(() => {
+        expect(repository.findByIds).toHaveBeenCalledWith(['1', '2']);
+      });
+    });
+
+    it('should return the tag entities for the ids', () => {});
   });
 });

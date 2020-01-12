@@ -4,6 +4,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { TagEntity } from '../database/database-entities';
 import { Repository } from 'typeorm';
 import { MockType, repositoryMockFactory } from '../database/mock-repository';
+import { NotFoundException } from '@nestjs/common';
 
 const tagEntities: TagEntity[] = [
   { id: '1', color: '#000000', name: 'Jest' },
@@ -42,20 +43,39 @@ describe('TagService', () => {
 
     it('should return all tag entities', () => {
       service.findAll$().subscribe(tags => {
-        expect(tags).toBe(tagEntities);
+        expect(tags).toEqual(tagEntities);
       });
     });
   });
 
   describe('When finding tags by their id', () => {
-    it('should call the repository with the ids', () => {
-      const ids = tagEntities.map(tag => tag.id);
+    beforeEach(() => {
+      repository.findByIds.mockReturnValueOnce(Promise.resolve(tagEntities[0]));
+    });
 
-      service.findByIds$(ids).subscribe(() => {
+    it('should call the repository with the ids', () => {
+      service.findByIds$(['1', '2']).subscribe(() => {
         expect(repository.findByIds).toHaveBeenCalledWith(['1', '2']);
       });
     });
 
-    it('should return the tag entities for the ids', () => {});
+    it('should return the tag entities for the ids', () => {
+      const expectedTag = tagEntities[0];
+
+      service.findByIds$([expectedTag.id]).subscribe(tag => {
+        expect(tag).toEqual(expectedTag);
+      });
+    });
+
+    it('should throw an exception if one or more tags cannot be found', () => {
+      service.findByIds$(['1', '2']).subscribe({
+        error: error => {
+          expect(error instanceof NotFoundException).toBeTruthy();
+          expect(error.message).toBe(
+            'One or more tags with Ids: 1, 2 could not be found.'
+          );
+        }
+      });
+    });
   });
 });

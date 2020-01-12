@@ -22,12 +22,18 @@ describe('Tag Controller', () => {
     service = module.get(TagService);
   });
 
-  describe('finding all tags', () => {
+  describe('while fetching all tags', () => {
     beforeEach(() => {
       service.findAll$.mockReturnValueOnce(of(tagEntities));
     });
 
-    it('should map found tags to dtos', () => {
+    it('should retrieve all tags exactly once', () => {
+      controller.findAll().subscribe(() => {
+        expect(service.findAll$).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    it('should map found tags to DTOs', () => {
       controller.findAll().subscribe(tags => {
         expect(tags instanceof TagDto).toBeTruthy();
       });

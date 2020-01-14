@@ -2,19 +2,18 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { MessageController } from './message.controller';
 import { MessageService } from './message.service';
 import { of } from 'rxjs';
-import { MessageCreateDto, MessageDto } from './message.model';
+import {
+  MessageCreateDto,
+  MessageDto,
+  MessageUpdateDto
+} from './message.model';
 import {
   makeAuthor,
   makeMessage
 } from '../shared/test-helpers/test-data.helpers';
+import { MessageEntity } from '../database/database-entities';
 
 jest.mock('./message.service');
-
-const messageCreateDto: MessageCreateDto = {
-  ideaId: 'idea1',
-  text: 'Fake Message'
-};
-
 describe('Message Controller', () => {
   let controller: MessageController;
   let service: jest.Mocked<MessageService>;
@@ -30,9 +29,12 @@ describe('Message Controller', () => {
   });
 
   describe('While creating a message', () => {
-    const messageEntity = makeMessage('1', messageCreateDto.text, makeAuthor());
+    let messageCreateDto: MessageCreateDto;
+    let messageEntity: MessageEntity;
 
     beforeEach(() => {
+      messageCreateDto = { ideaId: 'idea1', text: 'Fake Message' };
+      messageEntity = makeMessage('1', 'Fake Message', makeAuthor());
       service.create$.mockReturnValueOnce(of(messageEntity));
     });
 

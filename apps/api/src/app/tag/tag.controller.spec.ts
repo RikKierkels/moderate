@@ -1,12 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TagController } from './tag.controller';
 import { TagService } from './tag.service';
-import { TagEntity } from '../database/database-entities';
 import { of } from 'rxjs';
 import { TagDto } from './tag.model';
 
 jest.mock('./tag.service');
-const tagEntities: TagEntity[] = [{ id: '1', color: '#000000', name: 'Jest' }];
 
 describe('Tag Controller', () => {
   let controller: TagController;
@@ -24,6 +22,7 @@ describe('Tag Controller', () => {
 
   describe('while fetching all tags', () => {
     beforeEach(() => {
+      const tagEntities = [{ id: '1', color: '#000000', name: 'Jest' }];
       service.findAll$.mockReturnValueOnce(of(tagEntities));
     });
 

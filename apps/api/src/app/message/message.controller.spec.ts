@@ -39,7 +39,7 @@ describe('Message Controller', () => {
       service.create$.mockReturnValueOnce(of(messageEntity));
     });
 
-    it('should call the message service', () => {
+    it('should call the message service with the correct params', () => {
       controller.create(messageCreateDto, 'github:userid').subscribe({
         next: () => {
           expect(service.create$).toHaveBeenCalledTimes(1);
@@ -70,7 +70,7 @@ describe('Message Controller', () => {
       service.update$.mockReturnValueOnce(of(messageEntity));
     });
 
-    it('should call the message service', () => {
+    it('should call the message service with the update DTO', () => {
       controller.update(messageUpdateDto).subscribe({
         next: () => {
           expect(service.update$).toHaveBeenCalledTimes(1);
@@ -93,7 +93,7 @@ describe('Message Controller', () => {
       controller.delete({ id: '1' });
     });
 
-    it('should call the message service', () => {
+    it('should call the message service with the message id', () => {
       expect(service.delete).toHaveBeenCalledTimes(1);
       expect(service.delete).toHaveBeenCalledWith('1');
     });

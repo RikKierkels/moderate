@@ -30,7 +30,7 @@ describe('TagService', () => {
     repository = module.get(getRepositoryToken(TagEntity));
   });
 
-  describe('when fetching all tags', () => {
+  describe('While fetching all tags', () => {
     beforeEach(() => {
       repository.find.mockReturnValueOnce(Promise.resolve(tagEntities));
     });
@@ -50,7 +50,7 @@ describe('TagService', () => {
     });
   });
 
-  describe('When finding tags by their id', () => {
+  describe('While finding tags by their id', () => {
     const expectedTag = tagEntities[0];
 
     beforeEach(() => {
@@ -74,6 +74,7 @@ describe('TagService', () => {
 
     it('should throw an exception if one or more tags cannot be found', () => {
       service.findByIds$(['1', '2']).subscribe({
+        next: () => fail(),
         error: error => {
           expect(error instanceof NotFoundException).toBeTruthy();
           expect(error.message).toBe(

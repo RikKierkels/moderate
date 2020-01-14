@@ -3,20 +3,16 @@ import { MessageController } from './message.controller';
 import { MessageService } from './message.service';
 import { of } from 'rxjs';
 import { MessageCreateDto, MessageDto } from './message.model';
-import { MessageEntity } from '../database/database-entities';
+import {
+  makeAuthor,
+  makeMessage
+} from '../shared/test-helpers/test-data.helpers';
 
 jest.mock('./message.service');
 
-const userId = 'user1';
 const messageCreateDto: MessageCreateDto = {
   ideaId: 'idea1',
   text: 'Fake Message'
-};
-const messageEntity: Partial<MessageEntity> = {
-  id: '1',
-  text: messageCreateDto.text,
-  author: { id: userId, username: '', picture: '', ideas: [], messages: [] },
-  createdAt: new Date()
 };
 
 describe('Message Controller', () => {
@@ -34,17 +30,19 @@ describe('Message Controller', () => {
   });
 
   describe('While creating a message', () => {
+    const messageEntity = makeMessage('1', messageCreateDto.text, makeAuthor());
+
     beforeEach(() => {
-      service.create$.mockReturnValueOnce(of(messageEntity as MessageEntity));
+      service.create$.mockReturnValueOnce(of(messageEntity));
     });
 
     it('should call the message service', () => {
-      controller.create(messageCreateDto, userId).subscribe({
+      controller.create(messageCreateDto, 'github:userid').subscribe({
         next: () => {
           expect(service.create$).toHaveBeenCalledTimes(1);
           expect(service.create$).toHaveBeenCalledWith(
             messageCreateDto,
-            userId
+            'github:userid'
           );
         },
         error: () => fail()
@@ -52,7 +50,7 @@ describe('Message Controller', () => {
     });
 
     it('should map the created message to a DTO', () => {
-      controller.create(messageCreateDto, userId).subscribe({
+      controller.create(messageCreateDto, 'github:userid').subscribe({
         next: actualMessage =>
           expect(actualMessage instanceof MessageDto).toBeTruthy(),
         error: () => fail()

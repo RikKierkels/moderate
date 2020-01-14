@@ -1,18 +1,41 @@
-import { MessageEntity, UserEntity } from '../../database/database-entities';
+import {
+  IdeaEntity,
+  MessageEntity,
+  UserEntity
+} from '../../database/database-entities';
 
-export const makeMessage = (id, text, author): MessageEntity => {
-  const createAndUpdateDate = new Date(2020, 1, 1, 0, 0, 0, 0);
+const createAndUpdateDate = new Date(2020, 1, 1, 0, 0, 0, 0);
 
-  return {
-    id,
-    text,
-    author,
-    idea: null,
-    createdAt: createAndUpdateDate,
-    updatedAt: createAndUpdateDate,
-    isDeleted: false
-  };
-};
+export const makeIdea = (
+  id,
+  title,
+  description = title,
+  difficulty = 1,
+  author = null,
+  messages = [],
+  tags = []
+): IdeaEntity => ({
+  id,
+  title,
+  description,
+  difficulty,
+  messages,
+  author,
+  tags,
+  createdAt: createAndUpdateDate,
+  updatedAt: createAndUpdateDate,
+  isDeleted: false
+});
+
+export const makeMessage = (id, text, author, idea = null): MessageEntity => ({
+  id,
+  text,
+  author,
+  idea,
+  createdAt: createAndUpdateDate,
+  updatedAt: createAndUpdateDate,
+  isDeleted: false
+});
 
 export const makeAuthor = (
   id = 'github:123',

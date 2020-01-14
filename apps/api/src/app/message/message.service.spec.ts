@@ -4,13 +4,20 @@ import { UserService } from '../user/user.service';
 import { IdeaService } from '../idea/idea.service';
 import { MockType, repositoryMockFactory } from '../database/mock-repository';
 import { Repository } from 'typeorm';
-import { MessageEntity } from '../database/database-entities';
+import {
+  IdeaEntity,
+  MessageEntity,
+  UserEntity
+} from '../database/database-entities';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import {
   makeAuthor,
+  makeIdea,
   makeMessage
 } from '../shared/test-helpers/test-data.helpers';
 import { NotFoundException } from '@nestjs/common';
+import { MessageCreateDto } from './message.model';
+import { of } from 'rxjs';
 
 jest.mock('../user/user.service');
 jest.mock('../idea/idea.service');
@@ -82,6 +89,43 @@ describe('MessageService', () => {
           expect(error instanceof NotFoundException).toBeTruthy();
           expect(error.message).toBe('Cannot find message with id: 2.');
         }
+      });
+    });
+  });
+
+  describe('While creating a message', () => {
+    let messageEntity: MessageEntity;
+    let messageCreateDto: MessageCreateDto;
+    let ideaEntity: IdeaEntity;
+    let author: UserEntity;
+
+    beforeEach(() => {
+      ideaEntity = makeIdea('1', 'Fake Idea');
+      ideaService.findById$.mockReturnValueOnce(of(ideaEntity));
+
+      author = makeAuthor();
+      userService.findOrCreate$.mockReturnValueOnce(of(author));
+
+      messageCreateDto = { ideaId: '1', text: 'Fake Message' };
+    });
+
+    it('should call the user service with the user id', () => {
+      messageService.create$(messageCreateDto, 'userid').subscribe({
+        next: () => {
+          expect(userService.findOrCreate$).toHaveBeenCalledTimes(1);
+          expect(userService.findOrCreate$).toHaveBeenCalledWith('userid');
+        },
+        error: () => fail()
+      });
+    });
+
+    it('should call the idea service with the idea id', () => {
+      messageService.create$(messageCreateDto, 'userid').subscribe({
+        next: () => {
+          expect(ideaService.findById$).toHaveBeenCalledTimes(1);
+          expect(ideaService.findById$).toHaveBeenCalledWith('1');
+        },
+        error: () => fail()
       });
     });
   });

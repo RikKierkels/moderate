@@ -40,12 +40,12 @@ describe('Message Controller', () => {
     });
 
     it('should call the message service with the correct params', () => {
-      controller.create(messageCreateDto, 'github:userid').subscribe({
+      controller.create(messageCreateDto, 'userid').subscribe({
         next: () => {
           expect(service.create$).toHaveBeenCalledTimes(1);
           expect(service.create$).toHaveBeenCalledWith(
             messageCreateDto,
-            'github:userid'
+            'userid'
           );
         },
         error: () => fail()
@@ -53,7 +53,7 @@ describe('Message Controller', () => {
     });
 
     it('should map the created message to a DTO', () => {
-      controller.create(messageCreateDto, 'github:userid').subscribe({
+      controller.create(messageCreateDto, 'userid').subscribe({
         next: message => expect(message instanceof MessageDto).toBeTruthy(),
         error: () => fail()
       });

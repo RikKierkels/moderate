@@ -14,6 +14,7 @@ import {
 import { MessageEntity } from '../database/database-entities';
 
 jest.mock('./message.service');
+
 describe('Message Controller', () => {
   let controller: MessageController;
   let service: jest.Mocked<MessageService>;
@@ -53,10 +54,48 @@ describe('Message Controller', () => {
 
     it('should map the created message to a DTO', () => {
       controller.create(messageCreateDto, 'github:userid').subscribe({
-        next: actualMessage =>
-          expect(actualMessage instanceof MessageDto).toBeTruthy(),
+        next: message => expect(message instanceof MessageDto).toBeTruthy(),
         error: () => fail()
       });
+    });
+  });
+
+  describe('While updating a message', () => {
+    let messageUpdateDto: MessageUpdateDto;
+    let messageEntity: MessageEntity;
+
+    beforeEach(() => {
+      messageUpdateDto = { id: '1', text: 'Fake Message' };
+      messageEntity = makeMessage('1', 'Fake Message', makeAuthor());
+      service.create$.mockReturnValueOnce(of(messageEntity));
+    });
+
+    it('should call the message service', () => {
+      controller.update(messageUpdateDto).subscribe({
+        next: () => {
+          expect(service.update$).toHaveBeenCalledTimes(1);
+          expect(service.update$).toHaveBeenCalledWith(messageUpdateDto);
+        },
+        error: () => fail()
+      });
+    });
+
+    it('should map the updated message to a DTO', () => {
+      controller.update(messageUpdateDto).subscribe({
+        next: message => expect(message instanceof MessageDto).toBeTruthy(),
+        error: () => fail()
+      });
+    });
+  });
+
+  describe('While deleting a messsage', () => {
+    beforeEach(() => {
+      controller.delete({ id: '1' });
+    });
+
+    it('should call the message service', () => {
+      expect(service.delete).toHaveBeenCalledTimes(1);
+      expect(service.delete).toHaveBeenCalledWith('1');
     });
   });
 });

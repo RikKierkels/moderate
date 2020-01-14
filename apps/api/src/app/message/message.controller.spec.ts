@@ -67,7 +67,7 @@ describe('Message Controller', () => {
     beforeEach(() => {
       messageUpdateDto = { id: '1', text: 'Fake Message' };
       messageEntity = makeMessage('1', 'Fake Message', makeAuthor());
-      service.create$.mockReturnValueOnce(of(messageEntity));
+      service.update$.mockReturnValueOnce(of(messageEntity));
     });
 
     it('should call the message service', () => {

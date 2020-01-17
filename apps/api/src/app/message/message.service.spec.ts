@@ -11,7 +11,7 @@ import {
 } from '../database/database-entities';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import {
-  makeAuthor,
+  makeUser,
   makeIdea,
   makeMessage
 } from '../shared/test-helpers/test-data.helpers';
@@ -53,7 +53,7 @@ describe('MessageService', () => {
     let messageEntity: MessageEntity;
 
     beforeEach(() => {
-      messageEntity = makeMessage('1', 'Fake Message', makeAuthor());
+      messageEntity = makeMessage('1', 'Fake Message', makeUser());
     });
 
     it('should call the repository with the id', done => {
@@ -105,7 +105,7 @@ describe('MessageService', () => {
       ideaEntity = makeIdea('1', 'Fake Idea');
       ideaService.findById$.mockReturnValueOnce(of(ideaEntity));
 
-      author = makeAuthor();
+      author = makeUser();
       userService.findOrCreate$.mockReturnValueOnce(of(author));
 
       repository.create.mockReturnValueOnce({});

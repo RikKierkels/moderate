@@ -37,7 +37,7 @@ export const makeMessage = (id, text, author, idea = null): MessageEntity => ({
   isDeleted: false
 });
 
-export const makeAuthor = (
+export const makeUser = (
   id = 'github:123',
   username = 'Herman',
   picture = 'https://www.herman.nl/face.jpg'

@@ -8,7 +8,7 @@ import {
   MessageUpdateDto
 } from './message.model';
 import {
-  makeAuthor,
+  makeUser,
   makeMessage
 } from '../shared/test-helpers/test-data.helpers';
 import { MessageEntity } from '../database/database-entities';
@@ -36,7 +36,7 @@ describe('Message Controller', () => {
 
     beforeEach(() => {
       messageCreateDto = { ideaId: 'idea1', text: 'Fake Message' };
-      messageEntity = makeMessage('1', 'Fake Message', makeAuthor());
+      messageEntity = makeMessage('1', 'Fake Message', makeUser());
       service.create$.mockReturnValueOnce(of(messageEntity));
     });
 
@@ -60,7 +60,7 @@ describe('Message Controller', () => {
 
     beforeEach(() => {
       messageUpdateDto = { id: '1', text: 'Fake Message' };
-      messageEntity = makeMessage('1', 'Fake Message', makeAuthor());
+      messageEntity = makeMessage('1', 'Fake Message', makeUser());
       service.update$.mockReturnValueOnce(of(messageEntity));
     });
 

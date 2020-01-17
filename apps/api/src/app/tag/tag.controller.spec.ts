@@ -3,6 +3,7 @@ import { TagController } from './tag.controller';
 import { TagService } from './tag.service';
 import { of } from 'rxjs';
 import { TagDto } from './tag.model';
+import { onNext } from '../shared/test-helpers/test-subscribe-helpers';
 
 jest.mock('./tag.service');
 
@@ -26,18 +27,22 @@ describe('Tag Controller', () => {
       service.findAll$.mockReturnValueOnce(of(tagEntities));
     });
 
-    it('should retrieve all tags exactly once', () => {
-      controller.findAll().subscribe({
-        next: () => expect(service.findAll$).toHaveBeenCalledTimes(1),
-        error: () => fail()
-      });
+    it('should retrieve all tags exactly once', done => {
+      controller.findAll().subscribe(
+        onNext(() => {
+          expect(service.findAll$).toHaveBeenCalledTimes(1);
+          done();
+        })
+      );
     });
 
-    it('should map found tags to DTOs', () => {
-      controller.findAll().subscribe({
-        next: tags => expect(tags instanceof TagDto).toBeTruthy(),
-        error: () => fail()
-      });
+    it('should map found tags to DTOs', done => {
+      controller.findAll().subscribe(
+        onNext(tags => {
+          tags.forEach(tag => expect(tag instanceof TagDto).toBeTruthy());
+          done();
+        })
+      );
     });
   });
 });

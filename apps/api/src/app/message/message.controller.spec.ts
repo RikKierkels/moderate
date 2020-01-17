@@ -12,6 +12,7 @@ import {
   makeMessage
 } from '../shared/test-helpers/test-data.helpers';
 import { MessageEntity } from '../database/database-entities';
+import { onNext } from '../shared/test-helpers/test-subscribe-helpers';
 
 jest.mock('./message.service');
 
@@ -39,24 +40,17 @@ describe('Message Controller', () => {
       service.create$.mockReturnValueOnce(of(messageEntity));
     });
 
-    it('should call the message service with the correct params', () => {
-      controller.create(messageCreateDto, 'userid').subscribe({
-        next: () => {
+    it('should call the message service with the correct params', done => {
+      controller.create(messageCreateDto, 'userid').subscribe(
+        onNext(() => {
           expect(service.create$).toHaveBeenCalledTimes(1);
           expect(service.create$).toHaveBeenCalledWith(
             messageCreateDto,
             'userid'
           );
-        },
-        error: () => fail()
-      });
-    });
-
-    it('should map the created message to a DTO', () => {
-      controller.create(messageCreateDto, 'userid').subscribe({
-        next: message => expect(message instanceof MessageDto).toBeTruthy(),
-        error: () => fail()
-      });
+          done();
+        })
+      );
     });
   });
 
@@ -70,25 +64,27 @@ describe('Message Controller', () => {
       service.update$.mockReturnValueOnce(of(messageEntity));
     });
 
-    it('should call the message service with the update DTO', () => {
-      controller.update(messageUpdateDto).subscribe({
-        next: () => {
+    it('should call the message service with the update DTO', done => {
+      controller.update(messageUpdateDto).subscribe(
+        onNext(() => {
           expect(service.update$).toHaveBeenCalledTimes(1);
           expect(service.update$).toHaveBeenCalledWith(messageUpdateDto);
-        },
-        error: () => fail()
-      });
+          done();
+        })
+      );
     });
 
-    it('should map the updated message to a DTO', () => {
-      controller.update(messageUpdateDto).subscribe({
-        next: message => expect(message instanceof MessageDto).toBeTruthy(),
-        error: () => fail()
-      });
+    it('should map the updated message to a DTO', done => {
+      controller.update(messageUpdateDto).subscribe(
+        onNext(message => {
+          expect(message instanceof MessageDto).toBeTruthy();
+          done();
+        })
+      );
     });
   });
 
-  describe('While deleting a messsage', () => {
+  describe('While deleting a message', () => {
     beforeEach(() => {
       controller.delete({ id: '1' });
     });

@@ -19,7 +19,7 @@ import { NotFoundException } from '@nestjs/common';
 import { MessageCreateDto } from './message.model';
 import { of, PartialObserver } from 'rxjs';
 import fn = jest.fn;
-import { onNext } from '../shared/test-helpers/test-subscribe-helpers';
+import { onError, onNext } from '../shared/test-helpers/test-subscribe-helpers';
 
 jest.mock('../user/user.service');
 jest.mock('../idea/idea.service');
@@ -57,41 +57,43 @@ describe('MessageService', () => {
       messageEntity = makeMessage('1', 'Fake Message', makeAuthor());
     });
 
-    it('should call the repository with the id', () => {
+    it('should call the repository with the id', done => {
       repository.findOneOrFail.mockReturnValueOnce(
         Promise.resolve(messageEntity)
       );
 
-      messageService.findById$('1').subscribe({
-        next: () => {
+      messageService.findById$('1').subscribe(
+        onNext(() => {
           expect(repository.findOneOrFail).toHaveBeenCalledTimes(1);
           expect(repository.findOneOrFail).toHaveBeenCalledWith('1', options);
-        },
-        error: () => fail()
-      });
+          done();
+        })
+      );
     });
 
-    it('should return the message entity for an existing id', () => {
+    it('should return the message entity for an existing id', done => {
       repository.findOneOrFail.mockReturnValueOnce(
         Promise.resolve(messageEntity)
       );
 
-      messageService.findById$('1').subscribe({
-        next: message => expect(message).toEqual(messageEntity),
-        error: () => fail()
-      });
+      messageService.findById$('1').subscribe(
+        onNext(message => {
+          expect(message).toEqual(messageEntity);
+          done();
+        })
+      );
     });
 
-    it('should throw an error when a message cannot be found', () => {
+    it('should throw an error when a message cannot be found', done => {
       repository.findOneOrFail.mockReturnValueOnce(Promise.reject(''));
 
-      messageService.findById$('2').subscribe({
-        next: () => fail(),
-        error: error => {
+      messageService.findById$('2').subscribe(
+        onError(error => {
           expect(error instanceof NotFoundException).toBeTruthy();
-          expect(error.message).toBe('Cannot find message with id: 2.');
-        }
-      });
+          expect(error.message.message).toBe('Cannot find message with id: 2.');
+          done();
+        })
+      );
     });
   });
 
@@ -115,41 +117,46 @@ describe('MessageService', () => {
       messageCreateDto = { ideaId: '1', text: 'Fake Message' };
     });
 
-    it('should call the user service with the user id', () => {
+    it('should call the user service with the user id', done => {
       messageService.create$(messageCreateDto, 'userid').subscribe(
         onNext(() => {
           expect(userService.findOrCreate$).toHaveBeenCalledTimes(1);
           expect(userService.findOrCreate$).toHaveBeenCalledWith('userid');
+          done();
         })
       );
     });
 
-    it('should call the idea service with the idea id', () => {
+    it('should call the idea service with the idea id', done => {
       messageService.create$(messageCreateDto, 'userid').subscribe(
         onNext(() => {
           expect(ideaService.findById$).toHaveBeenCalledTimes(1);
           expect(ideaService.findById$).toHaveBeenCalledWith('1');
+          done();
         })
       );
     });
 
-    it('should add the idea and author to the message', () => {
+    it('should add the idea and author to the message', done => {
       messageService.create$(messageCreateDto, 'userid').subscribe(
         onNext(() => {
           expect(repository.save).toHaveBeenCalledTimes(1);
           expect(repository.create).toHaveBeenCalledWith({
+            ideaId: '1',
             text: 'Fake Message',
             idea: ideaEntity,
             author
           });
+          done();
         })
       );
     });
 
-    it('should return the saved message', () => {
+    it('should return the saved message', done => {
       messageService.create$(messageCreateDto, 'userid').subscribe(
         onNext(message => {
           expect(message).toEqual({ text: 'Fake Message' });
+          done();
         })
       );
     });

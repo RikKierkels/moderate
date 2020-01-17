@@ -17,7 +17,9 @@ import {
 } from '../shared/test-helpers/test-data.helpers';
 import { NotFoundException } from '@nestjs/common';
 import { MessageCreateDto } from './message.model';
-import { of } from 'rxjs';
+import { of, PartialObserver } from 'rxjs';
+import fn = jest.fn;
+import { onNext } from '../shared/test-helpers/test-subscribe-helpers';
 
 jest.mock('../user/user.service');
 jest.mock('../idea/idea.service');
@@ -94,7 +96,6 @@ describe('MessageService', () => {
   });
 
   describe('While creating a message', () => {
-    let messageEntity: MessageEntity;
     let messageCreateDto: MessageCreateDto;
     let ideaEntity: IdeaEntity;
     let author: UserEntity;
@@ -106,27 +107,51 @@ describe('MessageService', () => {
       author = makeAuthor();
       userService.findOrCreate$.mockReturnValueOnce(of(author));
 
+      repository.create.mockReturnValueOnce({});
+      repository.save.mockReturnValueOnce(
+        Promise.resolve({ text: 'Fake Message' })
+      );
+
       messageCreateDto = { ideaId: '1', text: 'Fake Message' };
     });
 
     it('should call the user service with the user id', () => {
-      messageService.create$(messageCreateDto, 'userid').subscribe({
-        next: () => {
+      messageService.create$(messageCreateDto, 'userid').subscribe(
+        onNext(() => {
           expect(userService.findOrCreate$).toHaveBeenCalledTimes(1);
           expect(userService.findOrCreate$).toHaveBeenCalledWith('userid');
-        },
-        error: () => fail()
-      });
+        })
+      );
     });
 
     it('should call the idea service with the idea id', () => {
-      messageService.create$(messageCreateDto, 'userid').subscribe({
-        next: () => {
+      messageService.create$(messageCreateDto, 'userid').subscribe(
+        onNext(() => {
           expect(ideaService.findById$).toHaveBeenCalledTimes(1);
           expect(ideaService.findById$).toHaveBeenCalledWith('1');
-        },
-        error: () => fail()
-      });
+        })
+      );
+    });
+
+    it('should add the idea and author to the message', () => {
+      messageService.create$(messageCreateDto, 'userid').subscribe(
+        onNext(() => {
+          expect(repository.save).toHaveBeenCalledTimes(1);
+          expect(repository.create).toHaveBeenCalledWith({
+            text: 'Fake Message',
+            idea: ideaEntity,
+            author
+          });
+        })
+      );
+    });
+
+    it('should return the saved message', () => {
+      messageService.create$(messageCreateDto, 'userid').subscribe(
+        onNext(message => {
+          expect(message).toEqual({ text: 'Fake Message' });
+        })
+      );
     });
   });
 });

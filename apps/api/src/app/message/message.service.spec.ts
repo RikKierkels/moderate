@@ -193,4 +193,15 @@ describe('MessageService', () => {
       );
     });
   });
+
+  describe('While deleting a message', () => {
+    beforeEach(() => {
+      messageService.delete('1');
+    });
+
+    it('should call the repository to delete the message', () => {
+      expect(repository.update).toHaveBeenCalledTimes(1);
+      expect(repository.update).toHaveBeenCalledWith('1', { isDeleted: true });
+    });
+  });
 });

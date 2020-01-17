@@ -7,8 +7,8 @@ export const repositoryMockFactory: () => MockType<Repository<any>> = jest.fn(
     findOne: jest.fn(),
     findOneOrFail: jest.fn(),
     findByIds: jest.fn(),
-    update: jest.fn(),
     create: jest.fn(),
+    update: jest.fn(),
     save: jest.fn()
   })
 );

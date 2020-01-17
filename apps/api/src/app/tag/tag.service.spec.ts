@@ -5,6 +5,7 @@ import { TagEntity } from '../database/database-entities';
 import { Repository } from 'typeorm';
 import { MockType, repositoryMockFactory } from '../database/mock-repository';
 import { NotFoundException } from '@nestjs/common';
+import { onError, onNext } from '../shared/test-helpers/test-subscribe-helpers';
 
 const tagEntities: TagEntity[] = [
   { id: '1', color: '#000000', name: 'Jest' },
@@ -35,18 +36,22 @@ describe('TagService', () => {
       repository.find.mockReturnValueOnce(Promise.resolve(tagEntities));
     });
 
-    it('should call the repository once', () => {
-      service.findAll$().subscribe({
-        next: () => expect(repository.find).toHaveBeenCalledTimes(1),
-        error: () => fail()
-      });
+    it('should call the repository once', done => {
+      service.findAll$().subscribe(
+        onNext(() => {
+          expect(repository.find).toHaveBeenCalledTimes(1);
+          done();
+        })
+      );
     });
 
-    it('should return all tag entities', () => {
-      service.findAll$().subscribe({
-        next: tags => expect(tags).toEqual(tagEntities),
-        error: () => fail()
-      });
+    it('should return all tag entities', done => {
+      service.findAll$().subscribe(
+        onNext(tags => {
+          expect(tags).toEqual(tagEntities);
+          done();
+        })
+      );
     });
   });
 
@@ -57,31 +62,34 @@ describe('TagService', () => {
       repository.findByIds.mockReturnValueOnce(Promise.resolve([expectedTag]));
     });
 
-    it('should call the repository with the ids', () => {
-      service.findByIds$([expectedTag.id]).subscribe({
-        next: () =>
-          expect(repository.findByIds).toHaveBeenCalledWith(expectedTag.id),
-        error: err => fail()
-      });
+    it('should call the repository with the ids', done => {
+      service.findByIds$([expectedTag.id]).subscribe(
+        onNext(() => {
+          expect(repository.findByIds).toHaveBeenCalledWith([expectedTag.id]);
+          done();
+        })
+      );
     });
 
-    it('should return the tag entities for the ids', () => {
-      service.findByIds$([expectedTag.id]).subscribe({
-        next: tag => expect(tag).toEqual(expectedTag),
-        error: () => fail()
-      });
+    it('should return the tag entities for the ids', done => {
+      service.findByIds$([expectedTag.id]).subscribe(
+        onNext(tags => {
+          expect(tags).toEqual([expectedTag]);
+          done();
+        })
+      );
     });
 
-    it('should throw an exception if one or more tags cannot be found', () => {
-      service.findByIds$(['1', '2']).subscribe({
-        next: () => fail(),
-        error: error => {
+    it('should throw an exception if one or more tags cannot be found', done => {
+      service.findByIds$(['1', '2']).subscribe(
+        onError(error => {
           expect(error instanceof NotFoundException).toBeTruthy();
-          expect(error.message).toBe(
+          expect(error.message.message).toBe(
             'One or more tags with Ids: 1, 2 could not be found.'
           );
-        }
-      });
+          done();
+        })
+      );
     });
   });
 });

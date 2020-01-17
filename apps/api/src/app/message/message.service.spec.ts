@@ -16,9 +16,8 @@ import {
   makeMessage
 } from '../shared/test-helpers/test-data.helpers';
 import { NotFoundException } from '@nestjs/common';
-import { MessageCreateDto } from './message.model';
-import { of, PartialObserver } from 'rxjs';
-import fn = jest.fn;
+import { MessageCreateDto, MessageUpdateDto } from './message.model';
+import { of } from 'rxjs';
 import { onError, onNext } from '../shared/test-helpers/test-subscribe-helpers';
 
 jest.mock('../user/user.service');
@@ -140,7 +139,7 @@ describe('MessageService', () => {
     it('should add the idea and author to the message', done => {
       messageService.create$(messageCreateDto, 'userid').subscribe(
         onNext(() => {
-          expect(repository.save).toHaveBeenCalledTimes(1);
+          expect(repository.create).toHaveBeenCalledTimes(1);
           expect(repository.create).toHaveBeenCalledWith({
             ideaId: '1',
             text: 'Fake Message',
@@ -154,6 +153,39 @@ describe('MessageService', () => {
 
     it('should return the saved message', done => {
       messageService.create$(messageCreateDto, 'userid').subscribe(
+        onNext(message => {
+          expect(message).toEqual({ text: 'Fake Message' });
+          done();
+        })
+      );
+    });
+  });
+
+  describe('While updating a message', () => {
+    let messageUpdateDto: MessageUpdateDto;
+
+    beforeEach(() => {
+      messageUpdateDto = { id: '1', text: 'Fake Message' };
+      repository.update.mockReturnValueOnce(Promise.resolve({}));
+      repository.findOne.mockReturnValueOnce(
+        Promise.resolve({ text: 'Fake Message' })
+      );
+    });
+
+    it('should call the repository to update the message', done => {
+      messageService.update$(messageUpdateDto).subscribe(
+        onNext(() => {
+          expect(repository.update).toHaveBeenCalledTimes(1);
+          expect(repository.update).toHaveBeenCalledWith('1', {
+            text: 'Fake Message'
+          });
+          done();
+        })
+      );
+    });
+
+    it('should return the updated message', done => {
+      messageService.update$(messageUpdateDto).subscribe(
         onNext(message => {
           expect(message).toEqual({ text: 'Fake Message' });
           done();

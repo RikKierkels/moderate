@@ -7,9 +7,16 @@ import {
 import { UserDto } from '../user/user.model';
 import { MessageEntity } from '../database/database-entities';
 import { TEXT_MESSAGE_DELETED } from '../shared/constants';
-import { IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class MessageDto implements Message {
+  constructor(id, text, createdAt, author) {
+    this.id = id;
+    this.text = text;
+    this.createdAt = createdAt;
+    this.author = author;
+  }
+
   @ApiProperty()
   readonly id: string;
 
@@ -23,12 +30,14 @@ export class MessageDto implements Message {
   readonly author: UserDto;
 
   static fromEntity(entity: MessageEntity): MessageDto {
-    return {
-      id: entity.id,
-      text: entity.isDeleted ? TEXT_MESSAGE_DELETED : entity.text,
-      createdAt: entity.createdAt,
-      author: UserDto.fromEntity(entity.author)
-    };
+    const text = entity.isDeleted ? TEXT_MESSAGE_DELETED : entity.text;
+
+    return new MessageDto(
+      entity.id,
+      text,
+      entity.createdAt,
+      UserDto.fromEntity(entity.author)
+    );
   }
 }
 

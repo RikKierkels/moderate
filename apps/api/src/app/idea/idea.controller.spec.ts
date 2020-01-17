@@ -4,7 +4,7 @@ import { IdeaService } from './idea.service';
 import { of } from 'rxjs';
 import { IdeaEntity } from '../database/database-entities';
 import { makeIdea, makeUser } from '../shared/test-helpers/test-data.helpers';
-import { IdeaDto } from './idea.model';
+import { IdeaCreateDto, IdeaDto } from './idea.model';
 import { onNext } from '../shared/test-helpers/test-subscribe-helpers';
 
 jest.mock('./idea.service');
@@ -60,6 +60,34 @@ describe('idea Controller', () => {
 
     it('should map the idea to a DTO', done => {
       controller.find({ id: '1' }).subscribe(
+        onNext(idea => {
+          expect(idea instanceof IdeaDto).toBeTruthy();
+          done();
+        })
+      );
+    });
+  });
+
+  describe('While creating an idea', () => {
+    let ideaCreateDto: IdeaCreateDto;
+
+    beforeEach(() => {
+      ideaCreateDto = { title: 'Fake Idea' } as IdeaCreateDto;
+      service.create$.mockReturnValueOnce(of(ideaEntities[0]));
+    });
+
+    it('should call the service with the correct params', done => {
+      controller.create(ideaCreateDto, 'userId').subscribe(
+        onNext(() => {
+          expect(service.create$).toHaveBeenCalledTimes(1);
+          expect(service.create$).toHaveBeenCalledWith(ideaCreateDto, 'userId');
+          done();
+        })
+      );
+    });
+
+    it('should map the returned idea to a DTO', done => {
+      controller.create(ideaCreateDto, 'userId').subscribe(
         onNext(idea => {
           expect(idea instanceof IdeaDto).toBeTruthy();
           done();

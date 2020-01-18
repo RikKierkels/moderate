@@ -122,4 +122,15 @@ describe('idea Controller', () => {
       );
     });
   });
+
+  describe('While deleting an idea', () => {
+    beforeEach(() => {
+      controller.delete({ id: '1' });
+    });
+
+    it('should delete the idea by id', () => {
+      expect(service.delete$).toHaveBeenCalledTimes(1);
+      expect(service.delete$).toHaveBeenCalledWith('1');
+    });
+  });
 });

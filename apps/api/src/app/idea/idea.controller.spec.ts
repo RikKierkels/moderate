@@ -6,10 +6,10 @@ import { IdeaEntity } from '../database/database-entities';
 import { makeIdea, makeUser } from '../shared/test-helpers/test-data.helpers';
 import { onNext } from '../shared/test-helpers/test-subscribe-helpers';
 import Mock = jest.Mock;
-import { IdeaDto } from './dto\'s/idea.dto';
-import { IdeaWithMessagesDto } from './dto\'s/idea-messages.dto';
-import { IdeaCreateDto } from './dto\'s/idea-create.dto';
-import { IdeaUpdateDto } from './dto\'s/idea-update.dto';
+import { IdeaCreateDto } from './models/idea-create.dto';
+import { IdeaUpdateDto } from './models/idea-update.dto';
+import { IdeaDto } from './models/idea.dto';
+import { IdeaWithMessagesDto } from './models/idea-messages.dto';
 
 jest.mock('./idea.service');
 

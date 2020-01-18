@@ -1,8 +1,8 @@
-import { IdeaBaseDto } from './idea-base-dto.model';
 import { IdeaWithMessages } from '@moderate/api-interfaces';
 import { ApiProperty } from '@nestjs/swagger';
 import { IdeaEntity } from '../../database/database-entities';
 import { MessageDto } from '../../message/models/message.dto';
+import { IdeaBaseDto } from './idea-base.dto';
 
 export class IdeaWithMessagesDto extends IdeaBaseDto
   implements IdeaWithMessages {

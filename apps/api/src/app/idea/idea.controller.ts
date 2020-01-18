@@ -20,10 +20,10 @@ import { UserId } from '../shared/decorators/user.decorator';
 import { first, map } from 'rxjs/operators';
 import { FindOneParams } from '../shared/find-one-params.model';
 import { IsAuthorOfIdeaGuard } from '../shared/guards/is-author-of.guard';
-import { IdeaDto } from './dto\'s/idea.dto';
-import { IdeaWithMessagesDto } from './dto\'s/idea-messages.dto';
-import { IdeaCreateDto } from './dto\'s/idea-create.dto';
-import { IdeaUpdateDto } from './dto\'s/idea-update.dto';
+import { IdeaCreateDto } from './models/idea-create.dto';
+import { IdeaUpdateDto } from './models/idea-update.dto';
+import { IdeaWithMessagesDto } from './models/idea-messages.dto';
+import { IdeaDto } from './models/idea.dto';
 
 @ApiTags('Idea')
 @Controller('ideas')

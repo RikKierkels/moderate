@@ -7,8 +7,8 @@ import { IdeaEntity } from '../database/database-entities';
 import { TagService } from '../tag/tag.service';
 import { UserService } from '../user/user.service';
 import { Service } from '../shared/service.interface';
-import { IdeaCreateDto } from './dto\'s/idea-create.dto';
-import { IdeaUpdateDto } from './dto\'s/idea-update.dto';
+import { IdeaCreateDto } from './models/idea-create.dto';
+import { IdeaUpdateDto } from './models/idea-update.dto';
 
 @Injectable()
 export class IdeaService implements Service<IdeaEntity> {

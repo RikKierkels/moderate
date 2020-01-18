@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Tag } from '@moderate/api-interfaces';
-import { TagEntity } from '../database/database-entities';
+import { TagEntity } from '../../database/database-entities';
 
 export class TagDto implements Tag {
   constructor(id: string, name: string, color: string) {

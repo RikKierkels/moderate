@@ -3,7 +3,7 @@ import { Tag } from '@moderate/api-interfaces';
 import { TagEntity } from '../database/database-entities';
 
 export class TagDto implements Tag {
-  constructor(id, name, color) {
+  constructor(id: string, name: string, color: string) {
     this.id = id;
     this.name = name;
     this.color = color;

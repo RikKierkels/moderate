@@ -10,7 +10,7 @@ import { TEXT_MESSAGE_DELETED } from '../shared/constants';
 import { IsNotEmpty, IsString } from 'class-validator';
 
 export class MessageDto implements Message {
-  constructor(id, text, createdAt, author) {
+  constructor(id: string, text: string, createdAt: Date, author: UserDto) {
     this.id = id;
     this.text = text;
     this.createdAt = createdAt;

@@ -22,6 +22,16 @@ import { UserDto } from '../user/user.model';
 import { IdeaEntity } from '../database/database-entities';
 
 abstract class IdeaBaseDto implements IdeaBase {
+  constructor(id, title, description, difficulty, createdAt, tags, author) {
+    this.id = id;
+    this.title = title;
+    this.description = description;
+    this.difficulty = difficulty;
+    this.createdAt = createdAt;
+    this.tags = tags;
+    this.author = author;
+  }
+
   @ApiProperty()
   readonly id: string;
 
@@ -57,6 +67,10 @@ abstract class IdeaBaseDto implements IdeaBase {
 }
 
 export class IdeaDto extends IdeaBaseDto implements Idea {
+  constructor(id, title, description, difficulty, createdAt, tags, author) {
+    super();
+  }
+
   @ApiProperty()
   readonly messageCount: number;
 

@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TagController } from './tag.controller';
 import { TagService } from './tag.service';
 import { of } from 'rxjs';
-import { TagDto } from './tag.model';
+import { TagDto } from './models/tag.dto';
 import { onNext } from '../shared/test-helpers/test-subscribe-helpers';
 
 jest.mock('./tag.service');

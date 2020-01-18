@@ -4,10 +4,11 @@ import { Repository } from 'typeorm';
 import { forkJoin, from, Observable } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { IdeaEntity } from '../database/database-entities';
-import { IdeaCreateDto, IdeaUpdateDto } from './idea.model';
 import { TagService } from '../tag/tag.service';
 import { UserService } from '../user/user.service';
 import { Service } from '../shared/service.interface';
+import { IdeaCreateDto } from './dto\'s/idea-create.dto';
+import { IdeaUpdateDto } from './dto\'s/idea-update.dto';
 
 @Injectable()
 export class IdeaService implements Service<IdeaEntity> {

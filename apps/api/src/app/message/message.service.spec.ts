@@ -16,9 +16,10 @@ import {
   makeMessage
 } from '../shared/test-helpers/test-data.helpers';
 import { NotFoundException } from '@nestjs/common';
-import { MessageCreateDto, MessageUpdateDto } from './message.model';
 import { of } from 'rxjs';
 import { onError, onNext } from '../shared/test-helpers/test-subscribe-helpers';
+import { MessageCreateDto } from './models/message-create.dto';
+import { MessageUpdateDto } from './models/message-update.dto';
 
 jest.mock('../user/user.service');
 jest.mock('../idea/idea.service');

@@ -15,17 +15,15 @@ import {
   ApiResponse,
   ApiTags
 } from '@nestjs/swagger';
-import {
-  IdeaCreateDto,
-  IdeaDto,
-  IdeaUpdateDto,
-  IdeaWithMessagesDto
-} from './idea.model';
 import { Auth } from '../shared/decorators/auth.decorator';
 import { UserId } from '../shared/decorators/user.decorator';
 import { first, map } from 'rxjs/operators';
 import { FindOneParams } from '../shared/find-one-params.model';
 import { IsAuthorOfIdeaGuard } from '../shared/guards/is-author-of.guard';
+import { IdeaDto } from './dto\'s/idea.dto';
+import { IdeaWithMessagesDto } from './dto\'s/idea-messages.dto';
+import { IdeaCreateDto } from './dto\'s/idea-create.dto';
+import { IdeaUpdateDto } from './dto\'s/idea-update.dto';
 
 @ApiTags('Idea')
 @Controller('ideas')

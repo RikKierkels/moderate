@@ -4,8 +4,12 @@ import { IdeaService } from './idea.service';
 import { of } from 'rxjs';
 import { IdeaEntity } from '../database/database-entities';
 import { makeIdea, makeUser } from '../shared/test-helpers/test-data.helpers';
-import { IdeaCreateDto, IdeaDto, IdeaUpdateDto } from './idea.model';
 import { onNext } from '../shared/test-helpers/test-subscribe-helpers';
+import Mock = jest.Mock;
+import { IdeaDto } from './dto\'s/idea.dto';
+import { IdeaWithMessagesDto } from './dto\'s/idea-messages.dto';
+import { IdeaCreateDto } from './dto\'s/idea-create.dto';
+import { IdeaUpdateDto } from './dto\'s/idea-update.dto';
 
 jest.mock('./idea.service');
 
@@ -17,6 +21,8 @@ const ideaEntities: IdeaEntity[] = [
 describe('idea Controller', () => {
   let controller: IdeaController;
   let service: jest.Mocked<IdeaService>;
+  let mapToDtoMock: Mock;
+  let mapToDtoWithMessagesMock: Mock;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -26,6 +32,12 @@ describe('idea Controller', () => {
 
     controller = module.get(IdeaController);
     service = module.get(IdeaService);
+
+    mapToDtoMock = jest.fn();
+    IdeaDto.fromEntity = mapToDtoMock.bind(IdeaDto);
+
+    mapToDtoWithMessagesMock = jest.fn();
+    IdeaWithMessagesDto.fromEntity = mapToDtoWithMessagesMock.bind(IdeaDto);
   });
 
   describe('While fetching all ideas', () => {
@@ -36,7 +48,7 @@ describe('idea Controller', () => {
     it('should map the ideas as DTOs', done => {
       controller.findAll().subscribe(
         onNext(ideas => {
-          ideas.forEach(idea => expect(idea instanceof IdeaDto).toBeTruthy());
+          expect(mapToDtoMock).toHaveBeenCalledTimes(ideaEntities.length);
           done();
         })
       );
@@ -61,7 +73,7 @@ describe('idea Controller', () => {
     it('should map the idea to a DTO', done => {
       controller.find({ id: '1' }).subscribe(
         onNext(idea => {
-          expect(idea instanceof IdeaDto).toBeTruthy();
+          expect(mapToDtoWithMessagesMock).toHaveBeenCalledTimes(1);
           done();
         })
       );
@@ -89,7 +101,7 @@ describe('idea Controller', () => {
     it('should map the returned idea to a DTO', done => {
       controller.create(ideaCreateDto, 'userId').subscribe(
         onNext(idea => {
-          expect(idea instanceof IdeaDto).toBeTruthy();
+          expect(mapToDtoMock).toHaveBeenCalledTimes(1);
           done();
         })
       );
@@ -109,6 +121,7 @@ describe('idea Controller', () => {
         onNext(() => {
           expect(service.update$).toHaveBeenCalledTimes(1);
           expect(service.update$).toHaveBeenCalledWith(ideaUpdateDto);
+          done();
         })
       );
     });
@@ -116,7 +129,7 @@ describe('idea Controller', () => {
     it('should map the updated idea to a DTO', done => {
       controller.update(ideaUpdateDto).subscribe(
         onNext(idea => {
-          expect(idea instanceof IdeaDto).toBeTruthy();
+          expect(mapToDtoMock).toHaveBeenCalledTimes(1);
           done();
         })
       );
@@ -125,6 +138,7 @@ describe('idea Controller', () => {
 
   describe('While deleting an idea', () => {
     beforeEach(() => {
+      service.delete$.mockReturnValueOnce(of(ideaEntities[0]));
       controller.delete({ id: '1' });
     });
 

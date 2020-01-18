@@ -2,7 +2,7 @@ import { Controller, Get } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { TagService } from './tag.service';
 import { Observable } from 'rxjs';
-import { TagDto } from './tag.model';
+import { TagDto } from './models/tag.dto';
 import { map } from 'rxjs/operators';
 
 @ApiTags('Tag')

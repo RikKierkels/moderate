@@ -14,6 +14,6 @@ export class IdeaWithMessagesDto extends IdeaBaseDto
     const messages = (entity.messages || []).map(message =>
       MessageDto.fromEntity(message)
     );
-    return { ...ideaBase, messages };
+    return Object.assign(new IdeaWithMessagesDto(), ideaBase, { messages });
   }
 }

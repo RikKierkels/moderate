@@ -27,7 +27,7 @@ export class IdeaBaseDto implements IdeaBase {
   readonly author: UserDto;
 
   static fromEntityToBase(entity: IdeaEntity): IdeaBaseDto {
-    return {
+    return Object.assign(new IdeaBaseDto(), {
       id: entity.id,
       title: entity.title,
       description: entity.description,
@@ -35,6 +35,6 @@ export class IdeaBaseDto implements IdeaBase {
       createdAt: entity.createdAt,
       tags: (entity.tags || []).map(tag => TagDto.fromEntity(tag)),
       author: UserDto.fromEntity(entity.author)
-    };
+    });
   }
 }

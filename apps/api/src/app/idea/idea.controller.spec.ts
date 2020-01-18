@@ -5,7 +5,6 @@ import { of } from 'rxjs';
 import { IdeaEntity } from '../database/database-entities';
 import { makeIdea, makeUser } from '../shared/test-helpers/test-data.helpers';
 import { onNext } from '../shared/test-helpers/test-subscribe-helpers';
-import Mock = jest.Mock;
 import { IdeaCreateDto } from './models/idea-create.dto';
 import { IdeaUpdateDto } from './models/idea-update.dto';
 import { IdeaDto } from './models/idea.dto';
@@ -21,8 +20,8 @@ const ideaEntities: IdeaEntity[] = [
 describe('idea Controller', () => {
   let controller: IdeaController;
   let service: jest.Mocked<IdeaService>;
-  let mapToDtoMock: Mock;
-  let mapToDtoWithMessagesMock: Mock;
+  let mapToDtoWithMessagesMock: jest.Mock;
+  let mapToDtoMock: jest.Mock;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({

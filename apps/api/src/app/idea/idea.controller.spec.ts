@@ -7,8 +7,6 @@ import { makeIdea, makeUser } from '../shared/test-helpers/test-data.helpers';
 import { onNext } from '../shared/test-helpers/test-subscribe-helpers';
 import { IdeaCreateDto } from './models/idea-create.dto';
 import { IdeaUpdateDto } from './models/idea-update.dto';
-import { IdeaDto } from './models/idea.dto';
-import { IdeaWithMessagesDto } from './models/idea-messages.dto';
 
 jest.mock('./idea.service');
 
@@ -20,8 +18,6 @@ const ideaEntities: IdeaEntity[] = [
 describe('idea Controller', () => {
   let controller: IdeaController;
   let service: jest.Mocked<IdeaService>;
-  let mapToDtoWithMessagesMock: jest.Mock;
-  let mapToDtoMock: jest.Mock;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -31,26 +27,11 @@ describe('idea Controller', () => {
 
     controller = module.get(IdeaController);
     service = module.get(IdeaService);
-
-    mapToDtoMock = jest.fn();
-    IdeaDto.fromEntity = mapToDtoMock.bind(IdeaDto);
-
-    mapToDtoWithMessagesMock = jest.fn();
-    IdeaWithMessagesDto.fromEntity = mapToDtoWithMessagesMock.bind(IdeaDto);
   });
 
   describe('While fetching all ideas', () => {
     beforeEach(() => {
       service.findAll$.mockReturnValueOnce(of(ideaEntities));
-    });
-
-    it('should map the ideas as DTOs', done => {
-      controller.findAll().subscribe(
-        onNext(ideas => {
-          expect(mapToDtoMock).toHaveBeenCalledTimes(ideaEntities.length);
-          done();
-        })
-      );
     });
   });
 
@@ -64,15 +45,6 @@ describe('idea Controller', () => {
         onNext(() => {
           expect(service.findById$).toHaveBeenCalledTimes(1);
           expect(service.findById$).toHaveBeenCalledWith('1');
-          done();
-        })
-      );
-    });
-
-    it('should map the idea to a DTO', done => {
-      controller.find({ id: '1' }).subscribe(
-        onNext(idea => {
-          expect(mapToDtoWithMessagesMock).toHaveBeenCalledTimes(1);
           done();
         })
       );
@@ -96,15 +68,6 @@ describe('idea Controller', () => {
         })
       );
     });
-
-    it('should map the returned idea to a DTO', done => {
-      controller.create(ideaCreateDto, 'userId').subscribe(
-        onNext(idea => {
-          expect(mapToDtoMock).toHaveBeenCalledTimes(1);
-          done();
-        })
-      );
-    });
   });
 
   describe('While updating an idea', () => {
@@ -120,15 +83,6 @@ describe('idea Controller', () => {
         onNext(() => {
           expect(service.update$).toHaveBeenCalledTimes(1);
           expect(service.update$).toHaveBeenCalledWith(ideaUpdateDto);
-          done();
-        })
-      );
-    });
-
-    it('should map the updated idea to a DTO', done => {
-      controller.update(ideaUpdateDto).subscribe(
-        onNext(idea => {
-          expect(mapToDtoMock).toHaveBeenCalledTimes(1);
           done();
         })
       );

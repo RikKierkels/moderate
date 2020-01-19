@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TagController } from './tag.controller';
 import { TagService } from './tag.service';
 import { of } from 'rxjs';
-import { TagDto } from './models/tag.dto';
 import { onNext } from '../shared/test-helpers/test-subscribe-helpers';
 
 jest.mock('./tag.service');
@@ -31,15 +30,6 @@ describe('Tag Controller', () => {
       controller.findAll().subscribe(
         onNext(() => {
           expect(service.findAll$).toHaveBeenCalledTimes(1);
-          done();
-        })
-      );
-    });
-
-    it('should map found tags to DTOs', done => {
-      controller.findAll().subscribe(
-        onNext(tags => {
-          tags.forEach(tag => expect(tag instanceof TagDto).toBeTruthy());
           done();
         })
       );

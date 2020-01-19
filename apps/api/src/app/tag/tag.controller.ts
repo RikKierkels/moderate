@@ -4,7 +4,7 @@ import { TagService } from './tag.service';
 import { Observable } from 'rxjs';
 import { TagDto } from './models/tag.dto';
 import { TagEntity } from '../database/database-entities';
-import Mapper from '../shared/intercepors/response-mappers';
+import Mapper from '../shared/entity-mapper';
 import { MapResponseInterceptor } from '../shared/intercepors/map-response.interceptor';
 
 @ApiTags('Tag')
@@ -12,7 +12,7 @@ import { MapResponseInterceptor } from '../shared/intercepors/map-response.inter
 export class TagController {
   constructor(private readonly tagService: TagService) {}
 
-  @UseInterceptors(new MapResponseInterceptor(Mapper.tagEntityToDto))
+  @UseInterceptors(new MapResponseInterceptor(Mapper.mapToTagDto))
   @ApiResponse({ type: [TagDto] })
   @Get()
   findAll(): Observable<TagEntity[]> {

@@ -6,21 +6,22 @@ import {
 } from '@nestjs/common';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-
-export type MapFn<T, R> = (data: T) => R;
+import { MapFunction } from '../entity-mapper';
 
 @Injectable()
 export class MapResponseInterceptor<T, R> implements NestInterceptor {
-  mapFn: MapFn<T, R>;
+  mapFunction: MapFunction<T, R>;
 
-  constructor(mapFn: MapFn<T, R>) {
-    this.mapFn = mapFn;
+  constructor(mapFn: MapFunction<T, R>) {
+    this.mapFunction = mapFn;
   }
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<R | R[]> {
     return next.handle().pipe(
       map(data => {
-        return Array.isArray(data) ? data.map(this.mapFn) : this.mapFn(data);
+        return Array.isArray(data)
+          ? data.map(this.mapFunction)
+          : this.mapFunction(data);
       })
     );
   }

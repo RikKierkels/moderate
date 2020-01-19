@@ -1,19 +1,23 @@
 import {
   IdeaEntity,
   MessageEntity,
+  TagEntity,
   UserEntity
 } from '../../database/database-entities';
 
 const createAndUpdateDate = new Date(2020, 1, 1, 0, 0, 0, 0);
 
 export const makeIdea = (
-  id,
-  title,
+  id: string,
+  title: string,
   description = title,
   difficulty = 1,
-  author = null,
-  messages = [],
-  tags = []
+  author: UserEntity = null,
+  messages: MessageEntity[] = [],
+  tags: TagEntity[] = [],
+  createdAt = createAndUpdateDate,
+  updatedAt = createAndUpdateDate,
+  isDeleted = false
 ): IdeaEntity => ({
   id,
   title,
@@ -22,19 +26,27 @@ export const makeIdea = (
   messages,
   author,
   tags,
-  createdAt: createAndUpdateDate,
-  updatedAt: createAndUpdateDate,
-  isDeleted: false
+  createdAt,
+  updatedAt,
+  isDeleted
 });
 
-export const makeMessage = (id, text, author, idea = null): MessageEntity => ({
+export const makeMessage = (
+  id: string,
+  text: string,
+  author: UserEntity = null,
+  idea: IdeaEntity = null,
+  createdAt = createAndUpdateDate,
+  updatedAt = createAndUpdateDate,
+  isDeleted = false
+): MessageEntity => ({
   id,
   text,
   author,
   idea,
-  createdAt: createAndUpdateDate,
-  updatedAt: createAndUpdateDate,
-  isDeleted: false
+  createdAt,
+  updatedAt,
+  isDeleted
 });
 
 export const makeUser = (
@@ -47,4 +59,14 @@ export const makeUser = (
   picture,
   ideas: [],
   messages: []
+});
+
+export const makeTag = (
+  id: string,
+  name: string,
+  color: string
+): TagEntity => ({
+  id,
+  name,
+  color
 });

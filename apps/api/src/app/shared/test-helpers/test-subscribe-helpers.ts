@@ -5,7 +5,7 @@ export const onNext = (assertFn): PartialObserver<any> => ({
   error: () => fail()
 });
 
-export const onError = (assetFn): PartialObserver<any> => ({
+export const onError = (assertFn): PartialObserver<any> => ({
   next: () => fail(),
-  error: assetFn
+  error: assertFn
 });

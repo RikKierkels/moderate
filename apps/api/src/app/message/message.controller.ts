@@ -24,14 +24,14 @@ import { MessageCreateDto } from './models/message-create.dto';
 import { MessageUpdateDto } from './models/message-update.dto';
 import { MessageEntity } from '../database/database-entities';
 import { MapResponseInterceptor } from '../shared/intercepors/map-response.interceptor';
-import Mapper from '../shared/intercepors/response-mappers';
+import Mapper from '../shared/entity-mapper';
 
 @ApiTags('Message')
 @Controller('messages')
 export class MessageController {
   constructor(private readonly messageService: MessageService) {}
 
-  @UseInterceptors(new MapResponseInterceptor(Mapper.messageEntityToDto))
+  @UseInterceptors(new MapResponseInterceptor(Mapper.mapToMessageDto))
   @ApiResponse({ type: MessageDto })
   @Auth()
   @Post()
@@ -42,7 +42,7 @@ export class MessageController {
     return this.messageService.create$(messageToCreate, userId);
   }
 
-  @UseInterceptors(new MapResponseInterceptor(Mapper.messageEntityToDto))
+  @UseInterceptors(new MapResponseInterceptor(Mapper.mapToMessageDto))
   @ApiResponse({ type: MessageDto })
   @ApiNotFoundResponse()
   @Auth(IsAuthorOfMessageGuard)

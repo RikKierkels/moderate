@@ -7,7 +7,7 @@ import {
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-type MapFn<T, R> = (data: T) => R;
+export type MapFn<T, R> = (data: T) => R;
 
 @Injectable()
 export class MapResponseInterceptor<T, R> implements NestInterceptor {

@@ -28,17 +28,6 @@ import { IdeaDto } from './models/idea.dto';
 import { IdeaEntity } from '../database/database-entities';
 import { MapResponseInterceptor } from '../shared/intercepors/map-response.interceptor';
 
-const mapperFn = (entity: IdeaEntity): IdeaDto => ({
-  id: entity.id,
-  title: entity.title,
-  description: entity.description,
-  difficulty: entity.difficulty,
-  createdAt: null,
-  tags: [],
-  author: null,
-  messageCount: entity.messages.length
-});
-
 @ApiTags('Idea')
 @Controller('ideas')
 export class IdeaController {

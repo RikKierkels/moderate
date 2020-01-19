@@ -8,13 +8,13 @@ import {
 import { Auth } from '../shared/decorators/auth.decorator';
 import { UserId } from '../shared/decorators/user.decorator';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { IsAuthorOfMessageGuard } from '../shared/guards/is-author-of.guard';
 import { MessageService } from './message.service';
 import { FindOneParams } from '../shared/find-one-params.model';
 import { MessageDto } from './models/message.dto';
 import { MessageCreateDto } from './models/message-create.dto';
 import { MessageUpdateDto } from './models/message-update.dto';
+import { MessageEntity } from '../database/database-entities';
 
 @ApiTags('Message')
 @Controller('messages')
@@ -27,20 +27,16 @@ export class MessageController {
   create(
     @Body() messageToCreate: MessageCreateDto,
     @UserId() userId: string
-  ): Observable<MessageDto> {
-    return this.messageService
-      .create$(messageToCreate, userId)
-      .pipe(map(message => MessageDto.fromEntity(message)));
+  ): Observable<MessageEntity> {
+    return this.messageService.create$(messageToCreate, userId);
   }
 
   @ApiResponse({ type: MessageDto })
   @ApiNotFoundResponse()
   @Auth(IsAuthorOfMessageGuard)
   @Put()
-  update(@Body() messageToUpdate: MessageUpdateDto): Observable<MessageDto> {
-    return this.messageService
-      .update$(messageToUpdate)
-      .pipe(map(message => MessageDto.fromEntity(message)));
+  update(@Body() messageToUpdate: MessageUpdateDto): Observable<MessageEntity> {
+    return this.messageService.update$(messageToUpdate);
   }
 
   @ApiParam({ name: 'id', type: Number })

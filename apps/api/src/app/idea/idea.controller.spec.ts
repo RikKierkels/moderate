@@ -33,6 +33,15 @@ describe('idea Controller', () => {
     beforeEach(() => {
       service.findAll$.mockReturnValueOnce(of(ideaEntities));
     });
+
+    it('should return all ideas', done => {
+      controller.findAll().subscribe(
+        onNext(ideas => {
+          expect(ideas).toEqual(ideaEntities);
+          done();
+        })
+      );
+    });
   });
 
   describe('While fetching an idea by id', () => {
@@ -45,6 +54,15 @@ describe('idea Controller', () => {
         onNext(() => {
           expect(service.findById$).toHaveBeenCalledTimes(1);
           expect(service.findById$).toHaveBeenCalledWith('1');
+          done();
+        })
+      );
+    });
+
+    it('should return the found idea', done => {
+      controller.find({ id: '1' }).subscribe(
+        onNext(idea => {
+          expect(idea).toEqual(ideaEntities[0]);
           done();
         })
       );
@@ -68,6 +86,15 @@ describe('idea Controller', () => {
         })
       );
     });
+
+    it('should return the created idea', done => {
+      controller.create(ideaCreateDto, 'userId').subscribe(
+        onNext(idea => {
+          expect(idea).toEqual(ideaEntities[0]);
+          done();
+        })
+      );
+    });
   });
 
   describe('While updating an idea', () => {
@@ -83,6 +110,15 @@ describe('idea Controller', () => {
         onNext(() => {
           expect(service.update$).toHaveBeenCalledTimes(1);
           expect(service.update$).toHaveBeenCalledWith(ideaUpdateDto);
+          done();
+        })
+      );
+    });
+
+    it('should return the updated idea', done => {
+      controller.update(ideaUpdateDto).subscribe(
+        onNext(idea => {
+          expect(idea).toEqual(ideaEntities[0]);
           done();
         })
       );

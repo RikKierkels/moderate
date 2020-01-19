@@ -49,6 +49,15 @@ describe('Message Controller', () => {
         })
       );
     });
+
+    it('should return the created message', done => {
+      controller.create(messageCreateDto, 'userId').subscribe(
+        onNext(message => {
+          expect(message).toEqual(messageEntity);
+          done();
+        })
+      );
+    });
   });
 
   describe('While updating a message', () => {
@@ -66,6 +75,15 @@ describe('Message Controller', () => {
         onNext(() => {
           expect(service.update$).toHaveBeenCalledTimes(1);
           expect(service.update$).toHaveBeenCalledWith(messageUpdateDto);
+          done();
+        })
+      );
+    });
+
+    it('should return the updated message', done => {
+      controller.update(messageUpdateDto).subscribe(
+        onNext(message => {
+          expect(message).toEqual(messageEntity);
           done();
         })
       );

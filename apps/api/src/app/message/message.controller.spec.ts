@@ -3,12 +3,11 @@ import { MessageController } from './message.controller';
 import { MessageService } from './message.service';
 import { of } from 'rxjs';
 import {
-  makeUser,
-  makeMessage
+  makeMessage,
+  makeUser
 } from '../shared/test-helpers/test-data.helpers';
 import { MessageEntity } from '../database/database-entities';
 import { onNext } from '../shared/test-helpers/test-subscribe-helpers';
-import { MessageDto } from './models/message.dto';
 import { MessageCreateDto } from './models/message-create.dto';
 import { MessageUpdateDto } from './models/message-update.dto';
 
@@ -50,6 +49,15 @@ describe('Message Controller', () => {
         })
       );
     });
+
+    it('should return the created message', done => {
+      controller.create(messageCreateDto, 'userId').subscribe(
+        onNext(message => {
+          expect(message).toEqual(messageEntity);
+          done();
+        })
+      );
+    });
   });
 
   describe('While updating a message', () => {
@@ -72,10 +80,10 @@ describe('Message Controller', () => {
       );
     });
 
-    it('should map the updated message to a DTO', done => {
+    it('should return the updated message', done => {
       controller.update(messageUpdateDto).subscribe(
         onNext(message => {
-          expect(message instanceof MessageDto).toBeTruthy();
+          expect(message).toEqual(messageEntity);
           done();
         })
       );

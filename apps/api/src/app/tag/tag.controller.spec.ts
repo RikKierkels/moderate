@@ -2,10 +2,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TagController } from './tag.controller';
 import { TagService } from './tag.service';
 import { of } from 'rxjs';
-import { TagDto } from './models/tag.dto';
 import { onNext } from '../shared/test-helpers/test-subscribe-helpers';
 
 jest.mock('./tag.service');
+
+const tagEntities = [{ id: '1', color: '#000000', name: 'Jest' }];
 
 describe('Tag Controller', () => {
   let controller: TagController;
@@ -23,7 +24,6 @@ describe('Tag Controller', () => {
 
   describe('while fetching all tags', () => {
     beforeEach(() => {
-      const tagEntities = [{ id: '1', color: '#000000', name: 'Jest' }];
       service.findAll$.mockReturnValueOnce(of(tagEntities));
     });
 
@@ -36,10 +36,10 @@ describe('Tag Controller', () => {
       );
     });
 
-    it('should map found tags to DTOs', done => {
+    it('should return the tags', done => {
       controller.findAll().subscribe(
         onNext(tags => {
-          tags.forEach(tag => expect(tag instanceof TagDto).toBeTruthy());
+          expect(tags).toEqual(tagEntities);
           done();
         })
       );

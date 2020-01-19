@@ -27,20 +27,23 @@ import { IdeaWithMessagesDto } from './models/idea-messages.dto';
 import { IdeaDto } from './models/idea.dto';
 import { IdeaEntity } from '../database/database-entities';
 import { MapResponseInterceptor } from '../shared/intercepors/map-response.interceptor';
+import Mapper from '../shared/intercepors/response-mappers';
 
 @ApiTags('Idea')
 @Controller('ideas')
 export class IdeaController {
   constructor(private readonly ideaService: IdeaService) {}
 
-  @UseInterceptors(new MapResponseInterceptor(mapperFn))
+  @UseInterceptors(new MapResponseInterceptor(Mapper.ideaEntityToDto))
   @ApiResponse({ type: [IdeaDto] })
   @Get()
   findAll(): Observable<IdeaEntity[]> {
     return this.ideaService.findAll$();
   }
 
-  @UseInterceptors(new MapResponseInterceptor(mapperFn))
+  @UseInterceptors(
+    new MapResponseInterceptor(Mapper.ideaEntityToDtoWithMessages)
+  )
   @ApiResponse({ type: IdeaWithMessagesDto })
   @ApiNotFoundResponse()
   @ApiParam({ name: 'id', type: String })
@@ -49,6 +52,7 @@ export class IdeaController {
     return this.ideaService.findById$(params.id);
   }
 
+  @UseInterceptors(new MapResponseInterceptor(Mapper.ideaEntityToDto))
   @ApiResponse({ type: IdeaDto })
   @Auth()
   @Post()
@@ -59,6 +63,7 @@ export class IdeaController {
     return this.ideaService.create$(ideaToCreate, userId);
   }
 
+  @UseInterceptors(new MapResponseInterceptor(Mapper.ideaEntityToDto))
   @ApiResponse({ type: IdeaDto })
   @ApiNotFoundResponse()
   @Auth(IsAuthorOfIdeaGuard)
@@ -67,9 +72,9 @@ export class IdeaController {
     return this.ideaService.update$(ideaToUpdate);
   }
 
-  @ApiParam({ name: 'id', type: Number })
   @ApiNotFoundResponse()
   @Auth(IsAuthorOfIdeaGuard)
+  @ApiParam({ name: 'id', type: String })
   @Delete(':id')
   delete(@Param() params: FindOneParams): void {
     this.ideaService

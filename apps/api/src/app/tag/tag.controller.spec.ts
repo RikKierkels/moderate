@@ -6,6 +6,8 @@ import { onNext } from '../shared/test-helpers/test-subscribe-helpers';
 
 jest.mock('./tag.service');
 
+const tagEntities = [{ id: '1', color: '#000000', name: 'Jest' }];
+
 describe('Tag Controller', () => {
   let controller: TagController;
   let service: jest.Mocked<TagService>;
@@ -22,7 +24,6 @@ describe('Tag Controller', () => {
 
   describe('while fetching all tags', () => {
     beforeEach(() => {
-      const tagEntities = [{ id: '1', color: '#000000', name: 'Jest' }];
       service.findAll$.mockReturnValueOnce(of(tagEntities));
     });
 
@@ -30,6 +31,15 @@ describe('Tag Controller', () => {
       controller.findAll().subscribe(
         onNext(() => {
           expect(service.findAll$).toHaveBeenCalledTimes(1);
+          done();
+        })
+      );
+    });
+
+    it('should return the tags', done => {
+      controller.findAll().subscribe(
+        onNext(tags => {
+          expect(tags).toEqual(tagEntities);
           done();
         })
       );

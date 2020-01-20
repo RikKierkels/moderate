@@ -3,10 +3,10 @@ import { TagController } from './tag.controller';
 import { TagService } from './tag.service';
 import { of } from 'rxjs';
 import { onNext } from '../shared/test-helpers/test-subscribe-helpers';
+import { TagEntity } from '../database/database-entities';
+import { makeTag } from '../shared/test-helpers/test-data.helpers';
 
 jest.mock('./tag.service');
-
-const tagEntities = [{ id: '1', color: '#000000', name: 'Jest' }];
 
 describe('Tag Controller', () => {
   let controller: TagController;
@@ -23,7 +23,10 @@ describe('Tag Controller', () => {
   });
 
   describe('while fetching all tags', () => {
+    let tagEntities: TagEntity[];
+
     beforeEach(() => {
+      tagEntities = [makeTag('1', 'Jest', '#000000')];
       service.findAll$.mockReturnValueOnce(of(tagEntities));
     });
 

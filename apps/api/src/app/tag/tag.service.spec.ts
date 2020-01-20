@@ -6,11 +6,7 @@ import { Repository } from 'typeorm';
 import { MockType, repositoryMockFactory } from '../database/mock-repository';
 import { NotFoundException } from '@nestjs/common';
 import { onError, onNext } from '../shared/test-helpers/test-subscribe-helpers';
-
-const tagEntities: TagEntity[] = [
-  { id: '1', color: '#000000', name: 'Jest' },
-  { id: '2', color: '#ffffff', name: 'Jasmine' }
-];
+import { makeTag } from '../shared/test-helpers/test-data.helpers';
 
 describe('TagService', () => {
   let service: TagService;
@@ -32,7 +28,13 @@ describe('TagService', () => {
   });
 
   describe('While fetching all tags', () => {
+    let tagEntities: TagEntity[];
+
     beforeEach(() => {
+      tagEntities = [
+        makeTag('1', 'Jest', '#000000'),
+        makeTag('2', 'Jasmine', '#ffffff')
+      ];
       repository.find.mockReturnValueOnce(Promise.resolve(tagEntities));
     });
 
@@ -56,25 +58,26 @@ describe('TagService', () => {
   });
 
   describe('While finding tags by their id', () => {
-    const expectedTag = tagEntities[0];
+    let tagEntity: TagEntity;
 
     beforeEach(() => {
-      repository.findByIds.mockReturnValueOnce(Promise.resolve([expectedTag]));
+      tagEntity = makeTag('1', 'Jest', '#000000');
+      repository.findByIds.mockReturnValueOnce(Promise.resolve([tagEntity]));
     });
 
     it('should call the repository with the ids', done => {
-      service.findByIds$([expectedTag.id]).subscribe(
+      service.findByIds$(['1']).subscribe(
         onNext(() => {
-          expect(repository.findByIds).toHaveBeenCalledWith([expectedTag.id]);
+          expect(repository.findByIds).toHaveBeenCalledWith(['1']);
           done();
         })
       );
     });
 
     it('should return the tag entities for the ids', done => {
-      service.findByIds$([expectedTag.id]).subscribe(
+      service.findByIds$(['1']).subscribe(
         onNext(tags => {
-          expect(tags).toEqual([expectedTag]);
+          expect(tags).toEqual([tagEntity]);
           done();
         })
       );

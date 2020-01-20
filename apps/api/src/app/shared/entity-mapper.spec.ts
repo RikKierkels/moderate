@@ -3,7 +3,7 @@ import EntityMapper from './entity-mapper';
 
 const createAndUpdateDate = new Date(2020, 1, 1, 0, 0, 0, 0);
 
-describe('Response Mapper', () => {
+describe('Entity Mapper', () => {
   describe('While mapping an idea entity to a DTO', () => {
     let ideaEntity: IdeaEntity;
 

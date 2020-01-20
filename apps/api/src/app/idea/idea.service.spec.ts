@@ -2,13 +2,25 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { IdeaService } from './idea.service';
 import { UserService } from '../user/user.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { IdeaEntity, MessageEntity } from '../database/database-entities';
+import {
+  IdeaEntity,
+  MessageEntity,
+  TagEntity,
+  UserEntity
+} from '../database/database-entities';
 import { MockType, repositoryMockFactory } from '../database/mock-repository';
 import { Repository } from 'typeorm';
 import { TagService } from '../tag/tag.service';
-import { makeIdea } from '../shared/test-helpers/test-data.helpers';
+import {
+  makeIdea,
+  makeTag,
+  makeUser
+} from '../shared/test-helpers/test-data.helpers';
 import { onError, onNext } from '../shared/test-helpers/test-subscribe-helpers';
 import { NotFoundException } from '@nestjs/common';
+import { IdeaCreateDto } from './models/idea-create.dto';
+import { of } from 'rxjs';
+import { IdeaUpdateDto } from './models/idea-update.dto';
 
 jest.mock('../user/user.service');
 jest.mock('../tag/tag.service');
@@ -122,6 +134,151 @@ describe('IdeaService', () => {
           })
         );
       });
+    });
+  });
+
+  describe('While creating a new Idea', () => {
+    let ideaCreateDto: IdeaCreateDto;
+    let user: UserEntity;
+    let tags: TagEntity[];
+    let ideaEntity: IdeaEntity;
+
+    beforeEach(() => {
+      ideaCreateDto = {
+        title: 'Fake Idea',
+        description: 'Super Fake',
+        difficulty: 5,
+        tags: ['1']
+      };
+
+      user = makeUser('github123');
+      userService.findOrCreate$.mockReturnValueOnce(of(user));
+
+      tags = [makeTag('1', 'Jest', '#000000')];
+      tagService.findByIds$.mockReturnValueOnce(of(tags));
+
+      ideaEntity = makeIdea('1', 'Fake Idea');
+      repository.create.mockReturnValueOnce({});
+      repository.save.mockReturnValueOnce(Promise.resolve(ideaEntity));
+    });
+
+    it('should call the user service with the user id', done => {
+      ideaService.create$(ideaCreateDto, 'github123').subscribe(
+        onNext(() => {
+          expect(userService.findOrCreate$).toHaveBeenCalledTimes(1);
+          expect(userService.findOrCreate$).toHaveBeenCalledWith('github123');
+          done();
+        })
+      );
+    });
+
+    it('should call the tag service with the tag ids', done => {
+      ideaService.create$(ideaCreateDto, 'github123').subscribe(
+        onNext(() => {
+          expect(tagService.findByIds$).toHaveBeenCalledTimes(1);
+          expect(tagService.findByIds$).toHaveBeenCalledWith(['1']);
+          done();
+        })
+      );
+    });
+
+    it('should add the user and tags to the idea', done => {
+      ideaService.create$(ideaCreateDto, 'github123').subscribe(
+        onNext(() => {
+          expect(repository.create).toHaveBeenCalledTimes(1);
+          expect(repository.create).toHaveBeenCalledWith({
+            ...ideaCreateDto,
+            tags,
+            author: user
+          });
+          done();
+        })
+      );
+    });
+
+    it('should return the created idea', done => {
+      ideaService.create$(ideaCreateDto, 'github123').subscribe(
+        onNext(idea => {
+          expect(idea).toEqual(ideaEntity);
+          done();
+        })
+      );
+    });
+  });
+
+  describe('While updating an idea', () => {
+    let ideaUpdateDto: IdeaUpdateDto;
+    let ideaEntity: IdeaEntity;
+    let tags: TagEntity[];
+
+    beforeEach(() => {
+      ideaUpdateDto = {
+        id: '1',
+        title: 'Fake Idea',
+        description: 'Omega Fake',
+        difficulty: 5,
+        tags: ['1']
+      };
+
+      tags = [makeTag('1', 'Jest', '#000000')];
+      tagService.findByIds$.mockReturnValueOnce(of(tags));
+
+      ideaEntity = makeIdea('1', 'Fake Idea');
+      repository.create.mockReturnValueOnce(ideaEntity);
+      repository.save.mockReturnValueOnce(Promise.resolve(ideaEntity));
+      repository.findOne.mockReturnValueOnce(Promise.resolve(ideaEntity));
+    });
+
+    it('should fetch the tags from the tag service', done => {
+      ideaService.update$(ideaUpdateDto).subscribe(
+        onNext(() => {
+          expect(tagService.findByIds$).toHaveBeenCalledTimes(1);
+          expect(tagService.findByIds$).toHaveBeenCalledWith(['1']);
+          done();
+        })
+      );
+    });
+
+    it('should add the found tags to the idea', done => {
+      ideaService.update$(ideaUpdateDto).subscribe(
+        onNext(() => {
+          expect(repository.create).toHaveBeenCalledTimes(1);
+          expect(repository.create).toHaveBeenCalledWith({
+            ...ideaUpdateDto,
+            tags
+          });
+          done();
+        })
+      );
+    });
+
+    it('should save the idea', done => {
+      ideaService.update$(ideaUpdateDto).subscribe(
+        onNext(() => {
+          expect(repository.save).toHaveBeenCalledTimes(1);
+          expect(repository.save).toHaveBeenCalledWith(ideaEntity);
+          done();
+        })
+      );
+    });
+
+    it('should fetch the updated idea', done => {
+      ideaService.update$(ideaUpdateDto).subscribe(
+        onNext(() => {
+          expect(repository.findOne).toHaveBeenCalledTimes(1);
+          expect(repository.findOne).toHaveBeenCalledWith('1');
+          done();
+        })
+      );
+    });
+
+    it('should return the updated idea', done => {
+      ideaService.update$(ideaUpdateDto).subscribe(
+        onNext(idea => {
+          expect(idea).toEqual(ideaEntity);
+          done();
+        })
+      );
     });
   });
 });

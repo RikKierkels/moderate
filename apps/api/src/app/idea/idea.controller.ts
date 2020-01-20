@@ -26,7 +26,7 @@ import { IdeaUpdateDto } from './models/idea-update.dto';
 import { IdeaWithMessagesDto } from './models/idea-messages.dto';
 import { IdeaDto } from './models/idea.dto';
 import { IdeaEntity } from '../database/database-entities';
-import { MapResponseInterceptor } from '../shared/intercepors/map-response.interceptor';
+import { MapResponseInterceptor } from '../shared/interceptors/map-response.interceptor';
 import Mapper from '../shared/entity-mapper';
 
 @ApiTags('Idea')

@@ -23,7 +23,7 @@ import { MessageDto } from './models/message.dto';
 import { MessageCreateDto } from './models/message-create.dto';
 import { MessageUpdateDto } from './models/message-update.dto';
 import { MessageEntity } from '../database/database-entities';
-import { MapResponseInterceptor } from '../shared/intercepors/map-response.interceptor';
+import { MapResponseInterceptor } from '../shared/interceptors/map-response.interceptor';
 import Mapper from '../shared/entity-mapper';
 
 @ApiTags('Message')

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { TagDto } from './models/tag.dto';
 import { TagEntity } from '../database/database-entities';
 import Mapper from '../shared/entity-mapper';
-import { MapResponseInterceptor } from '../shared/intercepors/map-response.interceptor';
+import { MapResponseInterceptor } from '../shared/interceptors/map-response.interceptor';
 
 @ApiTags('Tag')
 @Controller('tags')

@@ -20,9 +20,7 @@ import {
 })
 export class DatabaseModule {}
 
-const getDatabaseConfig = (config: ConfigService) => {
-  return {
-    ...config.get<PostgresConnectionOptions>('database'),
-    entities: [IdeaEntity, TagEntity, MessageEntity, UserEntity]
-  };
-};
+const getDatabaseConfig = (config: ConfigService) => ({
+  ...config.get<PostgresConnectionOptions>('database'),
+  entities: [IdeaEntity, TagEntity, MessageEntity, UserEntity]
+});

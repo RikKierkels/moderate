@@ -6,7 +6,8 @@ import {
 } from '@nestjs/common';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { MapFunction } from '../entity-mapper';
+
+export type MapFunction<T, R> = (data: T) => R;
 
 @Injectable()
 export class MapResponseInterceptor<T, R> implements NestInterceptor {

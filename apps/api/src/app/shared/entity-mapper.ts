@@ -11,8 +11,7 @@ import { MessageDto } from '../message/models/message.dto';
 import { UserDto } from '../user/models/user.dto';
 import { TEXT_MESSAGE_DELETED } from './constants';
 import { IdeaBaseDto } from '../idea/models/idea-base.dto';
-
-export type MapFunction<T, R> = (data: T) => R;
+import { MapFunction } from './interceptors/map-response.interceptor';
 
 const mapToTagDto: MapFunction<TagEntity, TagDto> = entity => ({
   id: entity.id,

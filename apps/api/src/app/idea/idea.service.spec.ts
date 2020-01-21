@@ -13,6 +13,7 @@ import { Repository } from 'typeorm';
 import { TagService } from '../tag/tag.service';
 import {
   makeIdea,
+  makeMessage,
   makeTag,
   makeUser
 } from '../shared/test-helpers/test-data.helpers';
@@ -276,6 +277,49 @@ describe('IdeaService', () => {
       ideaService.update$(ideaUpdateDto).subscribe(
         onNext(idea => {
           expect(idea).toEqual(ideaEntity);
+          done();
+        })
+      );
+    });
+  });
+
+  describe('While deleting an idea', () => {
+    let ideaEntity: IdeaEntity;
+
+    beforeEach(() => {
+      ideaEntity = makeIdea('1', 'Fake Idea', 'Mega Fake', 5, makeUser(), [
+        makeMessage('1', 'Fake Message 1'),
+        makeMessage('1', 'Fake Message 2')
+      ]);
+
+      repository.findOneOrFail.mockReturnValueOnce(of(ideaEntity));
+      repository.save.mockImplementationOnce(entity => of(entity));
+    });
+
+    it('should flag the idea as deleted', done => {
+      ideaService.delete$('1').subscribe(
+        onNext(idea => {
+          expect(idea.isDeleted).toBeTruthy();
+          done();
+        })
+      );
+    });
+
+    it('should flag all messages of the idea as deleted', done => {
+      ideaService.delete$('1').subscribe(
+        onNext(idea => {
+          idea.messages.forEach(message => {
+            expect(message.isDeleted).toBeTruthy();
+          });
+          done();
+        })
+      );
+    });
+
+    it('should soft delete the idea', done => {
+      ideaService.delete$('1').subscribe(
+        onNext(() => {
+          expect(repository.save).toHaveBeenCalledTimes(1);
           done();
         })
       );

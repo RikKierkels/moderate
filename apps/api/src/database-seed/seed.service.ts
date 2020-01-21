@@ -41,7 +41,7 @@ export class SeedService {
 
   private async dropAndSyncDatabase(): Promise<void> {
     const shouldDropBeforeSync = true;
-    await this.connection.synchronize(shouldDropBeforeSync);
+    return this.connection.synchronize(shouldDropBeforeSync);
   }
 
   private async seedUsers(): Promise<UserEntity[]> {
@@ -60,13 +60,13 @@ export class SeedService {
     author: UserEntity,
     users: UserEntity[],
     tags: TagEntity[]
-  ): Promise<void> {
+  ): Promise<IdeaEntity[]> {
     const ideas = range(0, this.config.ideasPerUserCount).map(() => {
       const messages = this.createMessagesForIdea(users);
       return this.createIdea(author, tags, messages);
     });
 
-    await this.ideaRepository.save(ideas);
+    return this.ideaRepository.save(ideas);
   }
 
   private createMessagesForIdea(users: UserEntity[]): MessageEntity[] {

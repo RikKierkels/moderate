@@ -13,8 +13,8 @@ export const makeIdea = (): IdeaEntity => ({
   description: faker.lorem.paragraphs(),
   difficulty: random(1, 5),
   author: makeUser(),
-  messages: null,
-  tags: null,
+  messages: [makeMessage(), makeMessage()],
+  tags: [makeTag(), makeTag()],
   createdAt: new Date(faker.date.past()),
   updatedAt: new Date(faker.date.past()),
   isDeleted: false

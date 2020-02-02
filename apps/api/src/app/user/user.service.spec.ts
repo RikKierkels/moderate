@@ -6,9 +6,9 @@ import { UserEntity } from '../database/database-entities';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { ManagementClient, User } from 'auth0';
 import { MANAGEMENT_CLIENT_TOKEN } from '../shared/constants';
-import { makeUser } from '../shared/test-helpers/test-data.helpers';
+import { makeUser } from '../shared/test-helpers/make-entities.test-utils';
 import { of } from 'rxjs';
-import { onError, onNext } from '../shared/test-helpers/test-subscribe-helpers';
+import { onError, onNext } from '../shared/test-helpers/subscribe.test-utils';
 import { BadRequestException } from '@nestjs/common';
 
 const managementClientMockFactory: () => MockType<ManagementClient> = jest.fn(

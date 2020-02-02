@@ -14,10 +14,10 @@ import {
   makeUser,
   makeIdea,
   makeMessage
-} from '../shared/test-helpers/test-data.helpers';
+} from '../shared/test-helpers/make-entities.test-utils';
 import { NotFoundException } from '@nestjs/common';
 import { of } from 'rxjs';
-import { onError, onNext } from '../shared/test-helpers/test-subscribe-helpers';
+import { onError, onNext } from '../shared/test-helpers/subscribe.test-utils';
 import { MessageCreateDto } from './models/message-create.dto';
 import { MessageUpdateDto } from './models/message-update.dto';
 

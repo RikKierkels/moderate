@@ -5,8 +5,8 @@ import { TagEntity } from '../database/database-entities';
 import { Repository } from 'typeorm';
 import { MockType, repositoryMockFactory } from '../database/mock-repository';
 import { NotFoundException } from '@nestjs/common';
-import { onError, onNext } from '../shared/test-helpers/test-subscribe-helpers';
-import { makeTag } from '../shared/test-helpers/test-data.helpers';
+import { onError, onNext } from '../shared/test-helpers/subscribe.test-utils';
+import { makeTag } from '../shared/test-helpers/make-entities.test-utils';
 
 describe('TagService', () => {
   let service: TagService;

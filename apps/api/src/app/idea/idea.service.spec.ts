@@ -16,8 +16,8 @@ import {
   makeMessage,
   makeTag,
   makeUser
-} from '../shared/test-helpers/test-data.helpers';
-import { onError, onNext } from '../shared/test-helpers/test-subscribe-helpers';
+} from '../shared/test-helpers/make-entities.test-utils';
+import { onError, onNext } from '../shared/test-helpers/subscribe.test-utils';
 import { NotFoundException } from '@nestjs/common';
 import { IdeaCreateDto } from './models/idea-create.dto';
 import { of } from 'rxjs';

@@ -5,9 +5,9 @@ import { of } from 'rxjs';
 import {
   makeMessage,
   makeUser
-} from '../shared/test-helpers/test-data.helpers';
+} from '../shared/test-helpers/make-entities.test-utils';
 import { MessageEntity } from '../database/database-entities';
-import { onNext } from '../shared/test-helpers/test-subscribe-helpers';
+import { onNext } from '../shared/test-helpers/subscribe.test-utils';
 import { MessageCreateDto } from './models/message-create.dto';
 import { MessageUpdateDto } from './models/message-update.dto';
 

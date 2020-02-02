@@ -3,8 +3,11 @@ import { IdeaController } from './idea.controller';
 import { IdeaService } from './idea.service';
 import { of } from 'rxjs';
 import { IdeaEntity } from '../database/database-entities';
-import { makeIdea, makeUser } from '../shared/test-helpers/test-data.helpers';
-import { onNext } from '../shared/test-helpers/test-subscribe-helpers';
+import {
+  makeIdea,
+  makeUser
+} from '../shared/test-helpers/make-entities.test-utils';
+import { onNext } from '../shared/test-helpers/subscribe.test-utils';
 import { IdeaCreateDto } from './models/idea-create.dto';
 import { IdeaUpdateDto } from './models/idea-update.dto';
 

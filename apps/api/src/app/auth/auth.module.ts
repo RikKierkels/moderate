@@ -10,9 +10,8 @@ import { FactoryProvider } from '@nestjs/common/interfaces';
 const managementClientFactory: FactoryProvider = {
   provide: MANAGEMENT_CLIENT_TOKEN,
   useFactory: (configService: ConfigService) => {
-    const { domain, clientId, clientSecret } = configService.get<
-      AuthConfiguration
-    >('auth');
+    // prettier-ignore
+    const { domain, clientId, clientSecret } = configService.get<AuthConfiguration>('auth');
 
     return new ManagementClient({
       domain,

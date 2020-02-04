@@ -6,6 +6,7 @@ import {
 } from '../../database/database-entities';
 import * as faker from 'faker';
 import { random } from 'lodash';
+import { IdeaCreateDto } from '../../idea/models/idea-create.dto';
 
 export const makeIdea = (): IdeaEntity => ({
   id: faker.random.uuid(),
@@ -32,7 +33,7 @@ export const makeMessage = (): MessageEntity => ({
 
 export const makeUser = (): UserEntity => ({
   id: faker.random.uuid(),
-  username: faker.internet.username(),
+  username: faker.internet.userName(),
   picture: faker.image.avatar(),
   ideas: [],
   messages: []

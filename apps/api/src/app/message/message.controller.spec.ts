@@ -2,12 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { MessageController } from './message.controller';
 import { MessageService } from './message.service';
 import { of } from 'rxjs';
-import {
-  makeMessage,
-  makeUser
-} from '../shared/test-helpers/make-entities.test-utils';
-import { MessageEntity } from '../database/database-entities';
-import { onNext } from '../shared/test-helpers/subscribe.test-utils';
+import { makeMessage } from '../shared/test-helpers/make-entities.test-utils';
 import { MessageCreateDto } from './models/message-create.dto';
 import { MessageUpdateDto } from './models/message-update.dto';
 
@@ -27,77 +22,39 @@ describe('Message Controller', () => {
     service = module.get(MessageService);
   });
 
-  describe('While creating a message', () => {
-    let messageCreateDto: MessageCreateDto;
-    let messageEntity: MessageEntity;
+  it('should create a message', done => {
+    const expectedMessage = makeMessage();
+    const messageCreateDto: MessageCreateDto = {
+      ideaId: '1',
+      text: expectedMessage.text
+    };
+    service.create$.mockReturnValueOnce(of(expectedMessage));
 
-    beforeEach(() => {
-      messageCreateDto = { ideaId: 'idea1', text: 'Fake Message' };
-      messageEntity = makeMessage('1', 'Fake Message', makeUser());
-      service.create$.mockReturnValueOnce(of(messageEntity));
-    });
+    controller
+      .create(messageCreateDto, expectedMessage.author.id)
+      .subscribe(response => {
+        expect(response).toEqual(expectedMessage);
+        done();
+      });
+  });
 
-    it('should call the message service with the correct params', done => {
-      controller.create(messageCreateDto, 'userid').subscribe(
-        onNext(() => {
-          expect(service.create$).toHaveBeenCalledTimes(1);
-          expect(service.create$).toHaveBeenCalledWith(
-            messageCreateDto,
-            'userid'
-          );
-          done();
-        })
-      );
-    });
+  it('should update a message', done => {
+    const expectedMessage = makeMessage();
+    const messageUpdateDto: MessageUpdateDto = {
+      id: expectedMessage.id,
+      text: expectedMessage.text
+    };
+    service.update$.mockReturnValueOnce(of(expectedMessage));
 
-    it('should return the created message', done => {
-      controller.create(messageCreateDto, 'userId').subscribe(
-        onNext(message => {
-          expect(message).toEqual(messageEntity);
-          done();
-        })
-      );
+    controller.update(messageUpdateDto).subscribe(response => {
+      expect(response).toEqual(expectedMessage);
+      done();
     });
   });
 
-  describe('While updating a message', () => {
-    let messageUpdateDto: MessageUpdateDto;
-    let messageEntity: MessageEntity;
+  it('should delete a message', () => {
+    controller.delete({ id: '1' });
 
-    beforeEach(() => {
-      messageUpdateDto = { id: '1', text: 'Fake Message' };
-      messageEntity = makeMessage('1', 'Fake Message', makeUser());
-      service.update$.mockReturnValueOnce(of(messageEntity));
-    });
-
-    it('should call the message service with the update DTO', done => {
-      controller.update(messageUpdateDto).subscribe(
-        onNext(() => {
-          expect(service.update$).toHaveBeenCalledTimes(1);
-          expect(service.update$).toHaveBeenCalledWith(messageUpdateDto);
-          done();
-        })
-      );
-    });
-
-    it('should return the updated message', done => {
-      controller.update(messageUpdateDto).subscribe(
-        onNext(message => {
-          expect(message).toEqual(messageEntity);
-          done();
-        })
-      );
-    });
-  });
-
-  describe('While deleting a message', () => {
-    beforeEach(() => {
-      controller.delete({ id: '1' });
-    });
-
-    it('should call the message service with the message id', () => {
-      expect(service.delete).toHaveBeenCalledTimes(1);
-      expect(service.delete).toHaveBeenCalledWith('1');
-    });
+    expect(service.delete).toHaveBeenCalledWith('1');
   });
 });

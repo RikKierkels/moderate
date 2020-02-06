@@ -4,9 +4,8 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { TagEntity } from '../database/database-entities';
 import { Repository } from 'typeorm';
 import { MockType, repositoryMockFactory } from '../database/mock-repository';
-import { NotFoundException } from '@nestjs/common';
-import { onError, onNext } from '../shared/test-helpers/subscribe.test-utils';
 import { makeTag } from '../shared/test-helpers/make-entities.test-utils';
+import { of } from 'rxjs';
 
 describe('TagService', () => {
   let service: TagService;
@@ -27,72 +26,35 @@ describe('TagService', () => {
     repository = module.get(getRepositoryToken(TagEntity));
   });
 
-  describe('While fetching all tags', () => {
-    let tagEntities: TagEntity[];
+  it('should fetch all the tag', done => {
+    const expectedTags = [makeTag(), makeTag()];
+    repository.find.mockReturnValueOnce(of(expectedTags));
 
-    beforeEach(() => {
-      tagEntities = [
-        makeTag('1', 'Jest', '#000000'),
-        makeTag('2', 'Jasmine', '#ffffff')
-      ];
-      repository.find.mockReturnValueOnce(Promise.resolve(tagEntities));
-    });
-
-    it('should call the repository once', done => {
-      service.findAll$().subscribe(
-        onNext(() => {
-          expect(repository.find).toHaveBeenCalledTimes(1);
-          done();
-        })
-      );
-    });
-
-    it('should return all tag entities', done => {
-      service.findAll$().subscribe(
-        onNext(tags => {
-          expect(tags).toEqual(tagEntities);
-          done();
-        })
-      );
+    service.findAll$().subscribe(tags => {
+      expect(tags).toEqual(expectedTags);
+      done();
     });
   });
 
-  describe('While finding tags by their id', () => {
-    let tagEntity: TagEntity;
+  it('should find tags by their ids', done => {
+    const expectedTags = [makeTag(), makeTag()];
+    repository.findByIds.mockReturnValueOnce(Promise.resolve(expectedTags));
 
-    beforeEach(() => {
-      tagEntity = makeTag('1', 'Jest', '#000000');
-      repository.findByIds.mockReturnValueOnce(Promise.resolve([tagEntity]));
+    const ids = expectedTags.map(tag => tag.id);
+    service.findByIds$(ids).subscribe(tags => {
+      expect(tags).toEqual(expectedTags);
+      done();
     });
+  });
 
-    it('should call the repository with the ids', done => {
-      service.findByIds$(['1']).subscribe(
-        onNext(() => {
-          expect(repository.findByIds).toHaveBeenCalledWith(['1']);
-          done();
-        })
-      );
-    });
+  it("should throw an error if one or more tags can't be found", done => {
+    const expectedTags = [makeTag(), makeTag()];
+    repository.findByIds.mockReturnValueOnce(Promise.resolve(expectedTags));
 
-    it('should return the tag entities for the ids', done => {
-      service.findByIds$(['1']).subscribe(
-        onNext(tags => {
-          expect(tags).toEqual([tagEntity]);
-          done();
-        })
-      );
-    });
-
-    it('should throw an exception if one or more tags cannot be found', done => {
-      service.findByIds$(['1', '2']).subscribe(
-        onError(error => {
-          expect(error instanceof NotFoundException).toBeTruthy();
-          expect(error.message.message).toBe(
-            'One or more tags with Ids: 1, 2 could not be found.'
-          );
-          done();
-        })
-      );
+    const ids = expectedTags.map(tag => tag.id);
+    service.findByIds$([...ids, 'Fake Id']).subscribe(tags => {
+      expect(tags).toEqual(expectedTags);
+      done();
     });
   });
 });

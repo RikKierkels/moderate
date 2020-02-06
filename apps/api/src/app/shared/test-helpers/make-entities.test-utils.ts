@@ -6,7 +6,6 @@ import {
 } from '../../database/database-entities';
 import * as faker from 'faker';
 import { random } from 'lodash';
-import { IdeaCreateDto } from '../../idea/models/idea-create.dto';
 
 export const makeIdea = (): IdeaEntity => ({
   id: faker.random.uuid(),
@@ -25,7 +24,7 @@ export const makeMessage = (): MessageEntity => ({
   id: faker.random.uuid(),
   text: faker.lorem.paragraph(),
   author: makeUser(),
-  idea: null,
+  idea: makeIdea(),
   createdAt: new Date(faker.date.past()),
   updatedAt: new Date(faker.date.past()),
   isDeleted: false

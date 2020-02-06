@@ -25,7 +25,7 @@ describe('Message Controller', () => {
   it('should create a message', done => {
     const expectedMessage = makeMessage();
     const messageCreateDto: MessageCreateDto = {
-      ideaId: '1',
+      ideaId: expectedMessage.idea.id,
       text: expectedMessage.text
     };
     service.create$.mockReturnValueOnce(of(expectedMessage));

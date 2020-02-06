@@ -8,7 +8,8 @@ import { ManagementClient, User } from 'auth0';
 import { MANAGEMENT_CLIENT_TOKEN } from '../shared/constants';
 import { makeUser } from '../shared/test-helpers/make-entities.test-utils';
 import { of } from 'rxjs';
-import { onError, onNext } from '../shared/test-helpers/subscribe.test-utils';
+import { onNext } from '../shared/test-helpers/subscribe.test-utils';
+import * as faker from 'faker';
 import { BadRequestException } from '@nestjs/common';
 
 const managementClientMockFactory: () => MockType<ManagementClient> = jest.fn(
@@ -42,78 +43,46 @@ describe('UserService', () => {
     managementClient = module.get(MANAGEMENT_CLIENT_TOKEN);
   });
 
-  describe('While fetching a user', () => {
-    describe('that exists', () => {
-      let userEntity: UserEntity;
+  it('should find a user by id', done => {
+    const expectedUser = makeUser();
+    repository.findOne.mockReturnValueOnce(Promise.resolve(expectedUser));
 
-      beforeEach(() => {
-        userEntity = makeUser();
-        repository.findOne.mockReturnValueOnce(of(userEntity));
-      });
-
-      it('should return the user', done => {
-        service.findOrCreate$(userEntity.id).subscribe(
-          onNext(user => {
-            expect(user).toEqual(userEntity);
-            done();
-          })
-        );
-      });
+    service.findOrCreate$(expectedUser.id).subscribe(user => {
+      expect(user).toEqual(expectedUser);
+      done();
     });
+  });
 
-    describe('that does not exist', () => {
-      let userEntity: UserEntity;
-      let userProfile: User;
+  it("should create a user if the user can't be found", done => {
+    const userProfile: User = {
+      user_id: faker.random.uuid(),
+      nickname: faker.internet.userName(),
+      picture: faker.image.avatar()
+    };
 
-      beforeEach(() => {
-        userEntity = makeUser();
-        userProfile = {
-          user_id: userEntity.id,
-          nickname: userEntity.username,
-          picture: userEntity.picture
-        };
+    managementClient.getUser.mockReturnValueOnce(Promise.resolve(userProfile));
 
-        managementClient.getUser.mockReturnValueOnce(
-          Promise.resolve(userProfile)
-        );
-
-        repository.findOne.mockReturnValueOnce(of(null));
-        repository.create.mockReturnValueOnce({});
-        repository.save.mockReturnValueOnce(of(userEntity));
+    service.findOrCreate$(userProfile.user_id).subscribe(user => {
+      expect(user).toEqual({
+        id: userProfile.user_id,
+        username: userProfile.nickname,
+        picture: userProfile.picture
       });
+      done();
+    });
+  });
 
-      it('should fetch the user from the auth0 management client', done => {
-        service.findOrCreate$('1').subscribe(
-          onNext(() => {
-            expect(managementClient.getUser).toHaveBeenCalledTimes(1);
-            expect(managementClient.getUser).toHaveBeenCalledWith({ id: '1' });
-            done();
-          })
-        );
-      });
+  it('should throw an error if fetching the users profile goes wrong', done => {
+    managementClient.getUser.mockReturnValueOnce(Promise.reject(''));
 
-      it('should create a user profile from the retrieved user', done => {
-        service.findOrCreate$('1').subscribe(
-          onNext(() => {
-            expect(repository.create).toHaveBeenCalledTimes(1);
-            expect(repository.create).toHaveBeenCalledWith({
-              id: userProfile.user_id,
-              username: userProfile.nickname,
-              picture: userProfile.picture
-            });
-            done();
-          })
+    service.findOrCreate$('User Id').subscribe({
+      error: error => {
+        expect(error instanceof BadRequestException).toBeTruthy();
+        expect(error.message.message).toBe(
+          'Something went wrong while fetching the user profile for user id: User Id.'
         );
-      });
-
-      it('should return the created user', done => {
-        service.findOrCreate$('1').subscribe(
-          onNext(user => {
-            expect(user).toEqual(userEntity);
-            done();
-          })
-        );
-      });
+        done();
+      }
     });
   });
 });

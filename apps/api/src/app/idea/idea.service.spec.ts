@@ -93,7 +93,7 @@ describe('IdeaService', () => {
     userService.findOrCreate$.mockReturnValueOnce(of(expectedUser));
     tagService.findByIds$.mockReturnValueOnce(of(expectedTags));
 
-    ideaService.create$(ideaCreateDto, faker.random.uuid()).subscribe(idea => {
+    ideaService.create$(ideaCreateDto, expectedUser.id).subscribe(idea => {
       expect(idea).toEqual({
         ...ideaCreateDto,
         tags: expectedTags,

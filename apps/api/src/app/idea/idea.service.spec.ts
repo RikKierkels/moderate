@@ -6,12 +6,17 @@ import { IdeaEntity, MessageEntity } from '../database/database-entities';
 import { MockType, repositoryMockFactory } from '../database/mock-repository';
 import { Repository } from 'typeorm';
 import { TagService } from '../tag/tag.service';
-import { makeIdea } from '../shared/test-helpers/make-entities.test-utils';
+import {
+  makeIdea,
+  makeTag,
+  makeUser
+} from '../shared/test-helpers/make-entities.test-utils';
 import { NotFoundException } from '@nestjs/common';
 import { IdeaCreateDto } from './models/idea-create.dto';
 import { of } from 'rxjs';
 import { IdeaUpdateDto } from './models/idea-update.dto';
 import * as faker from 'faker';
+import { random } from 'lodash';
 
 jest.mock('../user/user.service');
 jest.mock('../tag/tag.service');
@@ -77,40 +82,41 @@ describe('IdeaService', () => {
   });
 
   it('should create a new idea', done => {
-    const expectedIdea = makeIdea();
+    const expectedUser = makeUser();
+    const expectedTags = [makeTag(), makeTag()];
     const ideaCreateDto: IdeaCreateDto = {
-      title: expectedIdea.title,
-      difficulty: expectedIdea.difficulty,
-      description: expectedIdea.description,
-      tags: expectedIdea.tags.map(tag => tag.id)
+      title: faker.lorem.sentence(),
+      description: faker.lorem.paragraphs(),
+      difficulty: random(1, 5),
+      tags: expectedTags.map(tag => tag.id)
     };
-    userService.findOrCreate$.mockReturnValueOnce(of(expectedIdea.author));
-    tagService.findByIds$.mockReturnValueOnce(of(expectedIdea.tags));
+    userService.findOrCreate$.mockReturnValueOnce(of(expectedUser));
+    tagService.findByIds$.mockReturnValueOnce(of(expectedTags));
 
     ideaService.create$(ideaCreateDto, faker.random.uuid()).subscribe(idea => {
       expect(idea).toEqual({
         ...ideaCreateDto,
-        tags: expectedIdea.tags,
-        author: expectedIdea.author
+        tags: expectedTags,
+        author: expectedUser
       });
       done();
     });
   });
 
   it('should update an idea', done => {
-    const expectedIdea = makeIdea();
+    const expectedTags = [makeTag(), makeTag()];
     const ideaUpdateDto: IdeaUpdateDto = {
-      id: expectedIdea.id,
-      title: expectedIdea.title,
-      difficulty: expectedIdea.difficulty,
-      description: expectedIdea.description,
-      tags: expectedIdea.tags.map(tag => tag.id)
+      id: faker.random.uuid(),
+      title: faker.lorem.sentence(),
+      description: faker.lorem.paragraphs(),
+      difficulty: random(1, 5),
+      tags: expectedTags.map(tag => tag.id)
     };
-    tagService.findByIds$.mockReturnValueOnce(of(expectedIdea.tags));
+    tagService.findByIds$.mockReturnValueOnce(of(expectedTags));
     repository.findOne.mockImplementationOnce(idea => idea);
 
     ideaService.update$(ideaUpdateDto).subscribe(idea => {
-      expect(idea).toEqual({ ...ideaUpdateDto, tags: expectedIdea.tags });
+      expect(idea).toEqual({ ...ideaUpdateDto, tags: expectedTags });
       done();
     });
   });

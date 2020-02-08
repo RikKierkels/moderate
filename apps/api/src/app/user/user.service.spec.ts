@@ -7,8 +7,6 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { ManagementClient, User } from 'auth0';
 import { MANAGEMENT_CLIENT_TOKEN } from '../shared/constants';
 import { makeUser } from '../shared/test-helpers/make-entities.test-utils';
-import { of } from 'rxjs';
-import { onNext } from '../shared/test-helpers/subscribe.test-utils';
 import * as faker from 'faker';
 import { BadRequestException } from '@nestjs/common';
 

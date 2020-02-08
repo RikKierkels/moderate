@@ -5,7 +5,7 @@ import {
   UserEntity
 } from '../../database/database-entities';
 import * as faker from 'faker';
-import { random } from 'lodash';
+import { random, range } from 'lodash';
 
 export const makeIdea = (): IdeaEntity => ({
   id: faker.random.uuid(),
@@ -13,8 +13,8 @@ export const makeIdea = (): IdeaEntity => ({
   description: faker.lorem.paragraphs(),
   difficulty: random(1, 5),
   author: makeUser(),
-  messages: [makeMessage(), makeMessage()],
-  tags: [makeTag(), makeTag()],
+  messages: range(0, 2).map(() => makeMessage()),
+  tags: range(0, 2).map(() => makeTag()),
   createdAt: new Date(faker.date.past()),
   updatedAt: new Date(faker.date.past()),
   isDeleted: false

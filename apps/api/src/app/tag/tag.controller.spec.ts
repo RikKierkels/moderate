@@ -1,10 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TagController } from './tag.controller';
 import { TagService } from './tag.service';
+import { makeTag } from '../shared/test-helpers/make-entities.test-utils';
 import { of } from 'rxjs';
-import { onNext } from '../shared/test-helpers/test-subscribe-helpers';
-import { TagEntity } from '../database/database-entities';
-import { makeTag } from '../shared/test-helpers/test-data.helpers';
 
 jest.mock('./tag.service');
 
@@ -22,30 +20,13 @@ describe('Tag Controller', () => {
     service = module.get(TagService);
   });
 
-  describe('while fetching all tags', () => {
-    let tagEntities: TagEntity[];
+  it('should fetch all tags', done => {
+    const expectedTags = [makeTag(), makeTag()];
+    service.findAll$.mockReturnValueOnce(of(expectedTags));
 
-    beforeEach(() => {
-      tagEntities = [makeTag('1', 'Jest', '#000000')];
-      service.findAll$.mockReturnValueOnce(of(tagEntities));
-    });
-
-    it('should retrieve all tags exactly once', done => {
-      controller.findAll().subscribe(
-        onNext(() => {
-          expect(service.findAll$).toHaveBeenCalledTimes(1);
-          done();
-        })
-      );
-    });
-
-    it('should return the tags', done => {
-      controller.findAll().subscribe(
-        onNext(tags => {
-          expect(tags).toEqual(tagEntities);
-          done();
-        })
-      );
+    controller.findAll().subscribe(tags => {
+      expect(tags).toEqual(expectedTags);
+      done();
     });
   });
 });

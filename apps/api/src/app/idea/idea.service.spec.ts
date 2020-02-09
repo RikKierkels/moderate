@@ -2,26 +2,21 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { IdeaService } from './idea.service';
 import { UserService } from '../user/user.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import {
-  IdeaEntity,
-  MessageEntity,
-  TagEntity,
-  UserEntity
-} from '../database/database-entities';
+import { IdeaEntity, MessageEntity } from '../database/database-entities';
 import { MockType, repositoryMockFactory } from '../database/mock-repository';
 import { Repository } from 'typeorm';
 import { TagService } from '../tag/tag.service';
 import {
   makeIdea,
-  makeMessage,
   makeTag,
   makeUser
-} from '../shared/test-helpers/test-data.helpers';
-import { onError, onNext } from '../shared/test-helpers/test-subscribe-helpers';
+} from '../shared/test-helpers/make-entities.test-utils';
 import { NotFoundException } from '@nestjs/common';
 import { IdeaCreateDto } from './models/idea-create.dto';
 import { of } from 'rxjs';
 import { IdeaUpdateDto } from './models/idea-update.dto';
+import * as faker from 'faker';
+import { random } from 'lodash';
 
 jest.mock('../user/user.service');
 jest.mock('../tag/tag.service');
@@ -51,278 +46,92 @@ describe('IdeaService', () => {
     repository = module.get(getRepositoryToken(IdeaEntity));
   });
 
-  describe('While fetching all ideas', () => {
-    let ideaEntities: IdeaEntity[];
+  it('should fetch all ideas', done => {
+    const expectedIdeas = [makeIdea(), makeIdea()];
+    repository.find.mockReturnValueOnce(Promise.resolve(expectedIdeas));
 
-    beforeEach(() => {
-      ideaEntities = [
-        makeIdea('1', 'Fake Idea 1'),
-        makeIdea('2', 'Fake Idea 2')
-      ];
-
-      repository.find.mockReturnValueOnce(Promise.resolve(ideaEntities));
-    });
-
-    it('should call the repository exactly once', done => {
-      ideaService.findAll$().subscribe(
-        onNext(() => {
-          expect(repository.find).toHaveBeenCalledTimes(1);
-          expect(repository.find).toHaveBeenCalledWith({
-            where: { isDeleted: false }
-          });
-          done();
-        })
-      );
-    });
-
-    it('should return all idea entities', done => {
-      ideaService.findAll$().subscribe(
-        onNext(ideas => {
-          expect(ideas).toEqual(ideaEntities);
-          done();
-        })
-      );
+    ideaService.findAll$().subscribe(ideas => {
+      expect(ideas).toEqual(expectedIdeas);
+      done();
     });
   });
 
-  describe('While fetching one idea', () => {
-    let ideaEntity: IdeaEntity;
+  it("should fetch an idea by it's id", done => {
+    const expectedIdea = makeIdea();
+    repository.findOneOrFail.mockReturnValueOnce(Promise.resolve(expectedIdea));
 
-    beforeEach(() => {
-      ideaEntity = makeIdea('1', 'Fake Idea 1');
-    });
-
-    describe('that exists', () => {
-      beforeEach(() => {
-        repository.findOneOrFail.mockReturnValueOnce(
-          Promise.resolve(ideaEntity)
-        );
-      });
-
-      it('should call the repository with id', done => {
-        ideaService.findById$('1').subscribe(
-          onNext(() => {
-            expect(repository.findOneOrFail).toHaveBeenCalledTimes(1);
-            expect(repository.findOneOrFail).toHaveBeenCalledWith('1', {
-              where: { isDeleted: false }
-            });
-            done();
-          })
-        );
-      });
-
-      it('should return the idea', done => {
-        ideaService.findById$('1').subscribe(
-          onNext(idea => {
-            expect(idea).toEqual(ideaEntity);
-            done();
-          })
-        );
-      });
-    });
-
-    describe('that does not exist', () => {
-      beforeEach(() => {
-        repository.findOneOrFail.mockReturnValueOnce(Promise.reject(''));
-      });
-
-      it('should throw an error', done => {
-        ideaService.findById$('1').subscribe(
-          onError(error => {
-            expect(error instanceof NotFoundException).toBeTruthy();
-            expect(error.message.message).toBe('Cannot find idea with id: 1.');
-            done();
-          })
-        );
-      });
+    ideaService.findById$(expectedIdea.id).subscribe(idea => {
+      expect(idea).toEqual(expectedIdea);
+      done();
     });
   });
 
-  describe('While creating a new Idea', () => {
-    let ideaCreateDto: IdeaCreateDto;
-    let user: UserEntity;
-    let tags: TagEntity[];
-    let ideaEntity: IdeaEntity;
+  it("should throw an error if an idea can't be found", done => {
+    const expectedIdea = makeIdea();
+    repository.findOneOrFail.mockReturnValueOnce(Promise.reject(''));
 
-    beforeEach(() => {
-      ideaCreateDto = {
-        title: 'Fake Idea',
-        description: 'Super Fake',
-        difficulty: 5,
-        tags: ['1']
-      };
-
-      user = makeUser('github123');
-      userService.findOrCreate$.mockReturnValueOnce(of(user));
-
-      tags = [makeTag('1', 'Jest', '#000000')];
-      tagService.findByIds$.mockReturnValueOnce(of(tags));
-
-      ideaEntity = makeIdea('1', 'Fake Idea');
-      repository.create.mockReturnValueOnce({});
-      repository.save.mockReturnValueOnce(Promise.resolve(ideaEntity));
-    });
-
-    it('should call the user service with the user id', done => {
-      ideaService.create$(ideaCreateDto, 'github123').subscribe(
-        onNext(() => {
-          expect(userService.findOrCreate$).toHaveBeenCalledTimes(1);
-          expect(userService.findOrCreate$).toHaveBeenCalledWith('github123');
-          done();
-        })
-      );
-    });
-
-    it('should call the tag service with the tag ids', done => {
-      ideaService.create$(ideaCreateDto, 'github123').subscribe(
-        onNext(() => {
-          expect(tagService.findByIds$).toHaveBeenCalledTimes(1);
-          expect(tagService.findByIds$).toHaveBeenCalledWith(['1']);
-          done();
-        })
-      );
-    });
-
-    it('should add the user and tags to the idea', done => {
-      ideaService.create$(ideaCreateDto, 'github123').subscribe(
-        onNext(() => {
-          expect(repository.create).toHaveBeenCalledTimes(1);
-          expect(repository.create).toHaveBeenCalledWith({
-            ...ideaCreateDto,
-            tags,
-            author: user
-          });
-          done();
-        })
-      );
-    });
-
-    it('should return the created idea', done => {
-      ideaService.create$(ideaCreateDto, 'github123').subscribe(
-        onNext(idea => {
-          expect(idea).toEqual(ideaEntity);
-          done();
-        })
-      );
+    ideaService.findById$(expectedIdea.id).subscribe({
+      error: error => {
+        expect(error instanceof NotFoundException).toBeTruthy();
+        expect(error.message.message).toBe(
+          `Cannot find idea with id: ${expectedIdea.id}.`
+        );
+        done();
+      }
     });
   });
 
-  describe('While updating an idea', () => {
-    let ideaUpdateDto: IdeaUpdateDto;
-    let ideaEntity: IdeaEntity;
-    let tags: TagEntity[];
+  it('should create a new idea', done => {
+    const expectedUser = makeUser();
+    const expectedTags = [makeTag(), makeTag()];
+    const ideaCreateDto: IdeaCreateDto = {
+      title: faker.lorem.sentence(),
+      description: faker.lorem.paragraphs(),
+      difficulty: random(1, 5),
+      tags: expectedTags.map(tag => tag.id)
+    };
+    userService.findOrCreate$.mockReturnValueOnce(of(expectedUser));
+    tagService.findByIds$.mockReturnValueOnce(of(expectedTags));
 
-    beforeEach(() => {
-      ideaUpdateDto = {
-        id: '1',
-        title: 'Fake Idea',
-        description: 'Omega Fake',
-        difficulty: 5,
-        tags: ['1']
-      };
-
-      tags = [makeTag('1', 'Jest', '#000000')];
-      tagService.findByIds$.mockReturnValueOnce(of(tags));
-
-      ideaEntity = makeIdea('1', 'Fake Idea');
-      repository.create.mockReturnValueOnce(ideaEntity);
-      repository.save.mockReturnValueOnce(Promise.resolve(ideaEntity));
-      repository.findOne.mockReturnValueOnce(Promise.resolve(ideaEntity));
-    });
-
-    it('should fetch the tags from the tag service', done => {
-      ideaService.update$(ideaUpdateDto).subscribe(
-        onNext(() => {
-          expect(tagService.findByIds$).toHaveBeenCalledTimes(1);
-          expect(tagService.findByIds$).toHaveBeenCalledWith(['1']);
-          done();
-        })
-      );
-    });
-
-    it('should add the found tags to the idea', done => {
-      ideaService.update$(ideaUpdateDto).subscribe(
-        onNext(() => {
-          expect(repository.create).toHaveBeenCalledTimes(1);
-          expect(repository.create).toHaveBeenCalledWith({
-            ...ideaUpdateDto,
-            tags
-          });
-          done();
-        })
-      );
-    });
-
-    it('should save the idea', done => {
-      ideaService.update$(ideaUpdateDto).subscribe(
-        onNext(() => {
-          expect(repository.save).toHaveBeenCalledTimes(1);
-          expect(repository.save).toHaveBeenCalledWith(ideaEntity);
-          done();
-        })
-      );
-    });
-
-    it('should fetch the updated idea', done => {
-      ideaService.update$(ideaUpdateDto).subscribe(
-        onNext(() => {
-          expect(repository.findOne).toHaveBeenCalledTimes(1);
-          expect(repository.findOne).toHaveBeenCalledWith('1');
-          done();
-        })
-      );
-    });
-
-    it('should return the updated idea', done => {
-      ideaService.update$(ideaUpdateDto).subscribe(
-        onNext(idea => {
-          expect(idea).toEqual(ideaEntity);
-          done();
-        })
-      );
+    ideaService.create$(ideaCreateDto, expectedUser.id).subscribe(idea => {
+      expect(idea).toEqual({
+        ...ideaCreateDto,
+        tags: expectedTags,
+        author: expectedUser
+      });
+      done();
     });
   });
 
-  describe('While deleting an idea', () => {
-    let ideaEntity: IdeaEntity;
+  it('should update an idea', done => {
+    const expectedTags = [makeTag(), makeTag()];
+    const ideaUpdateDto: IdeaUpdateDto = {
+      id: faker.random.uuid(),
+      title: faker.lorem.sentence(),
+      description: faker.lorem.paragraphs(),
+      difficulty: random(1, 5),
+      tags: expectedTags.map(tag => tag.id)
+    };
+    tagService.findByIds$.mockReturnValueOnce(of(expectedTags));
+    repository.findOne.mockImplementationOnce(idea => idea);
 
-    beforeEach(() => {
-      ideaEntity = makeIdea('1', 'Fake Idea', 'Mega Fake', 5, makeUser(), [
-        makeMessage('1', 'Fake Message 1'),
-        makeMessage('1', 'Fake Message 2')
-      ]);
-
-      repository.findOneOrFail.mockReturnValueOnce(of(ideaEntity));
-      repository.save.mockImplementationOnce(entity => of(entity));
+    ideaService.update$(ideaUpdateDto).subscribe(idea => {
+      expect(repository.save).toHaveBeenCalledWith({
+        ...ideaUpdateDto,
+        tags: expectedTags
+      });
+      done();
     });
+  });
 
-    it('should flag the idea as deleted', done => {
-      ideaService.delete$('1').subscribe(
-        onNext(idea => {
-          expect(idea.isDeleted).toBeTruthy();
-          done();
-        })
-      );
-    });
+  it('should flag the idea and messages as deleted', done => {
+    const expectedIdea = makeIdea();
+    repository.findOneOrFail.mockReturnValueOnce(Promise.resolve(expectedIdea));
 
-    it('should flag all messages of the idea as deleted', done => {
-      ideaService.delete$('1').subscribe(
-        onNext(idea => {
-          idea.messages.forEach(message => {
-            expect(message.isDeleted).toBeTruthy();
-          });
-          done();
-        })
-      );
-    });
-
-    it('should soft delete the idea', done => {
-      ideaService.delete$('1').subscribe(
-        onNext(() => {
-          expect(repository.save).toHaveBeenCalledTimes(1);
-          done();
-        })
-      );
+    ideaService.delete$(expectedIdea.id).subscribe(idea => {
+      expect(idea.isDeleted).toBeTruthy();
+      idea.messages.forEach(message => expect(message.isDeleted).toBeTruthy());
+      done();
     });
   });
 });

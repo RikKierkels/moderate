@@ -27,7 +27,7 @@ import { IdeaWithMessagesDto } from './models/idea-messages.dto';
 import { IdeaDto } from './models/idea.dto';
 import { IdeaEntity } from '../database/database-entities';
 import { MapResponseInterceptor } from '../shared/interceptors/map-response.interceptor';
-import Mapper from '../shared/entity-mapper';
+import Mapper from '../shared/mappers/entity-mapper';
 
 @ApiTags('Idea')
 @Controller('ideas')

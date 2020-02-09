@@ -65,7 +65,8 @@ describe('Entity Mapper', () => {
     });
 
     it("should change the text if it's deleted", () => {
-      const message = makeMessage();
+      let message = makeMessage();
+      message = { ...message, isDeleted: true };
 
       const messageDto = EntityMapper.mapToMessageDto(message);
 

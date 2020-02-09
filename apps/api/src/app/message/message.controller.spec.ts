@@ -5,6 +5,7 @@ import { of } from 'rxjs';
 import { makeMessage } from '../shared/test-helpers/make-entities.test-utils';
 import { MessageCreateDto } from './models/message-create.dto';
 import { MessageUpdateDto } from './models/message-update.dto';
+import * as faker from 'faker';
 
 jest.mock('./message.service');
 
@@ -25,7 +26,7 @@ describe('Message Controller', () => {
   it('should create a message', done => {
     const expectedMessage = makeMessage();
     const messageCreateDto: MessageCreateDto = {
-      ideaId: expectedMessage.idea.id,
+      ideaId: faker.random.uuid(),
       text: expectedMessage.text
     };
     service.create$.mockReturnValueOnce(of(expectedMessage));

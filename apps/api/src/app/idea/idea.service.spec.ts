@@ -116,7 +116,10 @@ describe('IdeaService', () => {
     repository.findOne.mockImplementationOnce(idea => idea);
 
     ideaService.update$(ideaUpdateDto).subscribe(idea => {
-      expect(idea).toEqual({ ...ideaUpdateDto, tags: expectedTags });
+      expect(repository.save).toHaveBeenCalledWith({
+        ...ideaUpdateDto,
+        tags: expectedTags
+      });
       done();
     });
   });

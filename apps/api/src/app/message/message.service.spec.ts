@@ -6,11 +6,16 @@ import { MockType, repositoryMockFactory } from '../database/mock-repository';
 import { Repository } from 'typeorm';
 import { MessageEntity } from '../database/database-entities';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { makeMessage } from '../shared/test-helpers/make-entities.test-utils';
+import {
+  makeIdea,
+  makeMessage,
+  makeUser
+} from '../shared/test-helpers/make-entities.test-utils';
 import { NotFoundException } from '@nestjs/common';
 import { of } from 'rxjs';
 import { MessageCreateDto } from './models/message-create.dto';
 import { MessageUpdateDto } from './models/message-update.dto';
+import * as faker from 'faker';
 
 jest.mock('../user/user.service');
 jest.mock('../idea/idea.service');
@@ -58,31 +63,30 @@ describe('MessageService', () => {
     messageService.findById$('1').subscribe({
       error: error => {
         expect(error instanceof NotFoundException).toBeTruthy();
-        expect(error.message.message).toBe('Cannot find message with id: 2.');
+        expect(error.message.message).toBe('Cannot find message with id: 1.');
         done();
       }
     });
   });
 
   it('should create a new message', done => {
-    const expectedMessage = makeMessage();
+    const idea = makeIdea();
+    const author = makeUser();
     const messageCreateDto: MessageCreateDto = {
-      text: expectedMessage.text,
-      ideaId: expectedMessage.idea.id
+      text: faker.lorem.paragraph(),
+      ideaId: idea.id
     };
-    userService.findOrCreate$.mockReturnValueOnce(of(expectedMessage.author));
-    ideaService.findById$.mockReturnValueOnce(of(expectedMessage.idea));
+    userService.findOrCreate$.mockReturnValueOnce(of(author));
+    ideaService.findById$.mockReturnValueOnce(of(idea));
 
-    messageService
-      .create$(messageCreateDto, expectedMessage.author.id)
-      .subscribe(message => {
-        expect(message).toEqual({
-          ...messageCreateDto,
-          idea: expectedMessage.idea,
-          author: expectedMessage.author
-        });
-        done();
+    messageService.create$(messageCreateDto, author.id).subscribe(message => {
+      expect(message).toEqual({
+        ...messageCreateDto,
+        idea: idea,
+        author: author
       });
+      done();
+    });
   });
 
   it('should update an existing message', done => {

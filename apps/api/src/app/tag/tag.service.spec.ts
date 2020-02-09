@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { MockType, repositoryMockFactory } from '../database/mock-repository';
 import { makeTag } from '../shared/test-helpers/make-entities.test-utils';
 import { of } from 'rxjs';
+import { NotFoundException } from '@nestjs/common';
 
 describe('TagService', () => {
   let service: TagService;
@@ -51,10 +52,15 @@ describe('TagService', () => {
     const expectedTags = [makeTag(), makeTag()];
     repository.findByIds.mockReturnValueOnce(Promise.resolve(expectedTags));
 
-    const ids = expectedTags.map(tag => tag.id);
-    service.findByIds$([...ids, 'Fake Id']).subscribe(tags => {
-      expect(tags).toEqual(expectedTags);
-      done();
+    const ids = [...expectedTags.map(tag => tag.id), 'Fake Id'];
+    service.findByIds$(ids).subscribe({
+      error: error => {
+        expect(error instanceof NotFoundException).toBeTruthy();
+        expect(error.message.message).toBe(
+          `One or more tags with Ids: ${ids.join(', ')} could not be found.`
+        );
+        done();
+      }
     });
   });
 });

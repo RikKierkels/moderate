@@ -58,6 +58,7 @@ describe('UserService', () => {
       picture: faker.image.avatar()
     };
 
+    repository.findOne.mockReturnValueOnce(Promise.resolve(undefined));
     managementClient.getUser.mockReturnValueOnce(Promise.resolve(userProfile));
 
     service.findOrCreate$(userProfile.user_id).subscribe(user => {
@@ -71,6 +72,7 @@ describe('UserService', () => {
   });
 
   it('should throw an error if fetching the users profile goes wrong', done => {
+    repository.findOne.mockReturnValueOnce(Promise.resolve(undefined));
     managementClient.getUser.mockReturnValueOnce(Promise.reject(''));
 
     service.findOrCreate$('User Id').subscribe({

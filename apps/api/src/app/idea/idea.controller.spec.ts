@@ -48,7 +48,7 @@ describe('idea Controller', () => {
       title: expectedIdea.title,
       difficulty: expectedIdea.difficulty,
       description: expectedIdea.description,
-      tags: ['1']
+      tags: expectedIdea.tags.map(tag => tag.id)
     };
     service.create$.mockReturnValueOnce(of(expectedIdea));
 
@@ -67,7 +67,7 @@ describe('idea Controller', () => {
       title: expectedIdea.title,
       difficulty: expectedIdea.difficulty,
       description: expectedIdea.description,
-      tags: ['1']
+      tags: expectedIdea.tags.map(tag => tag.id)
     };
     service.update$.mockReturnValueOnce(of(expectedIdea));
 

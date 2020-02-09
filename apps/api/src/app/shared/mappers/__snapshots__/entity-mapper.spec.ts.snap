@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Entity Mapper While mapping a message entity to a DTO should map the message if it's not deleted 1`] = `
+exports[`Entity Mapper While mapping a message entity to a DTO should map the message 1`] = `
 Object {
   "author": Object {
     "id": "46518359-049f-49aa-8b4b-e41218674c1e",

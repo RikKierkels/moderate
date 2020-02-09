@@ -24,7 +24,7 @@ export const makeMessage = (): MessageEntity => ({
   id: faker.random.uuid(),
   text: faker.lorem.paragraph(),
   author: makeUser(),
-  idea: makeIdea(),
+  idea: null,
   createdAt: new Date(faker.date.past()),
   updatedAt: new Date(faker.date.past()),
   isDeleted: false

@@ -24,7 +24,7 @@ import { MessageCreateDto } from './models/message-create.dto';
 import { MessageUpdateDto } from './models/message-update.dto';
 import { MessageEntity } from '../database/database-entities';
 import { MapResponseInterceptor } from '../shared/interceptors/map-response.interceptor';
-import Mapper from '../shared/entity-mapper';
+import Mapper from '../shared/mappers/entity-mapper';
 
 @ApiTags('Message')
 @Controller('messages')

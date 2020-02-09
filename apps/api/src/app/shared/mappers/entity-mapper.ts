@@ -3,15 +3,15 @@ import {
   MessageEntity,
   TagEntity,
   UserEntity
-} from '../database/database-entities';
-import { IdeaDto } from '../idea/models/idea.dto';
-import { IdeaWithMessagesDto } from '../idea/models/idea-messages.dto';
-import { TagDto } from '../tag/models/tag.dto';
-import { MessageDto } from '../message/models/message.dto';
-import { UserDto } from '../user/models/user.dto';
-import { TEXT_MESSAGE_DELETED } from './constants';
-import { IdeaBaseDto } from '../idea/models/idea-base.dto';
-import { MapFunction } from './interceptors/map-response.interceptor';
+} from '../../database/database-entities';
+import { IdeaDto } from '../../idea/models/idea.dto';
+import { IdeaWithMessagesDto } from '../../idea/models/idea-messages.dto';
+import { TagDto } from '../../tag/models/tag.dto';
+import { MessageDto } from '../../message/models/message.dto';
+import { UserDto } from '../../user/models/user.dto';
+import { TEXT_MESSAGE_DELETED } from '../constants';
+import { IdeaBaseDto } from '../../idea/models/idea-base.dto';
+import { MapFunction } from '../interceptors/map-response.interceptor';
 
 const mapToTagDto: MapFunction<TagEntity, TagDto> = entity => ({
   id: entity.id,

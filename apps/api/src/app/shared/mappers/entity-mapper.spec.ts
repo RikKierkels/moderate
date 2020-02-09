@@ -58,7 +58,7 @@ describe('Entity Mapper', () => {
   });
 
   describe('While mapping a message entity to a DTO', () => {
-    it("should map the message if it's not deleted", () => {
+    it('should map the message', () => {
       const messageDto = EntityMapper.mapToMessageDto(messageEntity);
 
       expect(messageDto).toMatchSnapshot();

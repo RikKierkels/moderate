@@ -41,7 +41,7 @@ describe('UserService', () => {
     managementClient = module.get(MANAGEMENT_CLIENT_TOKEN);
   });
 
-  it('should find a user by id', done => {
+  it("should find a user by it's id", done => {
     const expectedUser = makeUser();
     repository.findOne.mockReturnValueOnce(Promise.resolve(expectedUser));
 

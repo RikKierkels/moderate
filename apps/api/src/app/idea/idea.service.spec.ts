@@ -56,7 +56,7 @@ describe('IdeaService', () => {
     });
   });
 
-  it('should fetch an idea by id', done => {
+  it("should fetch an idea by it's id", done => {
     const expectedIdea = makeIdea();
     repository.findOneOrFail.mockReturnValueOnce(Promise.resolve(expectedIdea));
 

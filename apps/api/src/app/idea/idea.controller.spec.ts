@@ -32,7 +32,7 @@ describe('idea Controller', () => {
     });
   });
 
-  it('should fetch an idea by id', done => {
+  it("should fetch an idea by it's id", done => {
     const expectedIdea = makeIdea();
     service.findById$.mockReturnValueOnce(of(expectedIdea));
 

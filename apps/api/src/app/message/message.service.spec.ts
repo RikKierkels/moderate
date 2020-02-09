@@ -45,7 +45,7 @@ describe('MessageService', () => {
     repository = module.get(getRepositoryToken(MessageEntity));
   });
 
-  it('should find a message by id', done => {
+  it("should find a message by it's id", done => {
     const expectedMessage = makeMessage();
     repository.findOneOrFail.mockReturnValueOnce(
       Promise.resolve(expectedMessage)

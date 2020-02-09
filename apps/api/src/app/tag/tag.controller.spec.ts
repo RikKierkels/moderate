@@ -20,7 +20,7 @@ describe('Tag Controller', () => {
     service = module.get(TagService);
   });
 
-  it('should fetch all the tags', done => {
+  it('should fetch all tags', done => {
     const expectedTags = [makeTag(), makeTag()];
     service.findAll$.mockReturnValueOnce(of(expectedTags));
 

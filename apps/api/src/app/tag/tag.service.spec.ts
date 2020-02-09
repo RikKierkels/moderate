@@ -27,7 +27,7 @@ describe('TagService', () => {
     repository = module.get(getRepositoryToken(TagEntity));
   });
 
-  it('should fetch all the tag', done => {
+  it('should fetch all tags', done => {
     const expectedTags = [makeTag(), makeTag()];
     repository.find.mockReturnValueOnce(of(expectedTags));
 

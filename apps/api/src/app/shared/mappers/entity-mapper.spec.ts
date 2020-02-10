@@ -81,7 +81,7 @@ describe('Entity Mapper', () => {
   });
 
   it('should map an idea entity to an idea with messages DTO', () => {
-    const ideaDto = EntityMapper.mapToIdeaDto(idea);
+    const ideaDto = EntityMapper.mapToIdeaWithMessagesDto(idea);
 
     expect(ideaDto).toMatchSnapshot();
   });

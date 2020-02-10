@@ -63,7 +63,28 @@ Object {
   "description": "I should map to a DTO",
   "difficulty": 1,
   "id": "46518359-049f-49aa-8b4b-e41218674c1e",
-  "messageCount": 2,
+  "messages": Array [
+    Object {
+      "author": Object {
+        "id": "46518359-049f-49aa-8b4b-e41218674c1e",
+        "picture": "https://www.cool-face.com/123.jpg",
+        "username": "RikKierkels",
+      },
+      "createdAt": 2020-02-19T23:00:00.000Z,
+      "id": "46518359-049f-49aa-8b4b-e41218674c1e",
+      "text": "I should map to a DTO",
+    },
+    Object {
+      "author": Object {
+        "id": "46518359-049f-49aa-8b4b-e41218674c1e",
+        "picture": "https://www.cool-face.com/123.jpg",
+        "username": "RikKierkels",
+      },
+      "createdAt": 2020-02-19T23:00:00.000Z,
+      "id": "46518359-049f-49aa-8b4b-e41218674c1e",
+      "text": "I should map to a DTO",
+    },
+  ],
   "tags": Array [
     Object {
       "color": "#000",

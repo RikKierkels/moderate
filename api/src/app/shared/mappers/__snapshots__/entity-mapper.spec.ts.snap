@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Entity Mapper While mapping a message entity to a DTO should map the message 1`] = `
+Object {
+  "author": Object {
+    "id": "46518359-049f-49aa-8b4b-e41218674c1e",
+    "picture": "https://www.cool-face.com/123.jpg",
+    "username": "RikKierkels",
+  },
+  "createdAt": 2020-02-19T23:00:00.000Z,
+  "id": "46518359-049f-49aa-8b4b-e41218674c1e",
+  "text": "I should map to a DTO",
+}
+`;
+
+exports[`Entity Mapper should map a tag entity to a tag DTO 1`] = `
+Object {
+  "color": "#000",
+  "id": "46518359-049f-49aa-8b4b-e41218674c1e",
+  "name": "Angular",
+}
+`;
+
+exports[`Entity Mapper should map a user entity to a user DTO 1`] = `
+Object {
+  "id": "46518359-049f-49aa-8b4b-e41218674c1e",
+  "picture": "https://www.cool-face.com/123.jpg",
+  "username": "RikKierkels",
+}
+`;
+
+exports[`Entity Mapper should map an idea entity to an idea DTO 1`] = `
+Object {
+  "author": Object {
+    "id": "46518359-049f-49aa-8b4b-e41218674c1e",
+    "picture": "https://www.cool-face.com/123.jpg",
+    "username": "RikKierkels",
+  },
+  "createdAt": 2020-02-19T23:00:00.000Z,
+  "description": "I should map to a DTO",
+  "difficulty": 1,
+  "id": "46518359-049f-49aa-8b4b-e41218674c1e",
+  "messageCount": 2,
+  "tags": Array [
+    Object {
+      "color": "#000",
+      "id": "46518359-049f-49aa-8b4b-e41218674c1e",
+      "name": "Angular",
+    },
+  ],
+  "title": "Snapshot Test",
+}
+`;
+
+exports[`Entity Mapper should map an idea entity to an idea with messages DTO 1`] = `
+Object {
+  "author": Object {
+    "id": "46518359-049f-49aa-8b4b-e41218674c1e",
+    "picture": "https://www.cool-face.com/123.jpg",
+    "username": "RikKierkels",
+  },
+  "createdAt": 2020-02-19T23:00:00.000Z,
+  "description": "I should map to a DTO",
+  "difficulty": 1,
+  "id": "46518359-049f-49aa-8b4b-e41218674c1e",
+  "messages": Array [
+    Object {
+      "author": Object {
+        "id": "46518359-049f-49aa-8b4b-e41218674c1e",
+        "picture": "https://www.cool-face.com/123.jpg",
+        "username": "RikKierkels",
+      },
+      "createdAt": 2020-02-19T23:00:00.000Z,
+      "id": "46518359-049f-49aa-8b4b-e41218674c1e",
+      "text": "I should map to a DTO",
+    },
+    Object {
+      "author": Object {
+        "id": "46518359-049f-49aa-8b4b-e41218674c1e",
+        "picture": "https://www.cool-face.com/123.jpg",
+        "username": "RikKierkels",
+      },
+      "createdAt": 2020-02-19T23:00:00.000Z,
+      "id": "46518359-049f-49aa-8b4b-e41218674c1e",
+      "text": "I should map to a DTO",
+    },
+  ],
+  "tags": Array [
+    Object {
+      "color": "#000",
+      "id": "46518359-049f-49aa-8b4b-e41218674c1e",
+      "name": "Angular",
+    },
+  ],
+  "title": "Snapshot Test",
+}
+`;

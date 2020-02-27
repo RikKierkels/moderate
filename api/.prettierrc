@@ -1,0 +1,6 @@
+{
+  "arrowParens": "avoid",
+  "endOfLine": "crlf",
+  "singleQuote": true,
+  "quoteProps": "consistent"
+}

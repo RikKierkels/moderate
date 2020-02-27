@@ -1,5 +1,5 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { MessageService } from '../../message/message.service';
 import { map } from 'rxjs/operators';
 import { IdeaEntity, MessageEntity } from '../../database/database-entities';

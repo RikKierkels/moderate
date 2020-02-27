@@ -53,7 +53,7 @@ export class MessageController {
 
   @ApiNotFoundResponse()
   @Auth(IsAuthorOfMessageGuard)
-  @ApiParam({ name: 'id', type: String })
+  @ApiParam({ name: 'id', type: FindOneParams })
   @Delete(':id')
   delete(@Param() params: FindOneParams): void {
     this.messageService.delete(params.id);

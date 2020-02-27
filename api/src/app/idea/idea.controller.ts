@@ -18,7 +18,7 @@ import {
 } from '@nestjs/swagger';
 import { Auth } from '../shared/decorators/auth.decorator';
 import { UserId } from '../shared/decorators/user.decorator';
-import { first, map } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { FindOneParams } from '../shared/find-one-params.model';
 import { IsAuthorOfIdeaGuard } from '../shared/guards/is-author-of.guard';
 import { IdeaCreateDto } from './models/idea-create.dto';
@@ -44,7 +44,7 @@ export class IdeaController {
   @UseInterceptors(new MapResponseInterceptor(Mapper.mapToIdeaWithMessagesDto))
   @ApiResponse({ type: IdeaWithMessagesDto })
   @ApiNotFoundResponse()
-  @ApiParam({ name: 'id', type: String })
+  @ApiParam({ name: 'id', type: FindOneParams })
   @Get(':id')
   find(@Param() params: FindOneParams): Observable<IdeaEntity> {
     return this.ideaService.findById$(params.id);
@@ -73,7 +73,7 @@ export class IdeaController {
 
   @ApiNotFoundResponse()
   @Auth(IsAuthorOfIdeaGuard)
-  @ApiParam({ name: 'id', type: String })
+  @ApiParam({ name: 'id', type: FindOneParams })
   @Delete(':id')
   delete(@Param() params: FindOneParams): void {
     this.ideaService

@@ -13,19 +13,29 @@ import { TEXT_MESSAGE_DELETED } from '../constants';
 import { IdeaBaseDto } from '../../idea/models/idea-base.dto';
 import { MapFunction } from '../interceptors/map-response.interceptor';
 
-const mapToTagDto: MapFunction<TagEntity, TagDto> = entity => ({
-  id: entity.id,
-  name: entity.name,
-  color: entity.color
-});
+const mapToTagDto: MapFunction<TagEntity, TagDto> = entity => {
+  if (!entity) return;
 
-const mapToUserDto: MapFunction<UserEntity, UserDto> = entity => ({
-  id: entity.id,
-  username: entity.username,
-  picture: entity.picture
-});
+  return {
+    id: entity.id,
+    name: entity.name,
+    color: entity.color
+  };
+};
+
+const mapToUserDto: MapFunction<UserEntity, UserDto> = entity => {
+  if (!entity) return;
+
+  return {
+    id: entity.id,
+    username: entity.username,
+    picture: entity.picture
+  };
+};
 
 const mapToMessageDto: MapFunction<MessageEntity, MessageDto> = entity => {
+  if (!entity) return;
+
   const text = entity.isDeleted ? TEXT_MESSAGE_DELETED : entity.text;
 
   return {
@@ -36,28 +46,40 @@ const mapToMessageDto: MapFunction<MessageEntity, MessageDto> = entity => {
   };
 };
 
-const mapToIdeaDto: MapFunction<IdeaEntity, IdeaDto> = entity => ({
-  ...mapToIdeaBase(entity),
-  messageCount: (entity.messages || []).length
-});
+const mapToIdeaDto: MapFunction<IdeaEntity, IdeaDto> = entity => {
+  if (!entity) return;
+
+  return {
+    ...mapToIdeaBase(entity),
+    messageCount: (entity.messages || []).length
+  };
+};
 
 const mapToIdeaWithMessagesDto: MapFunction<
   IdeaEntity,
   IdeaWithMessagesDto
-> = entity => ({
-  ...mapToIdeaBase(entity),
-  messages: (entity.messages || []).map(mapToMessageDto)
-});
+> = entity => {
+  if (!entity) return;
 
-const mapToIdeaBase: MapFunction<IdeaEntity, IdeaBaseDto> = entity => ({
-  id: entity.id,
-  title: entity.title,
-  description: entity.description,
-  difficulty: entity.difficulty,
-  createdAt: entity.createdAt,
-  tags: (entity.tags || []).map(mapToTagDto),
-  author: mapToUserDto(entity.author)
-});
+  return {
+    ...mapToIdeaBase(entity),
+    messages: (entity.messages || []).map(mapToMessageDto)
+  };
+};
+
+const mapToIdeaBase: MapFunction<IdeaEntity, IdeaBaseDto> = entity => {
+  if (!entity) return;
+
+  return {
+    id: entity.id,
+    title: entity.title,
+    description: entity.description,
+    difficulty: entity.difficulty,
+    createdAt: entity.createdAt,
+    tags: (entity.tags || []).map(mapToTagDto),
+    author: mapToUserDto(entity.author)
+  };
+};
 
 export default {
   mapToTagDto,

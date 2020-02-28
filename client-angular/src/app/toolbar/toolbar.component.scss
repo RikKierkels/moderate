@@ -1,0 +1,9 @@
+@import '../../design/index';
+
+.toolbar-container {
+  z-index: $toolbar-z-index;
+  display: flex;
+  justify-content: flex-end;
+  height: 100px;
+  background-color: $toolbar-color;
+}

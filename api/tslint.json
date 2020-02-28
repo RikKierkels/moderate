@@ -4,6 +4,11 @@
   "jsRules": {
     "no-unused-expression": true
   },
+  "linterOptions": {
+    "exclude": [
+      "node_modules/**"
+    ]
+  },
   "rules": {
     "quotemark": [true, "single", "avoid-escape"],
     "member-access": [false],

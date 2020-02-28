@@ -1,0 +1,14 @@
+<article class="idea-container">
+  <a [routerLink]="[idea.id]" class="link">
+    <h3>{{ idea.title }}</h3>
+  </a>
+  <span>
+    {{ idea.createdAt | date: 'mediumDate' }} By {{ idea.author?.username }}
+  </span>
+  <a [routerLink]="[idea.id]" class="link idea-description">
+    <p>{{ idea.description | truncate: 30 }}</p>
+  </a>
+  <div class="tag-wrapper">
+    <mod-tag *ngFor="let tag of idea.tags" [tag]="tag"></mod-tag>
+  </div>
+</article>

@@ -1,0 +1,20 @@
+<form [formGroup]="ideaForm" (ngSubmit)="createIdea()" class="form">
+  <label class="input-label">
+    Title:
+    <input name="title" type="text" formControlName="title" />
+  </label>
+
+  <label class="input-label">
+    Description:
+    <textarea
+      name="description"
+      cols="30"
+      rows="10"
+      formControlName="description"
+    ></textarea>
+  </label>
+
+  <button type="submit" [disabled]="!ideaForm.valid">
+    Send
+  </button>
+</form>

@@ -1,0 +1,8 @@
+<header class="toolbar-container">
+  <ng-container *ngIf="userProfile$ | async as user">
+    {{ user.name }}
+    <button (click)="logout()">
+      Logout
+    </button>
+  </ng-container>
+</header>

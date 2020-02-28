@@ -1,0 +1,6 @@
+<section *ngIf="ideas$ | async as ideas" class="idea-grid">
+  <mod-idea-grid-item
+    *ngFor="let idea of ideas"
+    [idea]="idea"
+  ></mod-idea-grid-item>
+</section>

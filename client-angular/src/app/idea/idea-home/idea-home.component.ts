@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
-  selector: 'mod-idea-home',
+  selector: 'app-idea-home',
   templateUrl: './idea-home.component.html',
   styleUrls: ['./idea-home.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

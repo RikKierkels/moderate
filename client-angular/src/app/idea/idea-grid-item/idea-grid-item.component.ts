@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Idea } from '@moderate/api-interfaces';
+import { Idea } from '../../shared/interfaces/idea.interface';
 
 @Component({
-  selector: 'mod-idea-grid-item',
+  selector: 'app-idea-grid-item',
   templateUrl: './idea-grid-item.component.html',
   styleUrls: ['./idea-grid-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

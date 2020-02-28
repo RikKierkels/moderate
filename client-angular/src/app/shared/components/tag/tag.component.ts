@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Tag } from '@moderate/api-interfaces';
+import { Tag } from '../../interfaces/tag.interface';
 
 @Component({
-  selector: 'mod-tag',
+  selector: 'app-tag',
   templateUrl: './tag.component.html',
   styleUrls: ['./tag.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

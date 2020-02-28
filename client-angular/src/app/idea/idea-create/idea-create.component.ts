@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { IdeaService } from '../idea.service';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Idea } from '@moderate/api-interfaces';
 import { Router } from '@angular/router';
 import { CanComponentDeactivate } from '../../shared/can-deactivate.guard';
+import { Idea } from '../../shared/interfaces/idea.interface';
 
 @Component({
-  selector: 'mod-idea-create',
+  selector: 'app-idea-create',
   templateUrl: './idea-create.component.html',
   styleUrls: ['./idea-create.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

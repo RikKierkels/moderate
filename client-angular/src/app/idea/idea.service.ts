@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { Idea } from '@moderate/api-interfaces';
 import { Environment } from '../shared/environment.model';
 import { catchError } from 'rxjs/operators';
+import { Idea } from '../shared/interfaces/idea.interface';
 
 @Injectable({
   providedIn: 'root'

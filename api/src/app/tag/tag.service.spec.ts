@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TagService } from './tag.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { TagEntity } from '../database/database-entities';
 import { Repository } from 'typeorm';
 import { MockType, repositoryMockFactory } from '../database/mock-repository';
 import { makeTag } from '../shared/test-helpers/make-entities.test-utils';
 import { of } from 'rxjs';
 import { NotFoundException } from '@nestjs/common';
+import { TagEntity } from '../database/entities/tag.entity';
 
 describe('TagService', () => {
   let service: TagService;

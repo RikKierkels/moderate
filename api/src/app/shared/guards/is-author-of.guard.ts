@@ -2,13 +2,14 @@ import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Observable, of } from 'rxjs';
 import { MessageService } from '../../message/message.service';
 import { map } from 'rxjs/operators';
-import { IdeaEntity, MessageEntity } from '../../database/database-entities';
 import { IdeaService } from '../../idea/idea.service';
 import { Service } from '../service.interface';
 import {
   IsAuthorOfCheck,
   IsAuthorOfGuard
 } from './is-author-of-guard.interface';
+import { IdeaEntity } from '../../database/entities/idea.entity';
+import { MessageEntity } from '../../database/entities/message.entity';
 
 @Injectable()
 export class IsAuthorOfMessageGuard implements CanActivate, IsAuthorOfGuard {

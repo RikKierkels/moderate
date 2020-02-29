@@ -1,11 +1,11 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from '../database/database-entities';
 import { Repository } from 'typeorm';
 import { from, Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { ManagementClient, User } from 'auth0';
 import { MANAGEMENT_CLIENT_TOKEN } from '../shared/constants';
+import { UserEntity } from '../database/entities/user.entity';
 
 @Injectable()
 export class UserService {

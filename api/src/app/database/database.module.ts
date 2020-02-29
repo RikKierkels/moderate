@@ -2,12 +2,10 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
-import {
-  IdeaEntity,
-  MessageEntity,
-  TagEntity,
-  UserEntity
-} from './database-entities';
+import { UserEntity } from './entities/user.entity';
+import { IdeaEntity } from './entities/idea.entity';
+import { TagEntity } from './entities/tag.entity';
+import { MessageEntity } from './entities/message.entity';
 
 @Module({
   imports: [

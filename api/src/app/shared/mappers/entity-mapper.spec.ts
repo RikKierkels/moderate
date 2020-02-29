@@ -1,11 +1,9 @@
 import { makeMessage } from '../test-helpers/make-entities.test-utils';
 import EntityMapper from './entity-mapper';
-import {
-  IdeaEntity,
-  MessageEntity,
-  TagEntity,
-  UserEntity
-} from '../../database/database-entities';
+import { UserEntity } from '../../database/entities/user.entity';
+import { IdeaEntity } from '../../database/entities/idea.entity';
+import { TagEntity } from '../../database/entities/tag.entity';
+import { MessageEntity } from '../../database/entities/message.entity';
 
 const tagEntity: TagEntity = {
   id: '46518359-049f-49aa-8b4b-e41218674c1e',

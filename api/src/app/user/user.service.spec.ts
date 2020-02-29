@@ -2,13 +2,13 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UserService } from './user.service';
 import { MockType, repositoryMockFactory } from '../database/mock-repository';
 import { Repository } from 'typeorm';
-import { UserEntity } from '../database/database-entities';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { ManagementClient, User } from 'auth0';
 import { MANAGEMENT_CLIENT_TOKEN } from '../shared/constants';
 import { makeUser } from '../shared/test-helpers/make-entities.test-utils';
 import * as faker from 'faker';
 import { BadRequestException } from '@nestjs/common';
+import { UserEntity } from '../database/entities/user.entity';
 
 const managementClientMockFactory: () => MockType<ManagementClient> = jest.fn(
   () => ({

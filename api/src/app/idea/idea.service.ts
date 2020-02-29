@@ -3,12 +3,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { forkJoin, from, Observable } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { IdeaEntity } from '../database/database-entities';
 import { TagService } from '../tag/tag.service';
 import { UserService } from '../user/user.service';
 import { Service } from '../shared/service.interface';
 import { IdeaCreateDto } from './models/idea-create.dto';
 import { IdeaUpdateDto } from './models/idea-update.dto';
+import { IdeaEntity } from '../database/entities/idea.entity';
 
 @Injectable()
 export class IdeaService implements Service<IdeaEntity> {

@@ -1,11 +1,9 @@
-import {
-  IdeaEntity,
-  MessageEntity,
-  TagEntity,
-  UserEntity
-} from '../../database/database-entities';
 import * as faker from 'faker';
 import { random, range } from 'lodash';
+import { UserEntity } from '../../database/entities/user.entity';
+import { IdeaEntity } from '../../database/entities/idea.entity';
+import { TagEntity } from '../../database/entities/tag.entity';
+import { MessageEntity } from '../../database/entities/message.entity';
 
 export const makeIdea = (): IdeaEntity => ({
   id: faker.random.uuid(),

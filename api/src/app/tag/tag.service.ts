@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { from, Observable } from 'rxjs';
 import { InjectRepository } from '@nestjs/typeorm';
-import { TagEntity } from '../database/database-entities';
 import { Repository } from 'typeorm';
 import { map } from 'rxjs/operators';
+import { TagEntity } from '../database/entities/tag.entity';
 
 @Injectable()
 export class TagService {

@@ -4,7 +4,6 @@ import { UserService } from '../user/user.service';
 import { IdeaService } from '../idea/idea.service';
 import { MockType, repositoryMockFactory } from '../database/mock-repository';
 import { Repository } from 'typeorm';
-import { MessageEntity } from '../database/database-entities';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import {
   makeIdea,
@@ -16,6 +15,7 @@ import { of } from 'rxjs';
 import { MessageCreateDto } from './models/message-create.dto';
 import { MessageUpdateDto } from './models/message-update.dto';
 import * as faker from 'faker';
+import { MessageEntity } from '../database/entities/message.entity';
 
 jest.mock('../user/user.service');
 jest.mock('../idea/idea.service');

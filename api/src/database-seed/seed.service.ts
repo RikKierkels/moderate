@@ -1,16 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection, Repository } from 'typeorm';
-import {
-  IdeaEntity,
-  MessageEntity,
-  TagEntity,
-  UserEntity
-} from '../app/database/database-entities';
 import { SEED_CONFIG_TOKEN, TAG_SEED_TOKEN } from './seed.constants';
 import { SeedConfig } from './seed-config.interface';
 import * as faker from 'faker';
 import { random, range } from 'lodash';
+import { UserEntity } from '../app/database/entities/user.entity';
+import { IdeaEntity } from '../app/database/entities/idea.entity';
+import { TagEntity } from '../app/database/entities/tag.entity';
+import { MessageEntity } from '../app/database/entities/message.entity';
 
 @Injectable()
 export class SeedService {

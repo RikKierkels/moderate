@@ -1,4 +1,4 @@
-import { TagEntity } from '../app/database/database-entities';
+import { TagEntity } from '../app/database/entities/tag.entity';
 
 export const tagsToSeed: Array<Partial<TagEntity>> = [
   { name: 'Backend', color: '#000000' },

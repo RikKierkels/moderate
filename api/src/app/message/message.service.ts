@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { MessageEntity } from '../database/database-entities';
 import { Repository } from 'typeorm';
 import { forkJoin, from, Observable } from 'rxjs';
 import { IdeaService } from '../idea/idea.service';
@@ -9,6 +8,7 @@ import { UserService } from '../user/user.service';
 import { Service } from '../shared/service.interface';
 import { MessageCreateDto } from './models/message-create.dto';
 import { MessageUpdateDto } from './models/message-update.dto';
+import { MessageEntity } from '../database/entities/message.entity';
 
 @Injectable()
 export class MessageService implements Service<MessageEntity> {

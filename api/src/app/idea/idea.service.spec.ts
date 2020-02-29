@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { IdeaService } from './idea.service';
 import { UserService } from '../user/user.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { IdeaEntity, MessageEntity } from '../database/database-entities';
 import { MockType, repositoryMockFactory } from '../database/mock-repository';
 import { Repository } from 'typeorm';
 import { TagService } from '../tag/tag.service';
@@ -17,6 +16,8 @@ import { of } from 'rxjs';
 import { IdeaUpdateDto } from './models/idea-update.dto';
 import * as faker from 'faker';
 import { random } from 'lodash';
+import { IdeaEntity } from '../database/entities/idea.entity';
+import { MessageEntity } from '../database/entities/message.entity';
 
 jest.mock('../user/user.service');
 jest.mock('../tag/tag.service');

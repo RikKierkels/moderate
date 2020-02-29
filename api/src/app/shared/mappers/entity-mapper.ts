@@ -1,9 +1,3 @@
-import {
-  IdeaEntity,
-  MessageEntity,
-  TagEntity,
-  UserEntity
-} from '../../database/database-entities';
 import { IdeaDto } from '../../idea/models/idea.dto';
 import { IdeaWithMessagesDto } from '../../idea/models/idea-messages.dto';
 import { TagDto } from '../../tag/models/tag.dto';
@@ -12,6 +6,10 @@ import { UserDto } from '../../user/models/user.dto';
 import { TEXT_MESSAGE_DELETED } from '../constants';
 import { IdeaBaseDto } from '../../idea/models/idea-base.dto';
 import { MapFunction } from '../interceptors/map-response.interceptor';
+import { UserEntity } from '../../database/entities/user.entity';
+import { IdeaEntity } from '../../database/entities/idea.entity';
+import { TagEntity } from '../../database/entities/tag.entity';
+import { MessageEntity } from '../../database/entities/message.entity';
 
 const mapToTagDto: MapFunction<TagEntity, TagDto> = entity => {
   if (!entity) return;

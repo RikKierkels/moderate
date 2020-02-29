@@ -22,9 +22,9 @@ import { FindOneParams } from '../shared/find-one-params.model';
 import { MessageDto } from './models/message.dto';
 import { MessageCreateDto } from './models/message-create.dto';
 import { MessageUpdateDto } from './models/message-update.dto';
-import { MessageEntity } from '../database/database-entities';
 import { MapResponseInterceptor } from '../shared/interceptors/map-response.interceptor';
 import Mapper from '../shared/mappers/entity-mapper';
+import { MessageEntity } from '../database/entities/message.entity';
 
 @ApiTags('Message')
 @Controller('messages')

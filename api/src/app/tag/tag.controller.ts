@@ -3,9 +3,9 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { TagService } from './tag.service';
 import { Observable } from 'rxjs';
 import { TagDto } from './models/tag.dto';
-import { TagEntity } from '../database/database-entities';
 import Mapper from '../shared/mappers/entity-mapper';
 import { MapResponseInterceptor } from '../shared/interceptors/map-response.interceptor';
+import { TagEntity } from '../database/entities/tag.entity';
 
 @ApiTags('Tag')
 @Controller('tags')

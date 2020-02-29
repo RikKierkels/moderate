@@ -7,7 +7,7 @@ import compression from 'compression';
 import helmet from 'helmet';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
   const config = app.get(ConfigService);
   const globalPrefix = 'api';
 

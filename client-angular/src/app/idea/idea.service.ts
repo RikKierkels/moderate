@@ -14,7 +14,8 @@ export class IdeaService {
   constructor(
     private readonly httpClient: HttpClient,
     private readonly environment: Environment
-  ) {}
+  ) {
+  }
 
   getAll(): Observable<Idea[]> {
     return this.httpClient

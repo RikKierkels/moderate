@@ -28,6 +28,10 @@ const routes: Routes = [
       },
       { path: ':id', component: IdeaDetailComponent }
     ]
+  },
+  {
+    path: '',
+    redirectTo: 'ideas'
   }
 ];
 

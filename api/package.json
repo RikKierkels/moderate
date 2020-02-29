@@ -1,8 +1,18 @@
 {
-  "name": "api",
-  "version": "0.0.1",
-  "description": "An API that allows it's users to share pet project ideas and comment on each others ideas.",
-  "author": "Rik Kierkels",
+  "name": "moderate-api",
+  "version": "1.0.0",
+  "description": "Api that facilitates the sharing of pet project ideas.",
+  "author": {
+    "name": "Rik Kierkels"
+  },
+  "homepage": "https://github.com/RikKierkels/moderate",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:RikKierkels/moderate.git"
+  },
+  "bugs": {
+    "url": "https://github.com/RikKierkels/moderate/issues"
+  },
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
@@ -21,7 +31,6 @@
     "seed": "ts-node -P tsconfig.seed.json -r tsconfig-paths/register src/database-seed/seed.ts"
   },
   "dependencies": {
-    "'": "github:nestjs/passport",
     "@nestjs/common": "6.7.2",
     "@nestjs/config": "0.2.4",
     "@nestjs/core": "6.7.2",

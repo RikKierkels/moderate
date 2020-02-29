@@ -1,6 +1,18 @@
 {
-  "name": "moderate",
-  "version": "0.0.0",
+  "name": "moderate-client",
+  "version": "0.0.1",
+  "description": "Client that facilitates the sharing of pet project ideas.",
+  "author": {
+    "name": "Rik Kierkels"
+  },
+  "homepage": "https://github.com/RikKierkels/moderate",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:RikKierkels/moderate.git"
+  },
+  "bugs": {
+    "url": "https://github.com/RikKierkels/moderate/issues"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -9,7 +21,6 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "9.0.4",
     "@angular/common": "9.0.4",

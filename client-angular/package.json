@@ -1,0 +1,58 @@
+{
+  "name": "moderate-client",
+  "version": "0.0.1",
+  "description": "Client that facilitates the sharing of pet project ideas.",
+  "author": {
+    "name": "Rik Kierkels"
+  },
+  "homepage": "https://github.com/RikKierkels/moderate",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:RikKierkels/moderate.git"
+  },
+  "bugs": {
+    "url": "https://github.com/RikKierkels/moderate/issues"
+  },
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e"
+  },
+  "dependencies": {
+    "@angular/animations": "9.0.4",
+    "@angular/common": "9.0.4",
+    "@angular/compiler": "9.0.4",
+    "@angular/core": "9.0.4",
+    "@angular/forms": "9.0.4",
+    "@angular/platform-browser": "9.0.4",
+    "@angular/platform-browser-dynamic": "9.0.4",
+    "@angular/router": "9.0.4",
+    "@auth0/auth0-spa-js": "1.6.0",
+    "rxjs": "6.5.4",
+    "tslib": "1.10.0",
+    "zone.js": "~0.10.2"
+  },
+  "devDependencies": {
+    "@angular-builders/jest": "9.0.0",
+    "@angular-devkit/build-angular": "~0.900.4",
+    "@angular/cli": "9.0.4",
+    "@angular/compiler-cli": "9.0.4",
+    "@angular/language-service": "9.0.4",
+    "@types/jasmine": "3.3.8",
+    "@types/jasminewd2": "2.0.3",
+    "@types/jest": "25.1.3",
+    "@types/node": "12.11.1",
+    "codelyzer": "5.1.2",
+    "jasmine-core": "3.4.0",
+    "jasmine-spec-reporter": "4.2.1",
+    "jest": "25.1.0",
+    "prettier": "1.18.2",
+    "protractor": "5.4.0",
+    "ts-node": "7.0.0",
+    "tslint": "5.15.0",
+    "typescript": "3.7.5"
+  }
+}

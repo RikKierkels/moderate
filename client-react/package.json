@@ -1,25 +1,19 @@
 {
-  "name": "moderate-react",
+  "name": "client-react",
   "version": "0.1.0",
-  "description": "Client that facilitates the sharing of pet project ideas.",
-  "author": {
-    "name": "Rik Kierkels"
-  },
-  "homepage": "https://github.com/RikKierkels/moderate",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:RikKierkels/moderate.git"
-  },
-  "bugs": {
-    "url": "https://github.com/RikKierkels/moderate/issues"
-  },
+  "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "4.2.4",
-    "@testing-library/react": "9.4.1",
-    "@testing-library/user-event": "7.2.1",
-    "react": "16.13.0",
-    "react-dom": "16.13.0",
-    "react-scripts": "3.4.0"
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.4.1",
+    "@testing-library/user-event": "^7.2.1",
+    "@types/jest": "^24.9.1",
+    "@types/node": "^12.12.29",
+    "@types/react": "^16.9.23",
+    "@types/react-dom": "^16.9.5",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
+    "react-scripts": "3.4.0",
+    "typescript": "^3.7.5"
   },
   "scripts": {
     "start": "react-scripts start",

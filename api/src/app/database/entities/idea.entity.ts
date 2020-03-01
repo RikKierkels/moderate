@@ -1,4 +1,11 @@
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany
+} from 'typeorm';
 import { AuditableEntity } from './auditable.entity';
 import { UserEntity } from './user.entity';
 import { TagEntity } from './tag.entity';

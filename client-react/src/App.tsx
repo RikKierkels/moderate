@@ -7,8 +7,12 @@ import { RouteWithSubRoutes } from './router/RouteWithSubRoutes';
 function App() {
   return (
     <Switch>
-      {routes.map((route, i) => (
-        <RouteWithSubRoutes key={i} {...route}/>
+      {routes.map(route => (
+        <RouteWithSubRoutes
+          path={route.path}
+          component={route.component}
+          routes={route.routes}
+        />
       ))}
     </Switch>
   );

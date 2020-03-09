@@ -8,8 +8,9 @@ function App() {
   return (
     <Switch>
       <Redirect exact from="/" to="/ideas" />
-      {routes.map(route => (
+      {routes.map((route, i) => (
         <RouteWithSubRoutes
+          key={i}
           path={route.path}
           component={route.component}
           routes={route.routes}

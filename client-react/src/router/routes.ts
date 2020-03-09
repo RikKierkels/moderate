@@ -1,5 +1,5 @@
 import { AppRoute } from './route.interface';
-import IdeaOverview from '../ideas/IdeaOverview';
+import IdeaOverview from '../idea/IdeaOverview';
 
 export const routes: AppRoute[] = [
   {

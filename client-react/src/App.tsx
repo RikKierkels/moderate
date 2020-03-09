@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import { Switch } from 'react-router';
 import { routes } from './router/routes';
-import { RouteWithSubRoutes } from './router/RouteWithSubRoutes';
+import RouteWithSubRoutes from './router/RouteWithSubRoutes';
 
 function App() {
   return (

@@ -5,6 +5,6 @@ export const routes: AppRoute[] = [
   {
     path: '/ideas',
     component: IdeaGrid,
-    routes: []
+    routes: [{ path: '/:id', component: null }]
   }
 ];

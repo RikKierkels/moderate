@@ -7,7 +7,7 @@ type IdeaGridItemProps = { idea: Idea };
 export default function IdeaGridItem({ idea }: IdeaGridItemProps): JSX.Element {
   return (
     <article>
-      <Link to="/blaat">
+      <Link to={`/ideas/${idea.id}`}>
         <h3>{idea.title}</h3>
       </Link>
       <span>
@@ -15,7 +15,7 @@ export default function IdeaGridItem({ idea }: IdeaGridItemProps): JSX.Element {
         By
         {idea.author.username}
       </span>
-      <Link to="/blaat">
+      <Link to={`/ideas/${idea.id}`}>
         <p>{idea.description}</p>
       </Link>
     </article>

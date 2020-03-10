@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Idea } from '../../../client-angular/src/app/shared/interfaces/idea.interface';
+import './IdeaGridItem.scss';
+import { Idea } from '../shared/interfaces/idea.interface';
 
 type IdeaGridItemProps = { idea: Idea };
 export default function IdeaGridItem({ idea }: IdeaGridItemProps): JSX.Element {

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './IdeaGrid.scss';
 import { Idea } from '../shared/interfaces/idea.interface';
 import IdeaGridItem from './IdeaGridItem';
 
@@ -20,11 +21,11 @@ export default function IdeaGrid(): JSX.Element {
   }, []);
 
   return (
-    <section>
+    <section className="idea-grid">
       {ideas.map(idea => (
         <IdeaGridItem key={idea.id} idea={idea} />
       ))}
-      {error}
+      <p>{error}</p>
     </section>
   );
 }

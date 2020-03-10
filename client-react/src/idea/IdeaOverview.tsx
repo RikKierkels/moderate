@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Idea } from '../shared/interfaces/idea.interface';
 
-export default function IdeaOverview() {
+export default function IdeaOverview(): JSX.Element {
   const [ideas, setIdeas] = useState<Idea[]>([]);
-  const [error, setError] = useState<Element>(<div></div>);
+  const [error, setError] = useState<JSX.Element>();
 
   async function getIdeas(): Promise<void> {
     try {

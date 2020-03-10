@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Idea } from '../shared/interfaces/idea.interface';
+import IdeaGridItem from './IdeaGridItem';
 
-export default function IdeaOverview(): JSX.Element {
+export default function IdeaGrid(): JSX.Element {
   const [ideas, setIdeas] = useState<Idea[]>([]);
   const [error, setError] = useState<JSX.Element>();
 
@@ -18,5 +19,12 @@ export default function IdeaOverview(): JSX.Element {
     getIdeas();
   }, []);
 
-  return <div>{error}</div>;
+  return (
+    <section>
+      {ideas.map(idea => (
+        <IdeaGridItem key={idea.id} idea={idea} />
+      ))}
+      {error}
+    </section>
+  );
 }

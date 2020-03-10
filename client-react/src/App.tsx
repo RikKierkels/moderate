@@ -6,17 +6,19 @@ import RouteWithSubRoutes from './router/RouteWithSubRoutes';
 
 function App() {
   return (
-    <Switch>
-      <Redirect exact from="/" to="/ideas" />
-      {routes.map((route, i) => (
-        <RouteWithSubRoutes
-          key={i}
-          path={route.path}
-          component={route.component}
-          routes={route.routes}
-        />
-      ))}
-    </Switch>
+    <main>
+      <Switch>
+        <Redirect exact from="/" to="/ideas" />
+        {routes.map((route, i) => (
+          <RouteWithSubRoutes
+            key={i}
+            path={route.path}
+            component={route.component}
+            routes={route.routes}
+          />
+        ))}
+      </Switch>
+    </main>
   );
 }
 

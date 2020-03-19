@@ -6,7 +6,7 @@ import { Idea } from '../shared/interfaces/idea.interface';
 type IdeaGridItemProps = { idea: Idea };
 export default function IdeaGridItem({ idea }: IdeaGridItemProps): JSX.Element {
   return (
-    <article>
+    <article className="idea-card">
       <Link to={`/ideas/${idea.id}`}>
         <h3>{idea.title}</h3>
       </Link>

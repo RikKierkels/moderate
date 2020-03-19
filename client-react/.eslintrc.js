@@ -45,7 +45,8 @@ module.exports = {
     'import/prefer-default-export': 0,
     'import/extensions': 0,
     'react/jsx-filename-extension': 0,
-    'react/no-array-index-key': 0
+    'react/no-array-index-key': 0,
+    'no-param-reassign': 0
   },
   overrides: [
     {

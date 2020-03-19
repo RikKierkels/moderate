@@ -8,10 +8,17 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   padding: spacing-size(medium);
   background-color: white;
+  text-decoration: none;
   transition: all 0.1s ease-in;
 
   &:hover {
     top: -2px;
     box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
   }
+}
+
+.idea-card-title {
+}
+
+.idea-card-description {
 }

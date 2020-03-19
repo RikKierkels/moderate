@@ -6,7 +6,7 @@ import RouteWithSubRoutes from './router/RouteWithSubRoutes';
 
 function App() {
   return (
-    <main>
+    <main className="app">
       <Switch>
         <Redirect exact from="/" to="/ideas" />
         {routes.map((route, i) => (

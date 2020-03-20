@@ -1,0 +1,19 @@
+@import '../design/index';
+
+.tag-container {
+  display: flex;
+  align-items: center;
+  margin-right: spacing-size(small);
+  font-size: font-size(small);
+
+  .tag-circle {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+  }
+
+  .tag-name {
+    margin-left: spacing-size(small);
+  }
+}

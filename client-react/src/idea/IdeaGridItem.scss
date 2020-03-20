@@ -1,6 +1,6 @@
 @import '../design/index';
 
-.idea-card {
+.card {
   position: relative;
   top: 0;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -16,29 +16,35 @@
   }
 }
 
-.idea-card-container {
+.card-container {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-.idea-card-title {
+.card-title {
   font-size: font-size(large);
 }
 
-.idea-card-description {
+.card-description {
   flex-grow: 1;
   margin-bottom: spacing-size(medium);
 }
 
-.idea-card-details-container {
+.card-details-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 }
 
-.idea-card-post,
-.idea-card-date {
+.card-creator,
+.card-date {
   font-size: font-size(small);
   opacity: 0.7;
+}
+
+.card-tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: spacing-size(medium);
 }

@@ -10,6 +10,7 @@ $spacing-multiplier: 1;
 
 $breakpoints: (
   small : 600px,
+  medium: 800px
 );
 
 @mixin breakpoint-up($breakpoint) {

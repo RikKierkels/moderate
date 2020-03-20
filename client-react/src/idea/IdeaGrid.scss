@@ -4,4 +4,9 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: spacing-size(large);
+  margin-bottom: -#{spacing-size(large)};
+
+  @include breakpoint-down(medium) {
+    grid-template-columns: 1fr;
+  }
 }

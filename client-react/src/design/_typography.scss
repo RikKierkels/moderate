@@ -1,9 +1,11 @@
 @import 'colors';
 
 $font-sizes: (
+  xsmall: 12px,
   small: 14px,
   medium: 16px,
-  large: 20px
+  large: 20px,
+  xlarge: 24px
 );
 
 @function font-size($size) {

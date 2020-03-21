@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import './IdeaGrid.scss';
+import styled from 'styled-components';
 import { Idea } from '../shared/interfaces/idea.interface';
-import IdeaGridItem from './IdeaGridItem';
-import config from '../shared/config';
+import IdeaCard from './IdeaCard';
+import config from '../shared/config/config';
 
-export default function IdeaGrid(): JSX.Element {
+export default function IdeaGrid() {
   const [ideas, setIdeas] = useState<Idea[]>([]);
   const [error, setError] = useState<JSX.Element>();
 
@@ -22,11 +22,21 @@ export default function IdeaGrid(): JSX.Element {
   }, []);
 
   return (
-    <section className="idea-grid">
+    <StyledIdeaGrid>
       {ideas.map(idea => (
-        <IdeaGridItem key={idea.id} idea={idea} />
+        <IdeaCard key={idea.id} idea={idea} />
       ))}
-      <p>{error}</p>
-    </section>
+      {error ? <p>{error}</p> : null}
+    </StyledIdeaGrid>
   );
 }
+
+const StyledIdeaGrid = styled.section`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: ${props => props.theme.spacing.lg};
+
+  @media ${props => props.theme.breakpoint.medium} {
+    grid-template-columns: 1fr;
+  }
+`;

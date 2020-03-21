@@ -1,14 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import './index.scss';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faCommentAlt,
   faStar as fasStar
 } from '@fortawesome/free-solid-svg-icons';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
-import App from './App';
+import App from './app/App';
 import * as serviceWorker from './serviceWorker';
 
 library.add(faCommentAlt, fasStar, farStar);

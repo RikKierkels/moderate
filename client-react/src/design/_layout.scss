@@ -1,4 +1,4 @@
-$spacing-sizes: (small: 8px, medium: 16px, large: 32px, xlarge: 64px);
+$spacing-sizes: (xsmall: 4px, small: 8px, medium: 16px, large: 32px, xlarge: 64px);
 $spacing-multiplier: 1;
 
 @function spacing-size($size) {

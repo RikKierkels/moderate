@@ -46,5 +46,19 @@
 .card-tags-container {
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: spacing-size(medium);
+  margin-bottom: spacing-size(small);
+}
+
+.card-replies-container {
+  margin-left: auto;
+  margin-bottom: spacing-size(small);
+}
+
+.card-replies-icon,
+.card-replies-count {
+  font-size: font-size(small);
+}
+
+.card-replies-count {
+  margin-right: spacing-size(xsmall);
 }

@@ -1,13 +1,15 @@
 import React from 'react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Idea } from '../shared/interfaces/idea.interface';
 import truncate from '../shared/utils/truncate';
 import './IdeaGridItem.scss';
 import IdeaTag from './IdeaTag';
+import DifficultyRating from './DifficultyRating';
 
 type IdeaGridItemProps = { idea: Idea };
-export default function IdeaGridItem({ idea }: IdeaGridItemProps): JSX.Element {
+export default function IdeaGridItem({ idea }: IdeaGridItemProps) {
   const createdAt = moment(idea.createdAt).format('MMMM DD');
 
   return (
@@ -18,8 +20,15 @@ export default function IdeaGridItem({ idea }: IdeaGridItemProps): JSX.Element {
 
         <div className="card-tags-container">
           {idea.tags.map(tag => (
-            <IdeaTag tag={tag} key={tag.id} />
+            <IdeaTag key={tag.id} tag={tag} />
           ))}
+        </div>
+
+        <DifficultyRating difficulty={idea.difficulty} />
+
+        <div className="card-replies-container">
+          <span className="card-replies-count">{idea.messageCount}</span>
+          <FontAwesomeIcon icon="comment-alt" className="card-replies-icon" />
         </div>
 
         <div className="card-details-container">

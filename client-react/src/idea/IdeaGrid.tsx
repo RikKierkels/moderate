@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './IdeaGrid.scss';
 import { Idea } from '../shared/interfaces/idea.interface';
 import IdeaGridItem from './IdeaGridItem';
+import config from '../shared/config';
 
 export default function IdeaGrid(): JSX.Element {
   const [ideas, setIdeas] = useState<Idea[]>([]);
@@ -9,7 +10,7 @@ export default function IdeaGrid(): JSX.Element {
 
   async function getIdeas(): Promise<void> {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/ideas`);
+      const response = await fetch(`${config.api.url}/ideas`);
       setIdeas(await response.json());
     } catch {
       setError(<div>Something went wrong while fetching the ideas.</div>);

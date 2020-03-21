@@ -1,23 +1,10 @@
 import { AppRoute } from './route.interface';
-import { ComponentClass } from 'react';
+import IdeaGrid from '../idea/IdeaGrid';
 
 export const routes: AppRoute[] = [
   {
     path: '/ideas',
-    component: (null as unknown) as ComponentClass
-  },
-  {
-    path: '/',
-    component: (null as unknown) as ComponentClass,
-    routes: [
-      {
-        path: '/',
-        component: (null as unknown) as ComponentClass
-      },
-      {
-        path: '/',
-        component: (null as unknown) as ComponentClass
-      }
-    ]
+    component: IdeaGrid,
+    routes: [{ path: '/:id', component: null }]
   }
 ];

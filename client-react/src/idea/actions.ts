@@ -1,12 +1,12 @@
 import { call, put } from 'redux-saga/effects';
-import { Idea } from '../../shared/interfaces/idea.interface';
+import { Idea } from '../shared/interfaces/idea.interface';
 import {
   FETCH_IDEAS_REQUESTED,
   FETCH_IDEAS_SUCCEEDED,
   FETCH_IDEAS_FAILED,
   IdeaActionTypes
 } from './types';
-import config from '../../shared/config/config';
+import config from '../shared/config/config';
 
 export function fetchIdeasRequest(): IdeaActionTypes {
   return {

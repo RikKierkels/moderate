@@ -10,7 +10,7 @@ import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 import { Provider } from 'react-redux';
 import App from './app/App';
 import * as serviceWorker from './serviceWorker';
-import { store } from './store/store';
+import { store } from './app/store';
 
 library.add(faCommentAlt, fasStar, farStar);
 

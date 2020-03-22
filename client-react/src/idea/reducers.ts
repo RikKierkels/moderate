@@ -1,6 +1,5 @@
 import {
   FETCH_IDEAS_FAILED,
-  FETCH_IDEAS_REQUESTED,
   FETCH_IDEAS_SUCCEEDED,
   IdeaActionTypes,
   IdeaState
@@ -13,8 +12,6 @@ export function ideaReducer(
   action: IdeaActionTypes
 ): IdeaState {
   switch (action.type) {
-    case FETCH_IDEAS_REQUESTED:
-      return { ...state };
     case FETCH_IDEAS_SUCCEEDED:
       return { ...state, ideas: action.payload };
     case FETCH_IDEAS_FAILED:

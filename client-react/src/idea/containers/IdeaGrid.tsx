@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { connect, ConnectedProps } from 'react-redux';
 import IdeaCard from '../components/IdeaCard';
-import { RootState } from '../../store/root-reducer';
-import { fetchIdeasRequest } from '../../store/idea/actions';
+import { RootState } from '../../app/root-reducer';
+import { fetchIdeasRequest } from '../actions';
 
 const mapState = (state: RootState) => ({
   ideas: state.idea.ideas,

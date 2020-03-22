@@ -16,14 +16,14 @@ type IdeaGridProps = ConnectedProps<typeof connector>;
 function IdeaGrid({ ideas, error, fetchIdeas }: IdeaGridProps) {
   useEffect(() => {
     fetchIdeas();
-  }, []);
+  }, [fetchIdeas]);
 
   return (
     <StyledIdeaGrid>
       {ideas.map(idea => (
         <IdeaCard key={idea.id} idea={idea} />
       ))}
-      {error ? <p>{error}</p> : null}
+      {error && <p>{error}</p>}
     </StyledIdeaGrid>
   );
 }

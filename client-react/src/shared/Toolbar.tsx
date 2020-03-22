@@ -1,8 +1,31 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useAuth0 } from './AuthContext';
 
 export default function Toolbar() {
-  return <StyledToolbar></StyledToolbar>;
+  const {
+    loginWithRedirect,
+    logout,
+    isAuthenticated,
+    isLoading,
+    user
+  } = useAuth0();
+
+  return (
+    <StyledToolbar>
+      {!isLoading && !user && (
+        <button type="button" onClick={loginWithRedirect}>
+          Sign in
+        </button>
+      )}
+      {!isLoading && user && (
+        <button type="button" onClick={logout}>
+          Sign out
+        </button>
+      )}
+      {isAuthenticated}
+    </StyledToolbar>
+  );
 }
 
 const StyledToolbar = styled.header`

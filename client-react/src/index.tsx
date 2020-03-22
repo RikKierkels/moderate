@@ -11,15 +11,18 @@ import { Provider } from 'react-redux';
 import App from './app/App';
 import * as serviceWorker from './serviceWorker';
 import { store } from './app/store';
+import { Auth0Provider } from './shared/AuthContext';
 
 library.add(faCommentAlt, fasStar, farStar);
 
 ReactDOM.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </Provider>,
+  <Auth0Provider>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
+  </Auth0Provider>,
   document.getElementById('root')
 );
 

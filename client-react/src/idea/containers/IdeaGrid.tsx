@@ -11,8 +11,8 @@ const mapState = (state: RootState) => ({
 });
 const mapDispatch = { fetchIdeas: fetchIdeasRequest };
 const connector = connect(mapState, mapDispatch);
-type IdeaGridProps = ConnectedProps<typeof connector>;
 
+type IdeaGridProps = ConnectedProps<typeof connector>;
 function IdeaGrid({ ideas, error, fetchIdeas }: IdeaGridProps) {
   useEffect(() => {
     fetchIdeas();

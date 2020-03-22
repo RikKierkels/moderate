@@ -47,7 +47,7 @@ const StyledIdeaCard = styled(Link)`
   top: 0;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   padding: ${props => props.theme.spacing.md};
-  background-color: white;
+  background-color: ${props => props.theme.color.card};
   color: inherit;
   text-decoration: none;
   transition: all 0.1s ease-in;

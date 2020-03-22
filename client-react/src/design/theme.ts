@@ -24,14 +24,20 @@ const fontSize: DefaultTheme['fontSize'] = {
 const color: DefaultTheme['color'] = {
   title: '#333',
   font: '#444',
-  body: '#f5f7f8'
+  body: '#f5f7f8',
+  card: '#fff'
 };
+
+const app: DefaultTheme['app'] = { maxWidth: '1280px' };
+const toolbar: DefaultTheme['toolbar'] = { height: '75px' };
 
 const theme: DefaultTheme = {
   spacing,
   breakpoint,
   fontSize,
-  color
+  color,
+  app,
+  toolbar
 };
 
 export default theme;

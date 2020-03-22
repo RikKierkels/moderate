@@ -1,5 +1,5 @@
 import { AppRoute } from './route.interface';
-import IdeaGrid from '../idea/IdeaGrid';
+import IdeaGrid from '../idea/containers/IdeaGrid';
 
 export const routes: AppRoute[] = [
   {

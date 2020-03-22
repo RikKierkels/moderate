@@ -28,7 +28,7 @@ function fetchIdeasFailed(errorMessage: string): IdeaActionTypes {
   };
 }
 
-async function getIdeas(): Promise<void> {
+async function getIdeas(): Promise<Idea[] | Error> {
   try {
     const response = await fetch(`${config.api.url}/ideas`);
     return await response.json();

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Tag } from '../shared/interfaces/tag.interface';
+import { Tag } from '../../shared/interfaces/tag.interface';
 
 type TagProps = { tag: Tag };
 export default function IdeaTag({ tag }: TagProps) {

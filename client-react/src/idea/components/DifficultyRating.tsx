@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import config from '../shared/config/config';
 import styled from 'styled-components';
+import config from '../../shared/config/config';
 
 type DifficultyRatingProps = { difficulty: number };
 export default function DifficultyRating({
@@ -10,11 +10,11 @@ export default function DifficultyRating({
   let icons: JSX.Element[] = [];
 
   for (let i = 0; i < difficulty; i++) {
-    icons = [...icons, <FontAwesomeIcon icon={['fas', 'star']} />];
+    icons = [...icons, <FontAwesomeIcon key={i} icon={['fas', 'star']} />];
   }
 
-  for (let i = 0; i < config.idea.maxDifficulty - difficulty; i++) {
-    icons = [...icons, <FontAwesomeIcon icon={['far', 'star']} />];
+  for (let i = config.idea.maxDifficulty; i > difficulty; i--) {
+    icons = [...icons, <FontAwesomeIcon key={i} icon={['far', 'star']} />];
   }
 
   return <StyledDifficultyRating>{icons}</StyledDifficultyRating>;

@@ -11,19 +11,19 @@ const mapState = (state: RootState) => ({
 });
 const mapDispatch = { fetchIdeas: fetchIdeasRequest };
 const connector = connect(mapState, mapDispatch);
-type IdeaGridProps = ConnectedProps<typeof connector>;
 
+type IdeaGridProps = ConnectedProps<typeof connector>;
 function IdeaGrid({ ideas, error, fetchIdeas }: IdeaGridProps) {
   useEffect(() => {
     fetchIdeas();
-  }, []);
+  }, [fetchIdeas]);
 
   return (
     <StyledIdeaGrid>
       {ideas.map(idea => (
         <IdeaCard key={idea.id} idea={idea} />
       ))}
-      {error ? <p>{error}</p> : null}
+      {error && <p>{error}</p>}
     </StyledIdeaGrid>
   );
 }
@@ -35,7 +35,7 @@ const StyledIdeaGrid = styled.section`
   grid-template-columns: 1fr 1fr;
   grid-gap: ${props => props.theme.spacing.lg};
 
-  @media ${props => props.theme.breakpoint.medium} {
+  @media ${props => props.theme.breakpoint.md} {
     grid-template-columns: 1fr;
   }
 `;

@@ -6,6 +6,8 @@ declare module 'styled-components' {
     readonly breakpoint: Breakpoint;
     readonly fontSize: FontSize;
     readonly color: Color;
+    readonly app: App;
+    readonly toolbar: Toolbar;
   }
 }
 
@@ -18,8 +20,9 @@ interface Spacing {
 }
 
 interface Breakpoint {
-  readonly small: string;
-  readonly medium: string;
+  readonly xs: string;
+  readonly sm: string;
+  readonly md: string;
 }
 
 interface FontSize {
@@ -34,4 +37,13 @@ interface Color {
   readonly title: string;
   readonly font: string;
   readonly body: string;
+  readonly card: string;
+}
+
+interface App {
+  readonly maxWidth: string;
+}
+
+interface Toolbar {
+  readonly height: string;
 }

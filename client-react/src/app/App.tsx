@@ -5,11 +5,14 @@ import theme from '../design/theme';
 import { GlobalStyle } from '../design/global';
 import { routes } from '../router/routes';
 import RouteWithSubRoutes from '../router/RouteWithSubRoutes';
+import Toolbar from '../shared/Toolbar';
+import { pageContainer } from '../design/styled-components';
 
 export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
+      <Toolbar />
       <StyledApp>
         <Switch>
           <Redirect exact from="/" to="/ideas" />
@@ -28,7 +31,6 @@ export default function App() {
 }
 
 const StyledApp = styled.main`
-  max-width: 1280px;
-  margin: auto;
-  padding: ${props => props.theme.spacing.md};
+  padding: ${props => props.theme.spacing.lg};
+  ${pageContainer}
 `;

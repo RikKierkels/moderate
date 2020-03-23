@@ -9,8 +9,9 @@ const spacing: DefaultTheme['spacing'] = {
 };
 
 const breakpoint: DefaultTheme['breakpoint'] = {
-  small: '(max-width: 600px)',
-  medium: '(max-width: 800px)'
+  xs: '(max-width: 400px)',
+  sm: '(max-width: 600px)',
+  md: '(max-width: 800px)'
 };
 
 const fontSize: DefaultTheme['fontSize'] = {
@@ -24,14 +25,20 @@ const fontSize: DefaultTheme['fontSize'] = {
 const color: DefaultTheme['color'] = {
   title: '#333',
   font: '#444',
-  body: '#f5f7f8'
+  body: '#f5f7f8',
+  card: '#fff'
 };
+
+const app: DefaultTheme['app'] = { maxWidth: '1280px' };
+const toolbar: DefaultTheme['toolbar'] = { height: '75px' };
 
 const theme: DefaultTheme = {
   spacing,
   breakpoint,
   fontSize,
-  color
+  color,
+  app,
+  toolbar
 };
 
 export default theme;

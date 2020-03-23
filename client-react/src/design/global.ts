@@ -1,6 +1,10 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
+  * {
+    box-sizing: border-box;
+  }
+  
   html {
     font-size: ${props => props.theme.fontSize.md}
   }
@@ -24,5 +28,11 @@ export const GlobalStyle = createGlobalStyle`
     margin-top: 0;
     margin-bottom: ${props => props.theme.spacing.sm};
     color: ${props => props.theme.color.title};
+  }
+  
+  a,
+  button {
+    color: inherit;
+    text-decoration: none;
   }
 `;

@@ -9,8 +9,9 @@ const spacing: DefaultTheme['spacing'] = {
 };
 
 const breakpoint: DefaultTheme['breakpoint'] = {
-  small: '(max-width: 600px)',
-  medium: '(max-width: 800px)'
+  xs: '(max-width: 400px)',
+  sm: '(max-width: 600px)',
+  md: '(max-width: 800px)'
 };
 
 const fontSize: DefaultTheme['fontSize'] = {

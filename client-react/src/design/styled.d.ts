@@ -20,8 +20,9 @@ interface Spacing {
 }
 
 interface Breakpoint {
-  readonly small: string;
-  readonly medium: string;
+  readonly xs: string;
+  readonly sm: string;
+  readonly md: string;
 }
 
 interface FontSize {

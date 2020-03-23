@@ -6,6 +6,7 @@ import { GlobalStyle } from '../design/global';
 import { routes } from '../router/routes';
 import RouteWithSubRoutes from '../router/RouteWithSubRoutes';
 import Toolbar from '../shared/Toolbar';
+import { pageContainer } from '../design/styled-components';
 
 export default function App() {
   return (
@@ -30,7 +31,6 @@ export default function App() {
 }
 
 const StyledApp = styled.main`
-  max-width: ${props => props.theme.app.maxWidth};
-  margin: auto;
+  ${pageContainer}
   padding: ${props => props.theme.spacing.lg};
 `;

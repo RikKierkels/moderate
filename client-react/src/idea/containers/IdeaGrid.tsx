@@ -35,7 +35,7 @@ const StyledIdeaGrid = styled.section`
   grid-template-columns: 1fr 1fr;
   grid-gap: ${props => props.theme.spacing.lg};
 
-  @media ${props => props.theme.breakpoint.medium} {
+  @media ${props => props.theme.breakpoint.md} {
     grid-template-columns: 1fr;
   }
 `;

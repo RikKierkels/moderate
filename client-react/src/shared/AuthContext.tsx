@@ -2,10 +2,11 @@ import React, { Component, createContext, useContext } from 'react';
 import createAuth0Client from '@auth0/auth0-spa-js';
 import Auth0Client from '@auth0/auth0-spa-js';
 import config from './config/config';
+import { UserProfile } from './interfaces/user-profile.interface';
 
 interface ContextValueType {
   isAuthenticated?: boolean;
-  user?: any;
+  user?: UserProfile | null;
   isLoading?: boolean;
   handleRedirectCallback?: () => void;
   getIdTokenClaims?: (...p: any) => any;
@@ -16,12 +17,12 @@ interface ContextValueType {
 
 // create the context
 export const Auth0Context: any = createContext<ContextValueType | null>(null);
-export const useAuth0: any = () => useContext(Auth0Context);
+export const useAuth0: () => ContextValueType = () => useContext(Auth0Context);
 interface IState {
   auth0Client: any;
   isLoading: boolean;
   isAuthenticated: boolean;
-  user?: any;
+  user?: UserProfile | null;
 }
 
 export class Auth0Provider extends Component<{}, IState> {

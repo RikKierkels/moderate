@@ -49,7 +49,6 @@ const StyledIdeaCard = styled(Link)`
   padding: ${props => props.theme.spacing.md};
   background-color: ${props => props.theme.color.card};
   color: inherit;
-  text-decoration: none;
   transition: all 0.1s ease-in;
 
   &:hover {

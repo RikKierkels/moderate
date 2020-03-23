@@ -1,10 +1,10 @@
 import { AppRoute } from './route.interface';
-import IdeaGrid from '../idea/containers/IdeaGrid';
+import IdeaOverview from '../idea/containers/IdeaOverview';
 
 export const routes: AppRoute[] = [
   {
     path: '/ideas',
-    component: IdeaGrid,
+    component: IdeaOverview,
     routes: [{ path: '/:id', component: null }]
   }
 ];

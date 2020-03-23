@@ -31,6 +31,6 @@ export default function App() {
 }
 
 const StyledApp = styled.main`
-  ${pageContainer}
   padding: ${props => props.theme.spacing.lg};
+  ${pageContainer}
 `;

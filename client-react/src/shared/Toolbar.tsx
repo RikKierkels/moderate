@@ -31,10 +31,10 @@ export default function Toolbar() {
         )}
         {!isLoading && user && (
           <ProfileContainer>
-            <LogoutContainer>
+            <SignOutContainer>
               <Paragraph>{user.nickname}</Paragraph>
               <SignOutButton onClick={logout}>Sign out</SignOutButton>
-            </LogoutContainer>
+            </SignOutContainer>
             <Avatar src={user.picture} />
           </ProfileContainer>
         )}
@@ -67,7 +67,7 @@ const ProfileContainer = styled(Row)`
   height: 100%;
 `;
 
-const LogoutContainer = styled(Column)`
+const SignOutContainer = styled(Column)`
   height: 100%;
   justify-content: space-between;
   align-items: flex-start;

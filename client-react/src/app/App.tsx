@@ -7,6 +7,7 @@ import { pageContainer } from '../design/styled-components';
 import Toolbar from '../shared/Toolbar';
 import IdeaOverview from '../idea/containers/IdeaOverview';
 import IdeaCreate from '../idea/containers/IdeaCreate';
+import ProtectedRoute from '../shared/ProtectedRoute';
 
 export default function App() {
   return (
@@ -16,12 +17,8 @@ export default function App() {
       <StyledApp>
         <Switch>
           <Redirect exact from="/" to="/ideas" />
-          <Route exact path="/ideas">
-            <IdeaOverview />
-          </Route>
-          <Route path="/ideas/create">
-            <IdeaCreate />
-          </Route>
+          <Route exact path="/ideas" component={IdeaOverview} />
+          <ProtectedRoute path="/ideas/create" component={IdeaCreate} />
           <Route path="/ideas/:id">
             <div>Hello from ideas/id</div>
           </Route>

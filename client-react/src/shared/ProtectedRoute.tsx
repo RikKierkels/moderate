@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { Redirect, Route, RouteProps } from 'react-router';
+import React from 'react';
+import { Redirect, Route } from 'react-router';
 import { useAuth0 } from './AuthContext';
 
 /* eslint-disable */
-export default function ProtectedRoute({ component, ...rest }: RouteProps) {
+export default function ProtectedRoute({ component: Component, ...rest }: any) {
   const { isAuthenticated } = useAuth0();
 
   return (

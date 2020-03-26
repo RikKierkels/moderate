@@ -4,7 +4,7 @@ export const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
   }
-  
+
   html {
     font-size: ${props => props.theme.fontSize.md}
   }
@@ -19,7 +19,7 @@ export const GlobalStyle = createGlobalStyle`
     background-color: ${props => props.theme.color.body};
     color: ${props => props.theme.color.font};
   }
-  
+
   h1,
   h2,
   h3,
@@ -29,10 +29,16 @@ export const GlobalStyle = createGlobalStyle`
     margin-bottom: ${props => props.theme.spacing.sm};
     color: ${props => props.theme.color.title};
   }
-  
+
   a,
   button {
     color: inherit;
-    text-decoration: none;
+    text-decoration: inherit;
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
   }
 `;

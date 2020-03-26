@@ -13,6 +13,7 @@ const mapDispatch = { fetchIdeas: fetchIdeasRequest };
 const connector = connect(mapState, mapDispatch);
 
 type Props = ConnectedProps<typeof connector>;
+
 function IdeaOverview({ ideas, error, fetchIdeas }: Props) {
   useEffect(() => {
     fetchIdeas();

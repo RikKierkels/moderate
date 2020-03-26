@@ -25,6 +25,7 @@ export const Button = styled.button.attrs({ type: 'button' })`
   background: transparent;
   font-size: ${props => props.theme.fontSize.md};
   font-family: Sen;
+  white-space: nowrap;
   cursor: pointer;
   transition: opacity 0.1s ease-out;
 

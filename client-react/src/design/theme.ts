@@ -9,7 +9,7 @@ const spacing: DefaultTheme['spacing'] = {
 };
 
 const breakpoint: DefaultTheme['breakpoint'] = {
-  xs: '(max-width: 400px)',
+  xs: '(max-width: 500px)',
   sm: '(max-width: 600px)',
   md: '(max-width: 800px)'
 };

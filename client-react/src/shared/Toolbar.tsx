@@ -23,9 +23,18 @@ export default function Toolbar() {
   return (
     <StyledToolbar>
       <ToolbarContainer>
-        <Link to="/">
-          <Brand>Moderate</Brand>
-        </Link>
+        <Nav>
+          <li>
+            <Link to="/">
+              <Brand>Moderate</Brand>
+            </Link>
+          </li>
+          {isAuthenticated && (
+            <li>
+              <NavLink to="/ideas/create">New Idea</NavLink>
+            </li>
+          )}
+        </Nav>
         {!isLoading && !user && (
           <Button onClick={loginWithRedirect}>Sign in</Button>
         )}
@@ -48,18 +57,39 @@ const StyledToolbar = styled.header`
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   background-color: ${props => props.theme.color.card};
   font-family: Sen;
+
+  @media ${props => props.theme.breakpoint.xs} {
+    height: auto;
+  }
 `;
 
 const ToolbarContainer = styled(Row)`
+  ${pageContainer}
   justify-content: space-between;
   align-items: center;
   height: 100%;
   padding: ${props => props.theme.spacing.md} ${props => props.theme.spacing.lg};
-  ${pageContainer}
+
+  @media ${props => props.theme.breakpoint.xs} {
+    align-items: flex-start;
+  }
+`;
+
+const Nav = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  height: 100%;
+`;
+
+const NavLink = styled(Link)`
+  display: inline-block;
+  text-decoration: underline;
 `;
 
 const Brand = styled.h1`
-  margin: 0;
+  margin-bottom: 0;
+  margin-right: ${props => props.theme.spacing.lg};
   text-decoration: none;
 `;
 

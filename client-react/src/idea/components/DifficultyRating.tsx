@@ -3,10 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 import config from '../../shared/config/config';
 
-type DifficultyRatingProps = { difficulty: number };
-export default function DifficultyRating({
-  difficulty
-}: DifficultyRatingProps) {
+type Props = { difficulty: number };
+export default function DifficultyRating({ difficulty }: Props) {
   let icons: JSX.Element[] = [];
 
   for (let i = 0; i < difficulty; i++) {

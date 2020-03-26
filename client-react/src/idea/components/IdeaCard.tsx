@@ -9,8 +9,8 @@ import IdeaTag from './IdeaTag';
 import DifficultyRating from './DifficultyRating';
 import { Column, Paragraph, Row } from '../../design/styled-components';
 
-type IdeaCardProps = { idea: Idea };
-export default function IdeaCard({ idea }: IdeaCardProps) {
+type Props = { idea: Idea };
+export default function IdeaCard({ idea }: Props) {
   const createdAt = moment(idea.createdAt).format('MMMM DD');
 
   return (

@@ -15,7 +15,7 @@ export interface Idea extends IdeaBase {
   readonly messageCount: number;
 }
 
-export interface IdeaToCreate {
+export interface IdeaCreate {
   readonly title: string;
   readonly description: string;
   readonly difficulty: number;

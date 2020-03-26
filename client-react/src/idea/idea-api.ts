@@ -1,17 +1,8 @@
-import { Idea, IdeaToCreate } from '../shared/interfaces/idea.interface';
+import { Idea, IdeaCreate } from '../shared/interfaces/idea.interface';
 import config from '../shared/config/config';
+import { makeHeaders } from '../shared/utils/api-utils';
 
-function makeHeaders(token: string) {
-  return {
-    headers: new Headers({
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'authorization': `Bearer ${token}`
-    })
-  };
-}
-
-async function getIdeas(): Promise<Idea[] | Error> {
+async function getAll(): Promise<Idea[] | Error> {
   try {
     const response = await fetch(`${config.api.url}/ideas`);
     return await response.json();
@@ -20,15 +11,14 @@ async function getIdeas(): Promise<Idea[] | Error> {
   }
 }
 
-async function createIdea(
-  idea: IdeaToCreate,
+async function create(
+  idea: IdeaCreate,
   token: string
 ): Promise<boolean | Error> {
   try {
-    const headers = makeHeaders(token);
     const response = await fetch(`${config.api.url}/ideas`, {
       method: 'post',
-      ...headers,
+      ...makeHeaders(token),
       body: JSON.stringify(idea)
     });
     return response.ok;
@@ -37,4 +27,4 @@ async function createIdea(
   }
 }
 
-export { getIdeas, createIdea };
+export { getAll, create };

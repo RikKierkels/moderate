@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Idea } from '../../shared/interfaces/idea.interface';
-import truncate from '../../shared/utils/truncate';
+import { truncate } from '../../shared/utils/truncate-text';
 import IdeaTag from './IdeaTag';
 import DifficultyRating from './DifficultyRating';
 import { Column, Paragraph, Row } from '../../design/styled-components';

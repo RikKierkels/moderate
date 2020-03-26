@@ -1,4 +1,4 @@
-function transform(text = '', maxWordCount: number, suffix = '...'): string {
+function truncate(text = '', maxWordCount: number, suffix = '...'): string {
   const words = text.split(' ');
 
   if (words.length <= maxWordCount) {
@@ -10,4 +10,4 @@ function transform(text = '', maxWordCount: number, suffix = '...'): string {
   return `${text} ${suffix}`;
 }
 
-export default transform;
+export { truncate };

@@ -6,7 +6,7 @@ import {
   FETCH_IDEAS_SUCCEEDED,
   IdeaActionTypes
 } from './types';
-import { getIdeas } from './idea-api';
+import * as IdeaAPi from './idea-api';
 
 export function fetchIdeasRequest(): IdeaActionTypes {
   return {
@@ -30,7 +30,7 @@ function fetchIdeasFailed(errorMessage: string): IdeaActionTypes {
 
 export function* fetchIdeas() {
   try {
-    const ideas = yield call(getIdeas);
+    const ideas = yield call(IdeaAPi.getAll);
     yield put(fetchIdeasSucceeded(ideas));
   } catch (e) {
     yield put(fetchIdeasFailed(e.message));

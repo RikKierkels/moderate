@@ -1,4 +1,4 @@
-import { Idea, IdeaCreate } from '../shared/interfaces/idea.interface';
+import { Idea, IdeaToCreate } from '../shared/interfaces/idea.interface';
 import config from '../shared/config/config';
 import { makeHeaders } from '../shared/utils/api-utils';
 
@@ -12,7 +12,7 @@ async function getAll(): Promise<Idea[] | Error> {
 }
 
 async function create(
-  idea: IdeaCreate,
+  idea: IdeaToCreate,
   token: string
 ): Promise<boolean | Error> {
   try {

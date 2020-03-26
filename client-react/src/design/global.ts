@@ -11,13 +11,7 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-                 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-                 sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
     background-color: ${props => props.theme.color.body};
-    color: ${props => props.theme.color.font};
   }
 
   h1,
@@ -40,5 +34,17 @@ export const GlobalStyle = createGlobalStyle`
     list-style-type: none;
     margin: 0;
     padding: 0;
+  }
+
+  input,
+  textarea,
+  select,
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+                 sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: ${props => props.theme.color.font};
   }
 `;

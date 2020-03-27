@@ -3,16 +3,13 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { Button } from '../../design/styled-components';
+import DifficultyRatingField from '../components/DifficultyRatingField';
 
 const validationSchema = Yup.object().shape({
   title: Yup.string()
     .max(200, 'Too Long!')
     .required('Please enter a title'),
-  description: Yup.string().required('Please enter a description'),
-  difficulty: Yup.number()
-    .min(1)
-    .max(5)
-    .required('Required')
+  description: Yup.string().required('Please enter a description')
 });
 
 export default function IdeaCreate() {
@@ -41,6 +38,9 @@ export default function IdeaCreate() {
               name="description"
               render={msg => <Error>{msg}</Error>}
             />
+            <StyledLabel>How difficulty is your idea?</StyledLabel>
+            <DifficultyRatingField name="difficulty" />
+
             <SubmitButton>Send</SubmitButton>
           </StyledForm>
         )}
@@ -79,6 +79,11 @@ const StyledInput = styled(StyledField)``;
 const StyledTextArea = styled(StyledField)`
   resize: none;
   height: 15rem;
+`;
+
+const StyledLabel = styled.label`
+  font-size: ${props => props.theme.fontSize.lg};
+  font-weight: bold;
 `;
 
 const Error = styled.p`

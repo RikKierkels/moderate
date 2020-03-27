@@ -30,7 +30,7 @@ function fetchIdeasFailed(errorMessage: string): IdeaActionTypes {
 
 export function* fetchIdeas() {
   try {
-    const ideas = yield call(IdeaAPi.getAll);
+    const ideas = yield call(IdeaAPi.getIdeas);
     yield put(fetchIdeasSucceeded(ideas));
   } catch (e) {
     yield put(fetchIdeasFailed(e.message));

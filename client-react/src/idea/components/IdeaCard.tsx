@@ -73,6 +73,10 @@ const Description = styled(Paragraph)`
 const TagsContainer = styled(Row)`
   flex-wrap: wrap;
   margin-bottom: ${props => props.theme.spacing.md};
+
+  > *:not(:last-child) {
+    margin-right: ${props => props.theme.spacing.sm};
+  }
 `;
 
 const ContainerSpaceBetween = styled(Row)<{ spaceBottom: boolean }>`

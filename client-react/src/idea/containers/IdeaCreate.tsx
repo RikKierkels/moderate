@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
-import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { Field, Form, Formik } from 'formik';
 import { Button } from '../../design/styled-components';
 import { Tag } from '../../shared/interfaces/tag.interface';
 import * as IdeaApi from '../idea-api';
 import DifficultyRatingField from '../components/DifficultyRatingField';
-import IdeaTag from '../components/IdeaTag';
 import IdeaTagField from '../components/IdeaTagField';
 
 const validationSchema = Yup.object().shape({
@@ -48,20 +47,24 @@ export default function IdeaCreate() {
         {() => (
           <StyledForm>
             <StyledInput name="title" placeholder="Title" />
-            <ErrorMessage name="title" render={msg => <Error>{msg}</Error>} />
+            {/*<ErrorMessage name="title" render={msg => <Error>{msg}</Error>} />*/}
             <StyledTextArea
               name="description"
               as="textarea"
               placeholder="Description"
             />
-            <ErrorMessage
-              name="description"
-              render={msg => <Error>{msg}</Error>}
-            />
-            <StyledLabel>How difficulty is your idea?</StyledLabel>
+            {/*<ErrorMessage*/}
+            {/*  name="description"*/}
+            {/*  render={msg => <Error>{msg}</Error>}*/}
+            {/*/>*/}
+            <StyledLabel spaceBottom={false}>
+              How difficulty is your idea?
+            </StyledLabel>
             <DifficultyRatingField name="difficulty" />
 
-            <StyledLabel>Choose the tags</StyledLabel>
+            <StyledLabel spaceBottom>
+              Which tags are relevant to your idea?
+            </StyledLabel>
             <IdeaTagField tags={tags} name="tags" />
 
             <SubmitButton>Send</SubmitButton>
@@ -104,7 +107,8 @@ const StyledTextArea = styled(StyledField)`
   height: 15rem;
 `;
 
-const StyledLabel = styled.label`
+const StyledLabel = styled.label<{ spaceBottom: boolean }>`
+  margin-bottom: ${props => (props.spaceBottom ? props.theme.spacing.md : 0)};
   font-size: ${props => props.theme.fontSize.lg};
   font-weight: bold;
 `;
@@ -116,4 +120,6 @@ const Error = styled.p`
   color: red;
 `;
 
-const SubmitButton = styled(Button).attrs({ type: 'submit' })``;
+const SubmitButton = styled(Button).attrs({ type: 'submit' })`
+  margin-top: ${props => props.theme.spacing.md};
+`;

@@ -15,7 +15,6 @@ export default function IdeaTag({ tag }: Props) {
 const StyledIdeaTag = styled.div`
   display: flex;
   align-items: center;
-  margin-right: ${props => props.theme.spacing.sm};
   font-size: ${props => props.theme.fontSize.sm};
 `;
 

@@ -32,7 +32,6 @@ const StyledDifficultyRating = styled.div`
   display: flex;
   align-items: center;
   height: 3rem;
-  margin-bottom: ${props => props.theme.spacing.md};
 `;
 
 const IconButton = styled.button.attrs({ type: 'button' })`

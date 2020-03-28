@@ -2,36 +2,30 @@ import React from 'react';
 import { useField } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import config from '../../shared/config/config';
 
 type Props = { name: string };
 export default function DifficultyRatingField({ name }: Props) {
-  let icons: JSX.Element[] = [];
+  const iconButtons: JSX.Element[] = [];
   const { maxDifficulty } = config.idea;
+  const fullStar: IconProp = ['fas', 'star'];
+  const emptyStar: IconProp = ['far', 'star'];
 
   const [field, meta, helpers] = useField<number>(name);
-  const { value } = meta;
+  const { value: currentDifficulty } = meta;
   const { setValue } = helpers;
 
-  for (let difficulty = 1; difficulty <= value; difficulty++) {
-    icons = [
-      ...icons,
+  for (let difficulty = 1; difficulty <= maxDifficulty; difficulty++) {
+    const icon = difficulty <= currentDifficulty ? fullStar : emptyStar;
+    iconButtons.push(
       <IconButton key={difficulty} onClick={() => setValue(difficulty)}>
-        <Icon icon={['fas', 'star']} />
+        <Icon icon={icon} />
       </IconButton>
-    ];
+    );
   }
 
-  for (let difficulty = value + 1; difficulty <= maxDifficulty; difficulty++) {
-    icons = [
-      ...icons,
-      <IconButton key={difficulty} onClick={() => setValue(difficulty)}>
-        <Icon icon={['far', 'star']} />
-      </IconButton>
-    ];
-  }
-
-  return <StyledDifficultyRating>{icons}</StyledDifficultyRating>;
+  return <StyledDifficultyRating>{iconButtons}</StyledDifficultyRating>;
 }
 
 const StyledDifficultyRating = styled.div`

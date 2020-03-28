@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { Button } from '../../design/styled-components';
+import { Tag } from '../../shared/interfaces/tag.interface';
+import * as IdeaApi from '../idea-api';
 import DifficultyRatingField from '../components/DifficultyRatingField';
+import IdeaTag from '../components/IdeaTag';
+import IdeaTagField from '../components/IdeaTagField';
 
 const validationSchema = Yup.object().shape({
   title: Yup.string()
@@ -13,6 +17,21 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function IdeaCreate() {
+  const [tags, setTags] = useState<Tag[]>([]);
+  const [error, setError] = useState<string>('');
+
+  async function getTagsFromApi() {
+    try {
+      setTags(await IdeaApi.getTags());
+    } catch (e) {
+      setError(e.message);
+    }
+  }
+
+  useEffect(() => {
+    getTagsFromApi();
+  }, []);
+
   return (
     <FormContainer>
       <Title>Use your imagination!</Title>
@@ -20,7 +39,8 @@ export default function IdeaCreate() {
         initialValues={{
           title: '',
           description: '',
-          difficulty: 1
+          difficulty: 1,
+          tags: []
         }}
         validationSchema={validationSchema}
         onSubmit={values => {}}
@@ -40,6 +60,9 @@ export default function IdeaCreate() {
             />
             <StyledLabel>How difficulty is your idea?</StyledLabel>
             <DifficultyRatingField name="difficulty" />
+
+            <StyledLabel>Choose the tags</StyledLabel>
+            <IdeaTagField tags={tags} name="tags" />
 
             <SubmitButton>Send</SubmitButton>
           </StyledForm>

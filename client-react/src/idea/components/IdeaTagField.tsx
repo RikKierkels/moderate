@@ -41,18 +41,24 @@ export default function IdeaTagField({ tags, name }: Props) {
 const StyledIdeaTagField = styled.div`
   display: flex;
   flex-wrap: wrap;
-  margin-top: -${props => props.theme.spacing.sm};
+  margin: -${props => props.theme.spacing.xs};
 `;
 
 const TagButton = styled.button<{ selected: boolean }>`
-  border: 1px solid ${props => props.theme.color.font};
+  display: flex;
+  width: calc(25% - ${props => props.theme.spacing.xs} * 2);
+  border: 1px solid
+    ${props => (props.selected ? 'transparent' : props.theme.color.border)};
   border-radius: 3px;
-  margin-top: ${props => props.theme.spacing.sm};
+  margin: ${props => props.theme.spacing.xs};
   padding: ${props => props.theme.spacing.sm} ${props => props.theme.spacing.md};
-  background-color: ${props => (props.selected ? 'white' : 'light-grey')};
+  background-color: ${props =>
+    props.selected ? props.theme.color.secondary : 'white'};
+  color: ${props => (props.selected ? 'white' : props.theme.color.font)};
+  cursor: pointer;
   transition: background-color 0.1s ease-out;
 
-  &:not(:last-child) {
-    margin-right: ${props => props.theme.spacing.sm};
+  @media ${props => props.theme.breakpoint.sm} {
+    width: calc(50% - ${props => props.theme.spacing.xs} * 2);
   }
 `;

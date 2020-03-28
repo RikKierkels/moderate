@@ -116,5 +116,4 @@ const Avatar = styled.img`
 
 const SignOutButton = styled(ButtonLink)`
   font-size: ${props => props.theme.fontSize.sm};
-  opacity: 0.7;
 `;

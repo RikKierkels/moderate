@@ -23,10 +23,13 @@ const fontSize: DefaultTheme['fontSize'] = {
 };
 
 const color: DefaultTheme['color'] = {
-  title: '#333',
-  font: '#444',
+  title: '#222222',
+  font: '#484848',
   body: '#f5f7f8',
-  card: '#fff'
+  card: '#fff',
+  border: '#ebebeb',
+  primary: '#ff5a5f',
+  secondary: '#00a699'
 };
 
 const app: DefaultTheme['app'] = { maxWidth: '1280px' };

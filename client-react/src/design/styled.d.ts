@@ -38,6 +38,9 @@ interface Color {
   readonly font: string;
   readonly body: string;
   readonly card: string;
+  readonly border: string;
+  readonly primary: string;
+  readonly secondary: string;
 }
 
 interface App {

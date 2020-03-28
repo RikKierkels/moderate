@@ -46,28 +46,27 @@ export default function IdeaCreate() {
       >
         {() => (
           <StyledForm>
-            <StyledInput name="title" placeholder="Title" />
+            <StyledLabel spaceBottom>title</StyledLabel>
+            <StyledInput name="title" placeholder="Moderate" />
             {/*<ErrorMessage name="title" render={msg => <Error>{msg}</Error>} />*/}
+
+            <StyledLabel spaceBottom>description</StyledLabel>
             <StyledTextArea
               name="description"
               as="textarea"
-              placeholder="Description"
+              placeholder="Describe your idea"
             />
             {/*<ErrorMessage*/}
             {/*  name="description"*/}
             {/*  render={msg => <Error>{msg}</Error>}*/}
             {/*/>*/}
-            <StyledLabel spaceBottom={false}>
-              How difficulty is your idea?
-            </StyledLabel>
+            <StyledLabel spaceBottom={false}>difficulty</StyledLabel>
             <DifficultyRatingField name="difficulty" />
 
-            <StyledLabel spaceBottom>
-              Which tags are relevant to your idea?
-            </StyledLabel>
+            <StyledLabel spaceBottom>tags</StyledLabel>
             <IdeaTagField tags={tags} name="tags" />
 
-            <SubmitButton>Send</SubmitButton>
+            <SubmitButton>send</SubmitButton>
           </StyledForm>
         )}
       </Formik>
@@ -94,7 +93,7 @@ const StyledForm = styled(Form)`
 
 const StyledField = styled(Field)`
   border-radius: 3px;
-  border: 1px solid ${props => props.theme.color.font};
+  border: 1px solid ${props => props.theme.color.border};
   margin-bottom: ${props => props.theme.spacing.md};
   padding: ${props => props.theme.spacing.sm};
   font-size: ${props => props.theme.fontSize.lg};
@@ -108,9 +107,10 @@ const StyledTextArea = styled(StyledField)`
 `;
 
 const StyledLabel = styled.label<{ spaceBottom: boolean }>`
-  margin-bottom: ${props => (props.spaceBottom ? props.theme.spacing.md : 0)};
-  font-size: ${props => props.theme.fontSize.lg};
+  margin-bottom: ${props => (props.spaceBottom ? props.theme.spacing.sm : 0)};
+  font-size: ${props => props.theme.fontSize.md};
   font-weight: bold;
+  text-transform: uppercase;
 `;
 
 const Error = styled.p`
@@ -122,4 +122,5 @@ const Error = styled.p`
 
 const SubmitButton = styled(Button).attrs({ type: 'submit' })`
   margin-top: ${props => props.theme.spacing.md};
+  text-transform: uppercase;
 `;

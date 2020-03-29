@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import config from '../../shared/config/config';
+import { StyledLabel } from '../../design/styled-components';
 
 type Props = { name: string };
 export default function DifficultyRatingField({ name }: Props) {
@@ -12,7 +13,7 @@ export default function DifficultyRatingField({ name }: Props) {
   const fullStar: IconProp = ['fas', 'star'];
   const emptyStar: IconProp = ['far', 'star'];
 
-  const [field, meta, helpers] = useField<number>(name);
+  const [_, meta, helpers] = useField<number>(name);
   const { value: currentDifficulty } = meta;
   const { setValue } = helpers;
 
@@ -25,7 +26,12 @@ export default function DifficultyRatingField({ name }: Props) {
     );
   }
 
-  return <StyledDifficultyRating>{iconButtons}</StyledDifficultyRating>;
+  return (
+    <>
+      <StyledLabel spaceBottom={false}>difficulty</StyledLabel>
+      <StyledDifficultyRating>{iconButtons}</StyledDifficultyRating>
+    </>
+  );
 }
 
 const StyledDifficultyRating = styled.div`

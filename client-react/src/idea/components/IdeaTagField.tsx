@@ -3,6 +3,7 @@ import { useField } from 'formik';
 import styled from 'styled-components';
 import { Tag } from '../../shared/interfaces/tag.interface';
 import IdeaTag from './IdeaTag';
+import { StyledLabel, Error } from '../../design/styled-components';
 
 type Props = { tags: Tag[]; name: string };
 export default function IdeaTagField({ tags, name }: Props) {
@@ -24,17 +25,17 @@ export default function IdeaTagField({ tags, name }: Props) {
   }
 
   return (
-    <StyledIdeaTagField>
-      {tags.map(tag => (
-        <TagButton
-          key={tag.id}
-          selected={isSelected(tag.id)}
-          onClick={() => toggleTag(tag.id)}
-        >
-          <IdeaTag tag={tag} />
-        </TagButton>
-      ))}
-    </StyledIdeaTagField>
+    <>
+      <StyledLabel spaceBottom>tags</StyledLabel>
+      <StyledIdeaTagField>
+        {tags.map(tag => (
+          <TagButton key={tag.id} selected={isSelected(tag.id)} onClick={() => toggleTag(tag.id)}>
+            <IdeaTag tag={tag} />
+          </TagButton>
+        ))}
+      </StyledIdeaTagField>
+      {meta.touched && meta.error && <StyledError>{meta.error}</StyledError>}
+    </>
   );
 }
 
@@ -44,16 +45,14 @@ const StyledIdeaTagField = styled.div`
   margin: -${props => props.theme.spacing.xs};
 `;
 
-const TagButton = styled.button<{ selected: boolean }>`
+const TagButton = styled.button.attrs({ type: 'button' })<{ selected: boolean }>`
   display: flex;
   width: calc(25% - ${props => props.theme.spacing.xs} * 2);
-  border: 1px solid
-    ${props => (props.selected ? 'transparent' : props.theme.color.border)};
+  border: 1px solid ${props => (props.selected ? 'transparent' : props.theme.color.border)};
   border-radius: 3px;
   margin: ${props => props.theme.spacing.xs};
   padding: ${props => props.theme.spacing.sm} ${props => props.theme.spacing.md};
-  background-color: ${props =>
-    props.selected ? props.theme.color.secondary : 'white'};
+  background-color: ${props => (props.selected ? props.theme.color.secondary : 'white')};
   color: ${props => (props.selected ? 'white' : props.theme.color.font)};
   cursor: pointer;
   transition: background-color 0.1s ease-out;
@@ -61,4 +60,9 @@ const TagButton = styled.button<{ selected: boolean }>`
   @media ${props => props.theme.breakpoint.sm} {
     width: calc(50% - ${props => props.theme.spacing.xs} * 2);
   }
+`;
+
+const StyledError = styled(Error)`
+  margin-top: ${props => props.theme.spacing.sm};
+  margin-bottom: 0;
 `;

@@ -3,5 +3,6 @@
   "endOfLine": "crlf",
   "singleQuote": true,
   "quoteProps": "consistent",
-  "trailingComma": "none"
+  "trailingComma": "none",
+  "printWidth": 100
 }

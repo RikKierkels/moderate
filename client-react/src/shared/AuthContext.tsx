@@ -4,7 +4,7 @@ import Auth0Client from '@auth0/auth0-spa-js';
 import config from './config/config';
 import { UserProfile } from './interfaces/user-profile.interface';
 
-interface ContextValueType {
+export interface ContextValueType {
   isAuthenticated?: boolean;
   user?: UserProfile | null;
   isLoading?: boolean;

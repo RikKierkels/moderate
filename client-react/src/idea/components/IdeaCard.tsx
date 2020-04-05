@@ -4,13 +4,13 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Idea } from '../../shared/interfaces/idea.interface';
-import truncate from '../../shared/utils/truncate';
+import { truncate } from '../../shared/utils/truncate-text';
 import IdeaTag from './IdeaTag';
 import DifficultyRating from './DifficultyRating';
 import { Column, Paragraph, Row } from '../../design/styled-components';
 
-type IdeaCardProps = { idea: Idea };
-export default function IdeaCard({ idea }: IdeaCardProps) {
+type Props = { idea: Idea };
+export default function IdeaCard({ idea }: Props) {
   const createdAt = moment(idea.createdAt).format('MMMM DD');
 
   return (
@@ -73,6 +73,10 @@ const Description = styled(Paragraph)`
 const TagsContainer = styled(Row)`
   flex-wrap: wrap;
   margin-bottom: ${props => props.theme.spacing.md};
+
+  > *:not(:last-child) {
+    margin-right: ${props => props.theme.spacing.sm};
+  }
 `;
 
 const ContainerSpaceBetween = styled(Row)<{ spaceBottom: boolean }>`

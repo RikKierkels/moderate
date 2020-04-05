@@ -8,7 +8,8 @@ const prettierOptions = JSON.parse(
 module.exports = {
   env: {
     browser: true,
-    es6: true
+    es6: true,
+    jest: true
   },
   settings: {
     'import/resolver': {
@@ -47,7 +48,8 @@ module.exports = {
     'react/jsx-filename-extension': 0,
     'react/no-array-index-key': 0,
     'no-param-reassign': 0,
-    'linebreak-style': 0
+    'linebreak-style': 0,
+    'quote-props': ['error', 'consistent']
   },
   overrides: [
     {

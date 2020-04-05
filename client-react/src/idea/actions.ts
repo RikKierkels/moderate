@@ -1,12 +1,12 @@
 import { call, put } from 'redux-saga/effects';
 import { Idea } from '../shared/interfaces/idea.interface';
 import {
+  FETCH_IDEAS_FAILED,
   FETCH_IDEAS_REQUESTED,
   FETCH_IDEAS_SUCCEEDED,
-  FETCH_IDEAS_FAILED,
   IdeaActionTypes
 } from './types';
-import config from '../shared/config/config';
+import * as IdeaAPi from './idea-api';
 
 export function fetchIdeasRequest(): IdeaActionTypes {
   return {
@@ -28,18 +28,9 @@ function fetchIdeasFailed(errorMessage: string): IdeaActionTypes {
   };
 }
 
-async function getIdeas(): Promise<Idea[] | Error> {
-  try {
-    const response = await fetch(`${config.api.url}/ideas`);
-    return await response.json();
-  } catch {
-    throw new Error('Something went wrong while fetching the ideas.');
-  }
-}
-
 export function* fetchIdeas() {
   try {
-    const ideas = yield call(getIdeas);
+    const ideas = yield call(IdeaAPi.getIdeas);
     yield put(fetchIdeasSucceeded(ideas));
   } catch (e) {
     yield put(fetchIdeasFailed(e.message));

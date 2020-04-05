@@ -12,25 +12,26 @@ const mapState = (state: RootState) => ({
 const mapDispatch = { fetchIdeas: fetchIdeasRequest };
 const connector = connect(mapState, mapDispatch);
 
-type IdeaGridProps = ConnectedProps<typeof connector>;
-function IdeaGrid({ ideas, error, fetchIdeas }: IdeaGridProps) {
+type Props = ConnectedProps<typeof connector>;
+
+function IdeaOverview({ ideas, error, fetchIdeas }: Props) {
   useEffect(() => {
     fetchIdeas();
   }, [fetchIdeas]);
 
   return (
-    <StyledIdeaGrid>
+    <StyledIdeaOverview>
       {ideas.map(idea => (
         <IdeaCard key={idea.id} idea={idea} />
       ))}
       {error && <p>{error}</p>}
-    </StyledIdeaGrid>
+    </StyledIdeaOverview>
   );
 }
 
-export default connector(IdeaGrid);
+export default connector(IdeaOverview);
 
-const StyledIdeaGrid = styled.section`
+const StyledIdeaOverview = styled.section`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: ${props => props.theme.spacing.lg};

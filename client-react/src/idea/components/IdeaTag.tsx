@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Tag } from '../../shared/interfaces/tag.interface';
 
-type TagProps = { tag: Tag };
-export default function IdeaTag({ tag }: TagProps) {
+type Props = { tag: Tag };
+export default function IdeaTag({ tag }: Props) {
   return (
     <StyledIdeaTag>
       <TagCircle color={tag.color} />
@@ -15,7 +15,6 @@ export default function IdeaTag({ tag }: TagProps) {
 const StyledIdeaTag = styled.div`
   display: flex;
   align-items: center;
-  margin-right: ${props => props.theme.spacing.sm};
   font-size: ${props => props.theme.fontSize.sm};
 `;
 
